@@ -1,0 +1,350 @@
+C51 COMPILER V9.00   1602                                                                  03/18/2017 16:08:53 PAGE 1   
+
+
+C51 COMPILER V9.00, COMPILATION OF MODULE 1602
+OBJECT MODULE PLACED IN .\Objects\1602.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE module\1602.c OPTIMIZE(8,SPEED) BROWSE INCDIR(.\include;.\common;.\modul
+                    -e) DEFINE(FOSC_160000) DEBUG OBJECTEXTEND PRINT(.\Listings\1602.lst) TABS(2) OBJECT(.\Objects\1602.obj)
+
+line level    source
+
+   1          /***************************************************************************
+   2          模    块:LCD1602.c  
+   3          说    明:LCD1602驱动程序
+   4          版    本:Version2.0.0   
+   5          2016/01/06 12:08(OK)
+   6          编译环境:Keil 8051 C complier V9.01
+   7          主控芯片:STC12C5A60S2     
+   8          @11.0592MHZ
+   9          作    者:杨瑞
+  10          联系方式:【QQ】279729201     
+  11          【Email】279729201@qq.com                         
+  12          yangrui90s@163.com     
+  13          修改记录:
+  14          ================= 
+  15          2017/01/6 12:08
+  16            记录:   
+  17          1.增加中文注释。    
+  18          2.修改函数名称模式，首写字母改为大写，例如lcd1602ReadStatus修改为Lcd1602ReadStatus。    
+  19          3.修改延时函数，将Delay1msForLcd1602函数修改为Delay80usForLcd1602函数。注意，这两个函数都是     
+  20          由STC-ISP生成，Delay80usForLcd1602函数由STC-ISP V6.85Q的“软件延时计算器”针对STC-Y3指令集      
+  21          @11.0592MHZ自动生成。经过测试，延时59us可能会出现只书写部分内容的情况，延时60us正好可以。     
+  22          为了安全，也可以将此延时修改的更长。
+  23          =================
+  24          
+  25          ================= 
+  26          2014/04/31 20:09  
+  27          记录: 
+  28          1.解决大工程中，因未安装LCD1602而导致的工程卡死在函数 
+  29          lcd1602CheckBusy()的问题，将    
+  30          do
+  31          {
+  32            ;   
+  33          }
+  34          while( (lcd1602ReadStatus()) & 0x80));    
+  35          修改为    
+  36          do
+  37          {     
+  38            i++;    
+  39          }while( ((lcd1602ReadStatus()) & 0x80)  && (i<10));   
+  40          因为在未安装LCD1602时，通过"读状态"函数lcd1602ReadStatus()读回来的永远是0xff,   
+  41          如果采用第一种算法，会导致程序"卡死"。
+  42          =================
+  43          
+  44          ================= 
+  45          2014/02/24 23:44
+  46          记录: 
+  47          1.增加函数lcd1602AddressWriteString(...)
+  48          =================
+  49          
+  50          =================
+  51          2014/02/24 15:00记录:
+  52          1.增加函数delay1msForLcd1602()    
+  53          STC12C5A60S2单片机操作速度快比传统8051快，某些操作延时必须足够。
+  54          =================
+C51 COMPILER V9.00   1602                                                                  03/18/2017 16:08:53 PAGE 2   
+
+  55          ***************************************************************************/
+  56          
+  57          #include <intrins.h>
+  58          #include <string.h>
+  59          #include "1602.h"
+*** ERROR C202 IN LINE 6 OF MODULE\1602.H: 'P0': undefined identifier
+*** ERROR C202 IN LINE 7 OF MODULE\1602.H: 'P0': undefined identifier
+*** ERROR C202 IN LINE 8 OF MODULE\1602.H: 'P0': undefined identifier
+*** ERROR C141 IN LINE 124 OF MODULE\1602.H: syntax error near 'commandCode', expected ')'
+*** ERROR C141 IN LINE 126 OF MODULE\1602.H: syntax error near 'dataCode', expected ')'
+*** ERROR C129 IN LINE 134 OF MODULE\1602.H: missing ';' before 'Lcd1602AddressWriteByte'
+  60          /*外部接口函数在lcd1602.h中声明*/
+  61          /*****************内部函数******************/
+  62          static void Delay80usForLcd1602(void) ;
+  63          static UB8 Lcd1602ReadStatus(void) ;
+  64          static void Lcd1602CheckBusy(void) ;
+  65          /**********************************************/
+  66          
+  67          /******************************************************************
+  68          - 函数名称：Delay80usForLcd1602
+  69          - 功能描述：延时函数
+  70          - 隶属模块：LCD1602模块
+  71          - 函数属性：内部函数
+  72          - 参数说明：无
+  73          - 返回说明：无
+  74          - 注：此函数由STC-ISP V6.85Q的“软件延时计算器”针对STC-Y3指令集 @11.0592MHZ自动生成，若    
+  75          指令集或晶振不同，需稍作修改。
+  76          ******************************************************************/
+  77          static void Delay80usForLcd1602(void)
+  78          {
+  79            unsigned char i, j;
+  80            _nop_();
+  81            _nop_();
+  82            _nop_();
+  83            i = 1;
+  84            j = 216;
+  85            do
+  86            {
+  87              while (--j);
+  88            } while (--i);
+  89          }
+  90          
+  91          /******************************************************************
+  92          - 函数名称：Lcd1602ReadStatus
+  93          - 功能描述：读取LCD1602状态值
+  94          - 隶属模块：LCD1602模块
+  95          - 函数属性：内部函数
+  96          - 参数说明：无
+  97          - 返回说明：LCD1602的状态值
+  98          ******************************************************************/
+  99          static UB8 Lcd1602ReadStatus(void)
+ 100          {
+ 101            UB8 statusCode ;
+ 102            lcd1602_en_bit = LCD1602_DISABLE ;      /*禁止操作LCD1602*/
+ 103            lcd1602_rs_bit = LCD1602_COMMAND_OPERATION ;/*命令模式*/
+ 104            lcd1602_rw_bit = LCD1602_READ_OPERATION ; /*读操作*/
+ 105            LCD1602_DATA_PORT = 0xff ;
+ 106            Delay80usForLcd1602() ;
+ 107            lcd1602_en_bit = LCD1602_ENABLE ;     /*允许操作LCD1602*/
+ 108            Delay80usForLcd1602() ;
+ 109            statusCode = LCD1602_DATA_PORT ;      /*读取状态值*/
+ 110            lcd1602_en_bit = LCD1602_DISABLE ;      /*禁止操作LCD1602*/
+C51 COMPILER V9.00   1602                                                                  03/18/2017 16:08:53 PAGE 3   
+
+ 111            return statusCode ;
+ 112          }
+ 113          
+ 114          /******************************************************************
+ 115          - 函数名称：Lcd1602CheckBusy
+ 116          - 功能描述：判断LCD1602是否忙碌：若忙碌则等待；若空闲则执行任务
+ 117          - 隶属模块：LCD1602模块
+ 118          - 函数属性：内部函数 
+ 119          - 参数说明：无 
+ 120          - 返回说明：无
+ 121          - 注：当LCD1602_DATA_PORT[7]等于1，表示LCD1602忙碌，则需要等待一会儿   
+ 122          当LCD1602_DATA_PORT[7]等于0，表示LCD1602空闲，则需要继续执行后面的任务          
+ 123          LCD1602_DATA_PORT[7]==0,lcd1602 is free.
+ 124          - 补充：这里的“10”是经过测试的，测试中，利用串口打印
+ 125          的i的值为1，这里写10已经足够大了。
+ 126          ******************************************************************/
+ 127          static void Lcd1602CheckBusy(void)
+ 128          {
+ 129            UW16 i=0;
+ 130            do
+ 131            {
+ 132              i++;
+ 133            }while( ((Lcd1602ReadStatus()) & 0x80) && (i<10));
+ 134          }
+ 135          
+ 136          /******************************************************************
+ 137          - 函数名称：Lcd1602WriteCommand
+ 138          - 功能描述：LCD1602写命令
+ 139          - 隶属模块：LCD1602模块
+ 140          - 函数属性：外部函数，供用户调用
+ 141          - 参数说明：需要发送给LCD1602的指令值
+ 142          - 返回说明：无
+ 143          ******************************************************************/
+ 144          
+ 145          void Lcd1602WriteCommand(UB8 commandCode)
+ 146          {
+ 147            Lcd1602CheckBusy();
+ 148            lcd1602_en_bit = LCD1602_DISABLE ;      /*禁止操作LCD1602*/
+ 149            lcd1602_rs_bit = LCD1602_COMMAND_OPERATION ;/*命令模式*/
+ 150            lcd1602_rw_bit = LCD1602_WRITE_OPERATION ;  /*写操作*/
+ 151            LCD1602_DATA_PORT = commandCode ;     /*发送指令值*/
+ 152            Delay80usForLcd1602();
+ 153            lcd1602_en_bit = LCD1602_ENABLE ;     /*允许操作LCD1602*/
+ 154            Delay80usForLcd1602();
+ 155            lcd1602_en_bit = LCD1602_DISABLE ;      /*禁止操作LCD1602*/
+ 156          }
+ 157          
+ 158          /******************************************************************
+ 159          - 函数名称：Lcd1602WriteData
+ 160          - 功能描述：LCD1602写数据
+ 161          - 隶属模块：LCD1602模块
+ 162          - 函数属性：外部函数，供用户调用
+ 163          - 参数说明：需要发送给LCD1602的数据
+ 164          - 返回说明：无
+ 165          ******************************************************************/
+ 166          
+ 167          void Lcd1602WriteData(UB8 dataCode)
+ 168          { 
+ 169            Lcd1602CheckBusy() ;
+ 170            lcd1602_en_bit = LCD1602_DISABLE ;      /*禁止操作LCD1602*/
+ 171            lcd1602_rs_bit = LCD1602_DATA_OPERATION ; /*数据模式*/
+ 172            lcd1602_rw_bit = LCD1602_WRITE_OPERATION ;  /*写操作*/
+C51 COMPILER V9.00   1602                                                                  03/18/2017 16:08:53 PAGE 4   
+
+ 173            LCD1602_DATA_PORT = dataCode;       /*发送数据*/
+ 174            Delay80usForLcd1602();
+ 175            lcd1602_en_bit = LCD1602_ENABLE ;     /*允许操作LCD1602*/
+ 176            Delay80usForLcd1602();
+ 177            lcd1602_en_bit = LCD1602_DISABLE ;      /*禁止操作LCD1602*/ 
+ 178          }
+ 179          
+ 180          
+ 181          /******************************************************************
+ 182          - 函数名称：Lcd1602CleanAll
+ 183          - 功能描述：清除屏幕显示
+ 184          - 隶属模块：LCD1602模块
+ 185          - 函数属性：外部函数，供用户调用
+ 186          - 参数说明：无
+ 187          - 返回说明：无
+ 188          - 注：清除屏幕显示，光标归位(左上角)，地址计数器AC设为0
+ 189          ******************************************************************/
+ 190          
+ 191          void Lcd1602CleanAll(void)
+ 192          {
+ 193            Lcd1602WriteCommand(LCD1602_CLEAN_ALL_DISPALY);
+ 194          }
+ 195          
+ 196          
+ 197          /******************************************************************
+ 198          - 函数名称：Lcd1602CursorHoming
+ 199          - 功能描述：光标归位
+ 200          - 隶属模块：LCD1602模块
+ 201          - 函数属性：外部函数，供用户调用
+ 202          - 参数说明：无
+ 203          - 返回说明：无
+ 204          - 注：光标归为，当屏幕移动显示时，lcd1602显示所有数据后，
+ 205               调用此函数，屏幕显示的所有东西都会归位。光标在第一
+ 206               个位置(0x80)。
+ 207          ******************************************************************/
+ 208          
+ 209          void Lcd1602CursorHoming(void)
+ 210          {
+ 211            Lcd1602WriteCommand(LCD1602_CURSOR_RETURN_TO_ORIGIN);
+ 212          }
+ 213          
+ 214          
+ 215          /******************************************************************
+ 216           
+ 217          - 函数名称：Lcd1602Init
+ 218          - 功能描述：LCD1602初始化 
+ 219          - 隶属模块：LCD1602模块
+ 220          - 函数属性：外部函数，供用户调用
+ 221          - 参数说明：无
+ 222          - 返回说明：无
+ 223          - 注：设置
+ 224          （1）显示模式
+ 225          （2）液晶显示允许或禁止、光标显示允许或禁止、光标闪烁允许或禁止
+ 226          （3）地址指针加一或减一、光标指针加一或减一、屏幕左移或右移
+ 227          可通过修改LCD1602.H中的LCD1602_DEFAULT_DISPALY_MODE、LCD1602_DEFAULT_DISPLAY_AND_CURSOR_MODE、
+ 228           LCD1602_DEFAULT_POINT_AND_POINT_ADDRESS_MODE达到不同的显示效果。
+ 229          ******************************************************************/
+ 230          
+ 231          void Lcd1602Init(void)
+ 232          {
+ 233              lcd1602_en_bit = LCD1602_DISABLE ;
+ 234              Lcd1602CleanAll();
+C51 COMPILER V9.00   1602                                                                  03/18/2017 16:08:53 PAGE 5   
+
+ 235              Lcd1602WriteCommand(LCD1602_DEFAULT_DISPALY_MODE);
+ 236              Lcd1602WriteCommand(LCD1602_DEFAULT_DISPLAY_AND_CURSOR_MODE);
+ 237              Lcd1602WriteCommand(LCD1602_DEFAULT_POINT_AND_POINT_ADDRESS_MODE);
+ 238              /*可忽略，在Lcd1602CleanAll()中隐含了该功能*/
+ 239              //Lcd1602CursorHoming(); 
+ 240              lcd1602_en_bit = LCD1602_DISABLE ;
+ 241          }
+ 242          
+ 243          
+ 244          /******************************************************************
+ 245          - 函数名称：Lcd1602AddressWriteByte
+ 246          - 功能描述：在LCD1602的row行column列写入数据dataCode
+ 247          - 隶属模块：LCD1602模块
+ 248          - 函数属性：外部函数，供用户调用
+ 249          - 参数说明：row-->行地址，有效值为LCD1602_ROW0或LCD1602_ROW1
+ 250          column-->列地址，有效值为0~39之间的整数
+ 251          dataCode-->需要写入的数据。
+ 252          - 返回说明：0（成功）或者-1（失败）
+ 253          - 注：行地址和列地址都是从0开始的。
+ 254          想在LCD1602的第0行第2列显示阿里伯数字5，调用方式为
+ 255           Lcd1602AddressWriteByte(LCD1602_ROW0,2,‘5’）；
+ 256          在DEBUG模式下，会对入参进行有效性判断，协助分析。调试后期可通过
+ 257          屏蔽common.h中的"#define DEBUG  1"减小目标文件的大小。   
+ 258          ******************************************************************/
+ 259          
+ 260          SB8 Lcd1602AddressWriteByte(UB8 row,UB8 column,UB8 dataCode)
+ 261          {
+ 262            #ifdef   DEBUG
+                if(column< LCD1602_MIN_COLUMN|| column > LCD1602_MAX_COLUMN|| \
+                ( (row != LCD1602_ROW0) &&(row != LCD1602_ROW1)))
+                {
+                    return LCD1602_ROW_OR_COLUMN_OVERFLOW ;
+                }
+                #endif /*DEBUG*/
+ 269            if(row == LCD1602_ROW0)
+ 270            {
+ 271              Lcd1602WriteCommand(LCD1602_ROW0_ADDRESS_START+column) ;
+ 272            }
+ 273            else if(row == LCD1602_ROW1)
+ 274            {
+ 275              Lcd1602WriteCommand(LCD1602_ROW1_ADDRESS_START+column) ;
+ 276            }
+ 277            Lcd1602WriteData(dataCode);
+ 278            return 0;
+ 279          }
+ 280          
+ 281          /******************************************************************
+ 282          - 函数名称：Lcd1602AddressWriteString
+ 283          - 功能描述：从LCD1602的row行column列开始写入字符串stringCode
+ 284          - 隶属模块：LCD1602模块
+ 285          - 函数属性：外部函数，供用户调用
+ 286          - 参数说明：row-->行地址，有效值为LCD1602_ROW0或LCD1602_ROW1
+ 287          column-->列地址，有效值为0~39之间的整数
+ 288          stringCode-->字符串
+ 289          - 返回说明：0（成功）或者-1（失败）
+ 290          - 注：行地址和列地址都是从0开始的。
+ 291          想在LCD1602的第0行第2列显示"test"，调用方式为
+ 292          Lcd1602AddressWriteString(LCD1602_ROW0,2,"test"）；
+ 293          这里使用的是strlen，而不是sizeof。
+ 294          在DEBUG模式下，会对入参进行有效性判断，协助分析。调试后期可通过
+ 295          屏蔽common.h中的"#define DEBUG  1"减小目标文件的大小。
+ 296          ******************************************************************/
+C51 COMPILER V9.00   1602                                                                  03/18/2017 16:08:53 PAGE 6   
+
+ 297          
+ 298          SB8 Lcd1602AddressWriteString(UB8 row,UB8 column,UB8 *stringCode)
+ 299          {
+ 300            UB8 length = strlen(stringCode) ; 
+ 301            #ifdef DEBUG
+                if(column< LCD1602_MIN_COLUMN|| (column+strlen(stringCode)-1) > LCD1602_MAX_COLUMN|| \
+                ( (row != LCD1602_ROW0) &&(row != LCD1602_ROW1)))
+                {
+                      return LCD1602_ROW_OR_COLUMN_OVERFLOW ;
+                }
+                #endif  /*DEBUG*/
+ 308            if(row == LCD1602_ROW0)
+ 309            {
+ 310              Lcd1602WriteCommand(LCD1602_ROW0_ADDRESS_START+column) ;
+ 311            }
+ 312            else if(row == LCD1602_ROW1)
+ 313            {
+ 314              Lcd1602WriteCommand(LCD1602_ROW1_ADDRESS_START+column) ;
+ 315            }
+ 316            while(length--)
+ 317            {
+ 318              Lcd1602WriteData(*stringCode);
+ 319              stringCode++;
+ 320            }
+ 321          return 0;
+ 322          }
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  6 ERROR(S)

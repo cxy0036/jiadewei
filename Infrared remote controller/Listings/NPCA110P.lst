@@ -1,0 +1,69 @@
+C51 COMPILER V9.00   NPCA110P                                                              03/18/2017 16:18:50 PAGE 1   
+
+
+C51 COMPILER V9.00, COMPILATION OF MODULE NPCA110P
+OBJECT MODULE PLACED IN .\Objects\NPCA110P.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE module\NPCA110P.c OPTIMIZE(8,SPEED) BROWSE INCDIR(.\include;.\common;.\m
+                    -odule) DEFINE(FOSC_160000) DEBUG OBJECTEXTEND PRINT(.\Listings\NPCA110P.lst) TABS(2) OBJECT(.\Objects\NPCA110P.obj)
+
+line level    source
+
+   1          #include  "NPCA110P.h"
+   2          
+   3          //定义端口
+   4          //sbit      SCL_I2C_NPCA110P        = P0^4;
+   5          //sbit      SDA_I2C_NPCA110P        = P0^3;
+   6          
+   7          #define   NPCA110P_EEPROM_SLA     0xe6
+   8          #define   EEPROM_WR               0
+   9          #define   EEPROM_RD               1
+  10          
+  11          /*------------------------------------------------
+  12                        I2C初始化函数
+  13          ------------------------------------------------*/
+  14          void Init_NPCA110P_I2C(void)
+  15          {
+  16   1          P03_OpenDrain_Mode;
+  17   1          P04_OpenDrain_Mode;
+  18   1          Init_I2C();                //set SDA and SCL pins high
+  19   1      }
+  20          
+  21          void writeChar_NPCA110P(UINT8 data_I2C)
+  22          {
+  23   1          start_I2C();
+  24   1          writebyte_I2C(NPCA110P_EEPROM_SLA|EEPROM_WR);
+  25   1          respons_I2C();
+  26   1          writebyte_I2C(data_I2C);
+  27   1          respons_I2C();
+  28   1          stop_I2C();
+  29   1      }
+  30          
+  31          void writeString_NPCA110P(UINT8 number,UINT8 *data_I2C)
+  32          {
+  33   1          UINT8 i=0;
+  34   1          start_I2C();
+  35   1          writebyte_I2C(NPCA110P_EEPROM_SLA|EEPROM_WR);
+  36   1          respons_I2C();
+  37   1          for(i=0;i<number;i++)
+  38   1          {
+  39   2              writebyte_I2C(*data_I2C++);
+  40   2              respons_I2C();
+  41   2          }
+  42   1          stop_I2C();   
+  43   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    102    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       6
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+C51 COMPILER V9.00   NPCA110P                                                              03/18/2017 16:18:50 PAGE 2   
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

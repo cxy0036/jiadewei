@@ -1,0 +1,13 @@
+".\Objects\Recive_demo.obj",
+".\Objects\I2C.obj",
+".\Objects\bl-291-16.04.16.obj",
+".\Objects\NPCA110P.obj",
+".\Objects\IR_recive.obj",
+".\Objects\FM1602LF.obj",
+".\Objects\×Ö¿â.obj",
+".\Objects\STARTUP_N76E003beta.obj",
+".\Objects\Common.obj",
+".\Objects\Delay.obj" 
+TO ".\Objects\Infrared_demo" 
+PRINT(".\Listings\Infrared_demo.m51") RAMSIZE(256) 
+DISABLEWARNING (16) 

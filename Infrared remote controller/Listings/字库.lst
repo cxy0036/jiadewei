@@ -1,0 +1,50 @@
+C51 COMPILER V9.00   譥縚                                                                  03/20/2017 13:59:20 PAGE 1   
+
+
+C51 COMPILER V9.00, COMPILATION OF MODULE 譥縚
+OBJECT MODULE PLACED IN .\Objects\字库.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE module\字库.c OPTIMIZE(8,SPEED) BROWSE INCDIR(.\include;.\common;.\modul
+                    -e) DEFINE(FOSC_160000) DEBUG OBJECTEXTEND PRINT(.\Listings\字库.lst) TABS(2) OBJECT(.\Objects\字库.obj)
+
+line level    source
+
+   1          // ------------------  汉字字模的数据结构定义 ------------------------ //
+   2          typedef struct typFNT_GB16                 // 汉字字模数据结构
+   3          {
+   4                 signed char Index[2];               // 汉字内码索引
+   5                 char Msk[32];                       // 点阵码数据
+   6          };
+   7          
+   8          /////////////////////////////////////////////////////////////////////////
+   9          // 汉字字模表                                                          //
+  10          // 汉字库: 宋体16.dot 纵向取模上高位,数据排列:从左到右从上到下         //
+  11          /////////////////////////////////////////////////////////////////////////
+  12          struct typFNT_GB16 code GB_16[] =          // 数据表
+  13          {
+  14          "完", 0x08,0x30,0x20,0x24,0x24,0x24,0xA4,0x64,
+  15                0x24,0x24,0x2C,0x24,0x21,0x28,0x30,0x00,
+  16                0x00,0x81,0x81,0x82,0x8C,0xF0,0x80,0x80,
+  17                0xFC,0x82,0x82,0x82,0x82,0x82,0x0E,0x00,
+  18          
+  19          "成", 0x00,0x00,0x1F,0x11,0x11,0x11,0x11,0x10,
+  20                0xFE,0x11,0x50,0x30,0x10,0x13,0x00,0x00,
+  21                0x02,0x04,0xF8,0x00,0x10,0x08,0xF0,0x02,
+  22                0x04,0xC8,0x38,0x24,0xC2,0x01,0x0F,0x00
+  23          };
+  24          
+  25          // 汉字表：
+  26          // 完成
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   ----    ----
+   CONSTANT SIZE    =     68    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

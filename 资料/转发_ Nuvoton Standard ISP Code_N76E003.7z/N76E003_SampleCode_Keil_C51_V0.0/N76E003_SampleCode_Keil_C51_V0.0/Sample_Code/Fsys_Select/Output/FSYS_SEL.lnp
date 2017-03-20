@@ -1,0 +1,6 @@
+".\Output\Fsys_SEL.obj",
+".\Output\Delay.obj",
+".\Output\Common.obj" 
+TO ".\Output\FSYS_SEL" 
+PRINT(".\LST\FSYS_SEL.m51") RAMSIZE(256) 
+DISABLEWARNING (16) 

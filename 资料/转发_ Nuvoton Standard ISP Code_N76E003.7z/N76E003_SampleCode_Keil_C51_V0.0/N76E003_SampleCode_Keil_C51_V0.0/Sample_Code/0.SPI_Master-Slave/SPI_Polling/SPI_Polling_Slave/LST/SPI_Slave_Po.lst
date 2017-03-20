@@ -1,0 +1,247 @@
+C51 COMPILER V9.52.0.0   SPI_SLAVE_PO                                                      05/05/2015 09:55:40 PAGE 1   
+
+
+C51 COMPILER V9.52.0.0, COMPILATION OF MODULE SPI_SLAVE_PO
+OBJECT MODULE PLACED IN .\Output\SPI_Slave_Po.obj
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE Code\SPI_Slave_Po.c BROWSE INCDIR(..\..\..\..\Include) DEFINE(FOSC_221184) 
+                    -DEBUG OBJECTEXTEND PRINT(.\LST\SPI_Slave_Po.lst) TABS(2) OBJECT(.\Output\SPI_Slave_Po.obj)
+
+line level    source
+
+   1          /*--------------------------------------------------------------------------------------------------------
+             --*/
+   2          /*                                                                                                        
+             - */
+   3          /* Copyright(c) 2015 Nuvoton Technology Corp. All rights reserved.                                        
+             - */
+   4          /*                                                                                                        
+             - */
+   5          /*--------------------------------------------------------------------------------------------------------
+             --*/
+   6          
+   7          //********************************************************************************************************
+             -***
+   8          //  Nuvoton Technoledge Corp. 
+   9          //  Website: http://www.nuvoton.com
+  10          //  E-Mail : MicroC-8bit@nuvoton.com
+  11          //  Date   : Apr/21/2015
+  12          //********************************************************************************************************
+             -***
+  13          
+  14          //********************************************************************************************************
+             -***
+  15          //  File Function: N76E885 SPI in Salave mode demo code
+  16          //********************************************************************************************************
+             -***
+  17          
+  18          #include <stdio.h>
+  19          #include "N76E885.h"
+  20          #include "Version.h"
+  21          #include "Typedef.h"
+  22          #include "Define.h"
+  23          #include "SFR_Macro.h"
+  24          #include "Common.h"
+  25          #include "Delay.h"
+  26          
+  27          //********************************************************************************************************
+             -***
+  28          //  Application: SPI Function 
+  29          //  Slave receive 0x90 and return 0x4E
+  30          //  Slave receive 0x01 and return 0x55
+  31          //  Slave receive 0x02 and return 0x56
+  32          //  Slave receive 0x03 and return 0x4F
+  33          //  Slave receive 0x04 and return 0x54
+  34          //
+  35          //  Slave send 0x4F and 0x4E to Master after receiving
+  36          //  
+  37          //  Output : P1.4 & P2.1 flash when SPI pass.
+  38          //           P0.7 flash when SPI error 
+  39          //********************************************************************************************************
+             -***
+  40          
+  41          /*
+  42          //-------- <<< Use Configuration Wizard in Context Menu >>> ------------
+  43          //
+C51 COMPILER V9.52.0.0   SPI_SLAVE_PO                                                      05/05/2015 09:55:40 PAGE 2   
+
+  44          ////<e0> System Clock Source Configuration
+  45          // <o1> System Clock Source Selection
+  46          //      <0=> 2~25MHz    XTAL
+  47          //      <1=> 32.768KHz  XTAL
+  48          //      <2=> 22.1184MHz Internal
+  49          //      <3=> 10KHz      Internal
+  50          //      <4=> OSC-In     External
+  51          //</e>
+  52          //
+  53          //<e2> Clock Divider Configuration
+  54          //     <o3.0..7>  System Clock Source Devider <1-255>
+  55          //                     <i> Fsys = (System Clock Source) / (2 * Devider)
+  56          //</e>
+  57          //
+  58          //-------- <<< end of configuration section >>> ------------------------------
+  59          */
+  60          
+  61          #define SYS_CLK_EN              0
+  62          #define SYS_SEL                 2
+  63          #define SYS_DIV_EN              0                   //0: Fsys=Fosc, 1: Fsys = Fosc/(2*CKDIV)
+  64          #define SYS_DIV                 1
+  65          bit BIT_TMP;
+  66          //--------------------------------------------------------------------------------------------------------
+             ----
+  67          void SPI_Error(void)
+  68          {
+  69   1          while(1)                                    // SPI error and P0.7 flash/
+  70   1          {
+  71   2              P07 = 1;
+  72   2              Timer0_Delay1ms(500);
+  73   2              P07 = 0;
+  74   2              Timer0_Delay1ms(500);
+  75   2          }
+  76   1      }
+  77          //--------------------------------------------------------------------------------------------------------
+             ----
+  78          void SPI_Initial(void)
+  79          { 
+  80   1          clr_P0M1_4;                                 //P04 (SS) Quasi mode
+  81   1          clr_P0M2_4;
+  82   1          
+  83   1          clr_P0M1_5;                                 //P05 (SPCLK) Quasi mode
+  84   1          clr_P0M2_5;
+  85   1          
+  86   1          clr_P2M1_1;                                 //P21 (MOSI) Quasi mode
+  87   1          clr_P2M2_1;
+  88   1          
+  89   1          clr_P2M1_2;                                 //P22 (MISO) Quasi mode
+  90   1          clr_P2M2_2;
+  91   1          
+  92   1          set_P0S_5;                                  //Schmitt triggered input select.
+  93   1          
+  94   1          clr_MSTR;                                   // SPI in Slave mode 
+  95   1          clr_LSBFE;                                  // MSB first 
+  96   1      
+  97   1          clr_CPOL;                                   // The SPI clock is low in idle mode
+  98   1          set_CPHA;                                   // The data is sample on the second edge of SPI clock     
+  99   1             
+ 100   1          set_SPIEN;                                  // Enable SPI function
+ 101   1          clr_SPIF; 
+ 102   1      }
+ 103          //--------------------------------------------------------------------------------------------------------
+C51 COMPILER V9.52.0.0   SPI_SLAVE_PO                                                      05/05/2015 09:55:40 PAGE 3   
+
+             ----
+ 104          void Slave_Receive_Data(void)
+ 105          {
+ 106   1          SPDR = 0x4E;                                // Receive Master 1st DATA 
+ 107   1          while(!(SPSR & SET_BIT7));          
+ 108   1          clr_SPIF;
+ 109   1          if(SPDR != 0x90)                      
+ 110   1             SPI_Error(); 
+ 111   1                                                      
+ 112   1          SPDR = 0x55;                                // Receive Master 2nd DATA 
+ 113   1          while(!(SPSR & SET_BIT7));          
+ 114   1          clr_SPIF;
+ 115   1          if(SPDR != 0x01)
+ 116   1             SPI_Error();
+ 117   1                                                       
+ 118   1          SPDR = 0x56;                                // Receive Master 3rd DATA
+ 119   1          while(!(SPSR & SET_BIT7));                  
+ 120   1          clr_SPIF;
+ 121   1          if(SPDR != 0x02)
+ 122   1              SPI_Error();
+ 123   1          
+ 124   1          SPDR = 0x4F;                                // Receive Master 4th DATA 
+ 125   1          while(!(SPSR & SET_BIT7));                  
+ 126   1          clr_SPIF;
+ 127   1          if(SPDR != 0x03)
+ 128   1              SPI_Error();
+ 129   1                                                      
+ 130   1          SPDR = 0x54;                                // Receive Master 5th DATA
+ 131   1          while(!(SPSR & SET_BIT7));                   
+ 132   1          clr_SPIF;
+ 133   1          if(SPDR != 0x04)
+ 134   1              SPI_Error();
+ 135   1      }
+ 136          //--------------------------------------------------------------------------------------------------------
+             ----
+ 137          void Slave_tranmit_Data(void)
+ 138          {
+ 139   1          SPDR = 0x4F;                                // Send 1st data (0x4F) to Master 
+ 140   1          while(!(SPSR & SET_BIT7));      
+ 141   1          clr_SPIF;
+ 142   1          if(SPDR != 0xFF)
+ 143   1              SPI_Error();
+ 144   1          
+ 145   1          SPDR = 0x4E;                                // Send 2nd data (0x4E) to Master 
+ 146   1          while(!(SPSR & SET_BIT7));      
+ 147   1          clr_SPIF;
+ 148   1          if(SPDR != 0xFF)
+ 149   1              SPI_Error();
+ 150   1      }
+ 151          //--------------------------------------------------------------------------------------------------------
+             ----
+ 152          void main(void)
+ 153          {   
+ 154   1          /* Note
+ 155   1             MCU power on system clock is HIRC (22.1184MHz), so Fsys = 22.1184MHz
+ 156   1          */
+ 157   1          
+ 158   1          Set_All_GPIO_Quasi_Mode();
+ 159   1          InitialUART0_Timer1_Type1(9600);             /* 9600 Baud Rate*/
+ 160   1      
+ 161   1          Show_FW_Version_Number_To_PC();
+ 162   1          
+C51 COMPILER V9.52.0.0   SPI_SLAVE_PO                                                      05/05/2015 09:55:40 PAGE 4   
+
+ 163   1          printf ("\n*===================================================================");
+ 164   1          printf ("\n*  Name: N76E885 SPI Slave(Polling) Demo Code.");
+ 165   1          printf ("\n*===================================================================");  
+ 166   1              
+ 167   1          /* Change system closk source */
+ 168   1          #if SYS_CLK_EN == 1
+                      #if   SYS_SEL == 0
+                          System_Clock_Select(E_HXTEN);   //Fosc = 2~25MHz XTAL
+                      #elif SYS_SEL == 1
+                          System_Clock_Select(E_LXTEN);   //Fosc = 32.768KHz XTAL
+                      #elif SYS_SEL == 2
+                          System_Clock_Select(E_HIRCEN);  //Fosc = 22.1184MHz Internal RC
+                      #elif SYS_SEL == 3
+                          System_Clock_Select(E_LIRCEN);  //Fosc = 10KHz Internal RC
+                      #elif SYS_SEL == 4
+                          System_Clock_Select(E_OSCEN);   //Fosc = OSC-In External OSC
+                      #endif
+                  #endif
+ 181   1          
+ 182   1          #if SYS_DIV_EN == 1
+                      CKDIV = SYS_DIV;                        //Fsys = Fosc / (2* CLKDIV) = Fcpu
+                  #endif
+ 185   1      
+ 186   1          SPI_Initial();
+ 187   1      
+ 188   1          printf ("\nSPI Start Receive...\n");    
+ 189   1               
+ 190   1          Slave_Receive_Data();                       // Slave receive data from master
+ 191   1          Slave_tranmit_Data();                       // Slave transmit data to master
+ 192   1          while(1)                                    
+ 193   1          {
+ 194   2              P21 = 1;
+ 195   2              Timer0_Delay1ms(500);
+ 196   2              P21 = 0;
+ 197   2              Timer0_Delay1ms(500);
+ 198   2          }
+ 199   1      }
+ 200          //--------------------------------------------------------------------------------------------------------
+             ----
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    304    ----
+   CONSTANT SIZE    =    141    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =      1    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

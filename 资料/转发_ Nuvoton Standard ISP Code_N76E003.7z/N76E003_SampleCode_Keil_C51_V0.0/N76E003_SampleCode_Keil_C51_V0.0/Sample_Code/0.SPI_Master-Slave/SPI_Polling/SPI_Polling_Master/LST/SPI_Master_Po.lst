@@ -1,0 +1,283 @@
+C51 COMPILER V9.52.0.0   SPI_MASTER_PO                                                     05/05/2015 17:51:40 PAGE 1   
+
+
+C51 COMPILER V9.52.0.0, COMPILATION OF MODULE SPI_MASTER_PO
+OBJECT MODULE PLACED IN .\Output\SPI_Master_Po.obj
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE Code\SPI_Master_Po.c BROWSE INCDIR(..\..\..\..\Include) DEFINE(FOSC_221184)
+                    - DEBUG OBJECTEXTEND PRINT(.\LST\SPI_Master_Po.lst) TABS(2) OBJECT(.\Output\SPI_Master_Po.obj)
+
+line level    source
+
+   1          /*--------------------------------------------------------------------------------------------------------
+             --*/
+   2          /*                                                                                                        
+             - */
+   3          /* Copyright(c) 2015 Nuvoton Technology Corp. All rights reserved.                                        
+             - */
+   4          /*                                                                                                        
+             - */
+   5          /*--------------------------------------------------------------------------------------------------------
+             --*/
+   6          
+   7          //********************************************************************************************************
+             -***
+   8          //  Nuvoton Technoledge Corp. 
+   9          //  Website: http://www.nuvoton.com
+  10          //  E-Mail : MicroC-8bit@nuvoton.com
+  11          //  Date   : Apr/21/2015
+  12          //********************************************************************************************************
+             -***
+  13          
+  14          //********************************************************************************************************
+             -***
+  15          //  File Function: N76E885 SPI in Master mode demo code
+  16          //********************************************************************************************************
+             -***
+  17          
+  18          #include <stdio.h>
+  19          #include "N76E885.h"
+  20          #include "Version.h"
+  21          #include "Typedef.h"
+  22          #include "Define.h"
+  23          #include "SFR_Macro.h"
+  24          #include "Common.h"
+  25          #include "Delay.h"
+  26          
+  27          //********************************************************************************************************
+             -***
+  28          //  Application: SPI Function 
+  29          //  Master send 0x90 and recevie 0x4E
+  30          //  Master send 0x01 and recevie 0x55
+  31          //  Master send 0x02 and recevie 0x56
+  32          //  Master send 0x03 and recevie 0x4F
+  33          //  Master send 0x04 and recevie 0x54
+  34          //
+  35          //  Master recevie 0x4E and 0x4F form slave after transmitting
+  36          //********************************************************************************************************
+             -***
+  37          
+  38          //------------------------- <<< Use Configuration Wizard in Context Menu >>> -----------------------------
+             ----
+  39          ////<e0> System Clock Source Configuration
+  40          // <o1> System Clock Source Selection
+  41          //      <0=> 2~25MHz    XTAL
+  42          //      <1=> 32.768KHz  XTAL
+C51 COMPILER V9.52.0.0   SPI_MASTER_PO                                                     05/05/2015 17:51:40 PAGE 2   
+
+  43          //      <2=> 22.1184MHz Internal
+  44          //      <3=> 10KHz      Internal
+  45          //      <4=> OSC-In     External
+  46          //</e>
+  47          //
+  48          //<e2> Clock Divider Configuration
+  49          //     <o3.0..7>  System Clock Source Devider <1-255>
+  50          //                     <i> Fsys = (System Clock Source) / (2 * Devider)
+  51          //</e>
+  52          //
+  53          // <o4> SPI Clock Divider Selection
+  54          //      <0=> Fsys/4
+  55          //      <1=> Fsys/8
+  56          //      <2=> Fsys/16
+  57          //      <3=> Fsys/32
+  58          //
+  59          //-------------------------------- <<< end of configuration section >>> ----------------------------------
+             ----
+  60          
+  61          #define SYS_CLK_EN              0
+  62          #define SYS_SEL                 2
+  63          #define SYS_DIV_EN              0               //0: Fsys=Fosc, 1: Fsys = Fosc/(2*CKDIV)
+  64          #define SYS_DIV                 1
+  65          #define SPI_DIV                 1
+  66          bit BIT_TMP;
+  67          //--------------------------------------------------------------------------------------------------------
+             ----
+  68          void SPI_Error(void)
+  69          {
+  70   1          printf ("\nSPI error.\n");
+  71   1          while(1)                                    // SPI error and P0.7 flash/
+  72   1          {
+  73   2              P07 = 1;
+  74   2              Timer0_Delay1ms(500);
+  75   2              P07 = 0;
+  76   2              Timer0_Delay1ms(500);
+  77   2          }
+  78   1      }
+  79          //--------------------------------------------------------------------------------------------------------
+             ----
+  80          void SPI_Clock_Select(void)
+  81          {
+  82   1          #if   SPI_DIV == 0
+                          clr_SPR0;                           // SPI clock = Fosc/4
+                          clr_SPR1;
+                  #elif SPI_DIV == 1
+  86   1                  set_SPR0;                           // SPI clock = Fosc/8
+  87   1                  clr_SPR1;
+  88   1          #elif SPI_DIV == 2
+                          clr_SPR0;                           // SPI clock = Fosc/16
+                          set_SPR1; 
+                  #elif SPI_DIV == 3
+                          set_SPR0;                           // SPI clock = Fosc/32
+                          set_SPR1;
+                  #endif
+  95   1      }
+  96          //--------------------------------------------------------------------------------------------------------
+             ----
+  97          void SPI_Initial(void)
+  98          {      
+  99   1          clr_P0M1_4;                                 //P04 (SS) Quasi mode
+ 100   1          clr_P0M2_4;
+C51 COMPILER V9.52.0.0   SPI_MASTER_PO                                                     05/05/2015 17:51:40 PAGE 3   
+
+ 101   1          
+ 102   1          clr_P0M1_5;                                 //P05 (SPCLK) Quasi mode
+ 103   1          clr_P0M2_5;
+ 104   1          
+ 105   1          clr_P2M1_1;                                 //P21 (MOSI) Quasi mode
+ 106   1          clr_P2M2_1;
+ 107   1          
+ 108   1          clr_P2M1_2;                                 //P22 (MISO) Quasi mode
+ 109   1          clr_P2M2_2;
+ 110   1          
+ 111   1          set_DISMODF;                                // SS General purpose I/O ( No Mode Fault ) 
+ 112   1          clr_SSOE;
+ 113   1         
+ 114   1          clr_LSBFE;                                  // MSB first         
+ 115   1      
+ 116   1          clr_CPOL;                                   // The SPI clock is low in idle mode
+ 117   1          set_CPHA;                                   // The data is sample on the second edge of SPI clock 
+ 118   1          
+ 119   1          set_MSTR;                                   // SPI in Master mode 
+ 120   1          SPI_Clock_Select();                         // Select SPI clock 
+ 121   1          set_SPIEN;                                  // Enable SPI function 
+ 122   1          clr_SPIF;
+ 123   1      }
+ 124          //--------------------------------------------------------------------------------------------------------
+             ----
+ 125          void Start_Sending_SPI(UINT8 *pu8MID,UINT8 *pu8DID)
+ 126          {
+ 127   1          SS = 0;
+ 128   1            
+ 129   1          SPDR = 0x90;
+ 130   1          Delay10us(1);                               // Send 0x90 to Slave 
+ 131   1          while(!(SPSR & SET_BIT7));
+ 132   1          clr_SPIF;
+ 133   1          if(SPDR != 0x4E)
+ 134   1             SPI_Error();
+ 135   1          printf ("\nSlave Return %c!\n",SPDR);
+ 136   1         
+ 137   1          SPDR = 0x01;                                // Send 0x01 to Slave 
+ 138   1          Delay10us(1); 
+ 139   1          while(!(SPSR & SET_BIT7));
+ 140   1          clr_SPIF;
+ 141   1          if(SPDR != 0x55)
+ 142   1             SPI_Error();
+ 143   1          printf ("\nSlave Return %c!\n",SPDR);
+ 144   1          
+ 145   1          SPDR = 0x02;                                // Send 0x02 to Slave 
+ 146   1          Delay10us(1);
+ 147   1          while(!(SPSR & SET_BIT7));    
+ 148   1          clr_SPIF;
+ 149   1          if(SPDR != 0x56)
+ 150   1             SPI_Error();
+ 151   1          printf ("\nSlave Return %c!\n",SPDR);
+ 152   1      
+ 153   1          SPDR = 0x03;                                // Send 0x03 to Slave 
+ 154   1          Delay10us(1);
+ 155   1          while(!(SPSR & SET_BIT7));
+ 156   1          clr_SPIF;
+ 157   1          if(SPDR != 0x4F)
+ 158   1             SPI_Error();
+ 159   1          printf ("\nSlave Return %c!\n",SPDR);
+ 160   1      
+ 161   1          SPDR = 0x04;                                // Send 0x04 to Slave 
+C51 COMPILER V9.52.0.0   SPI_MASTER_PO                                                     05/05/2015 17:51:40 PAGE 4   
+
+ 162   1          Delay10us(1);
+ 163   1          while(!(SPSR & SET_BIT7));
+ 164   1          clr_SPIF;
+ 165   1          if(SPDR != 0x54)
+ 166   1             SPI_Error();
+ 167   1          printf ("\nSlave Return %c!\n",SPDR);
+ 168   1      
+ 169   1          SPDR = 0xFF;                   
+ 170   1          Delay10us(1);
+ 171   1          while(!(SPSR & SET_BIT7));
+ 172   1          clr_SPIF;
+ 173   1          *pu8MID = SPDR;                             // Receive Slave 1st DATA from Slave 
+ 174   1          printf ("\nSlave Return %c!\n",SPDR);
+ 175   1              
+ 176   1          SPDR = 0xFF;                   
+ 177   1          Delay10us(1);
+ 178   1          while(!(SPSR & SET_BIT7));  
+ 179   1          clr_SPIF;           
+ 180   1          *pu8DID = SPDR;                             // Receive Slave 2nd DATA from Slave 
+ 181   1          printf ("\nSlave Return %c!\n",SPDR);
+ 182   1              
+ 183   1          SS = 1;    
+ 184   1      }
+ 185          //--------------------------------------------------------------------------------------------------------
+             ----
+ 186          void main(void)
+ 187          {      
+ 188   1          UINT8 u8MID,u8DID;
+ 189   1      
+ 190   1          /* Note
+ 191   1             MCU power on system clock is HIRC (22.1184MHz), so Fsys = 22.1184MHz
+ 192   1          */
+ 193   1          
+ 194   1          Set_All_GPIO_Quasi_Mode();
+ 195   1          InitialUART0_Timer1_Type1(9600);             /* 9600 Baud Rate*/
+ 196   1      
+ 197   1          Show_FW_Version_Number_To_PC();
+ 198   1          
+ 199   1          printf ("\n*===================================================================");
+ 200   1          printf ("\n*  Name: N76E885 SPI Master(Polling) Demo Code.");
+ 201   1          printf ("\n*===================================================================\n");
+ 202   1              
+ 203   1          /* Change system closk source */
+ 204   1          #if SYS_CLK_EN == 1
+                      #if   SYS_SEL == 0
+                          System_Clock_Select(E_HXTEN);   //Fosc = 2~25MHz XTAL
+                      #elif SYS_SEL == 1
+                          System_Clock_Select(E_LXTEN);   //Fosc = 32.768KHz XTAL
+                      #elif SYS_SEL == 2
+                          System_Clock_Select(E_HIRCEN);  //Fosc = 22.1184MHz Internal RC
+                      #elif SYS_SEL == 3
+                          System_Clock_Select(E_LIRCEN);  //Fosc = 10KHz Internal RC
+                      #elif SYS_SEL == 4
+                          System_Clock_Select(E_OSCEN);   //Fosc = OSC-In External OSC
+                      #endif
+                  #endif
+ 217   1          
+ 218   1          #if SYS_DIV_EN == 1
+                      CKDIV = SYS_DIV;                        //Fsys = Fosc / (2* CLKDIV) = Fcpu
+                  #endif
+ 221   1      
+ 222   1          SPI_Initial();
+C51 COMPILER V9.52.0.0   SPI_MASTER_PO                                                     05/05/2015 17:51:40 PAGE 5   
+
+ 223   1      
+ 224   1          Start_Sending_SPI(&u8MID,&u8DID);
+ 225   1              
+ 226   1          if((u8MID != 0x4F)&&(u8DID != 0x4E))
+ 227   1              SPI_Error();
+ 228   1      
+ 229   1          printf ("\nSPI Test OK!\n");
+ 230   1          while(1);                                    // SPI transmission finish and P0.6 flash
+ 231   1      }
+ 232          //--------------------------------------------------------------------------------------------------------
+             ----
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    475    ----
+   CONSTANT SIZE    =    237    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       8
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =      1    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

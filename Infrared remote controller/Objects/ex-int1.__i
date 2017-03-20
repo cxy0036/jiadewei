@@ -1,0 +1,1 @@
+"module\ex-int1.c" OPTIMIZE (8,SPEED) BROWSE INCDIR(.\include) DEFINE (FOSC_160000) DEBUG OBJECTEXTEND PRINT(.\Listings\ex-int1.lst) TABS (2) OBJECT(.\Objects\ex-int1.obj)
