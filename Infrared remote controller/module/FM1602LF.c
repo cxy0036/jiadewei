@@ -6,7 +6,7 @@ sbit SDA_I2C_FM1602LF = P0^6; //RS为寄存器选择，高电平时选择数据寄存器、低电平时
 sbit SCL_I2C_FM1602LF = P0^5; //R/W为读写信号线，高电平时进行读操作，低电平时进行写操作。
 sbit EN = P0^7; //E端为使能端，当E端由高电平跳变成低电平时，液晶模块执行命令。
 
-#define		FM1602LF_EEPROM_SLA			0xe6
+#define		FM1602LF_EEPROM_SLA			0x27
 #define 	EEPROM_WR               0
 #define 	EEPROM_RD               1
 

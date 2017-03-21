@@ -1,0 +1,1 @@
+"module\×Ö¿â.c" OPTIMIZE (8,SPEED) BROWSE INCDIR(.\include;.\common;.\module) DEFINE (FOSC_160000) DEBUG OBJECTEXTEND PRINT(.\Listings\×Ö¿â.lst) TABS (2) OBJECT(.\Objects\×Ö¿â.obj)
