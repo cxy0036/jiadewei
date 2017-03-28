@@ -1,0 +1,1 @@
+"module\LCD1602.c" OPTIMIZE (8,SPEED) BROWSE INCDIR(.\include;.\common;.\module) DEFINE (FOSC_160000) DEBUG OBJECTEXTEND PRINT(.\Listings\LCD1602.lst) TABS (2) OBJECT(.\Objects\LCD1602.obj)

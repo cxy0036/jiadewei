@@ -1,4 +1,4 @@
-C51 COMPILER V9.00   IR_RECIVE                                                             03/18/2017 16:18:50 PAGE 1   
+C51 COMPILER V9.00   IR_RECIVE                                                             03/25/2017 17:07:57 PAGE 1   
 
 
 C51 COMPILER V9.00, COMPILATION OF MODULE IR_RECIVE
@@ -35,7 +35,7 @@ line level    source
   25   1          UINT8 i=0,j=0;
   26   1          clr_EX1;
   27   1          clr_GPIO1;                                //亮指示灯
-  28   1          Timer1_Delay1ms(1);
+  28   1          __delay_ms(1);
   29   1          if(P17)                                   //抖动无用中断
   30   1          {
   31   2              set_EX1;
@@ -62,7 +62,7 @@ line level    source
   52   2              long_press();
   53   2          }
   54   1          
-C51 COMPILER V9.00   IR_RECIVE                                                             03/18/2017 16:18:50 PAGE 2   
+C51 COMPILER V9.00   IR_RECIVE                                                             03/25/2017 17:07:57 PAGE 2   
 
   55   1          set_EX1;
   56   1        
@@ -75,13 +75,13 @@ line level    source
                           set_EX1;
                           return;
                       }
-                      Timer1_Delay1ms(1);
+                      __delay_ms(1);
                   }
                   while(!P17);
                 
                   for(i=0;i<Second_Boot_code;i++)           //4ms high
                   {
-                      Timer1_Delay1ms(1);
+                      __delay_ms(1);
                       if(!P17)
                       {
                           dat_clr();
@@ -97,7 +97,7 @@ line level    source
                       {
                           while(!P17);                  //0.56ms  low
                         
-                          Timer1_Delay1ms(Data_0_1_code);
+                          __delay_ms(Data_0_1_code);
                           if(P17)                       //数据 1  high
                           {
                               dat[i] >>= 1;
@@ -116,7 +116,7 @@ line level    source
                   
                   for(i=0;i<Stop_code;i++)          //40ms    high
                   {
-                      Timer1_Delay1ms(1);
+                      __delay_ms(1);
                       if(!P17)
                       {
                         dat_clr();
@@ -126,14 +126,14 @@ line level    source
                   }
               //    while(P17); 
                   
-C51 COMPILER V9.00   IR_RECIVE                                                             03/18/2017 16:18:50 PAGE 3   
+C51 COMPILER V9.00   IR_RECIVE                                                             03/25/2017 17:07:57 PAGE 3   
 
                   Data_Check();
-                  Timer1_Delay1ms(2);                 //delay2ms
+                  __delay_ms(2);                  //delay2ms
                   
                   for(i=0;i<First_Boot_code-2;i++)        
                   {
-                      Timer1_Delay1ms(1);
+                      __delay_ms(1);
                       if(P17)
                       {
                           dat_clr();
@@ -145,7 +145,7 @@ line level    source
               
               //    for(i=0;i<Second_Boot_code;i++)       
               //    {
-              //        Timer1_Delay1ms(1);
+              //        __delay_ms(1);
               //        if(!P17)
               //        {
               //            dat_clr();
@@ -156,7 +156,7 @@ line level    source
                   while(P17);                           //2ms   high
                   
                   while(!P17);                          //0.56ms  low
-              //    Timer1_Delay1ms(2000);                  //delay2ms
+              //    __delay_ms(2000);                 //delay2ms
               //    while(P17);
                   
                   dat_clr();
@@ -190,7 +190,7 @@ line level    source
  176   2          }   
  177   1      }
  178          
-C51 COMPILER V9.00   IR_RECIVE                                                             03/18/2017 16:18:50 PAGE 4   
+C51 COMPILER V9.00   IR_RECIVE                                                             03/25/2017 17:07:57 PAGE 4   
 
  179          void one_press(void)
  180          {
@@ -202,7 +202,7 @@ line level    source
  186   2              {
  187   3                  while(!P17);                  //0.56ms  low
  188   3                
- 189   3                  Timer1_Delay1ms(Data_0_1_code);
+ 189   3                  __delay_ms(Data_0_1_code);
  190   3                  if(P17)                       //数据 1  high
  191   3                  {
  192   4                      dat[i] >>= 1;
@@ -219,7 +219,7 @@ line level    source
  203   1            
  204   1          while(!P17);                          //0.56ms  low
  205   1          
- 206   1          Timer1_Delay1ms(60);
+ 206   1          __delay_ms(60);
  207   1          while(!P17);
  208   1          Data_Check();
  209   1          n = 1;
@@ -227,7 +227,7 @@ line level    source
  211   1      #if 0   
                   for(i=0;i<Stop_code;i++)              //40ms    high
                   {
-                      Timer1_Delay1ms(1);
+                      __delay_ms(1);
                       if(!P17)
                       {
                         dat_clr();
@@ -238,11 +238,11 @@ line level    source
               //    while(P17); 
                   
                   Data_Check();
-                  Timer1_Delay1ms(2);                 //delay2ms
+                  __delay_ms(2);                  //delay2ms
                   
                   for(i=0;i<First_Boot_code-2;i++)        
                   {
-                      Timer1_Delay1ms(1);
+                      __delay_ms(1);
                       if(P17)
                       {
                           dat_clr();
@@ -254,7 +254,7 @@ line level    source
               
                   while(P17);                           //2ms   high
                   
-C51 COMPILER V9.00   IR_RECIVE                                                             03/18/2017 16:18:50 PAGE 5   
+C51 COMPILER V9.00   IR_RECIVE                                                             03/25/2017 17:07:57 PAGE 5   
 
                   while(!P17);                          //0.56ms  low
               #endif
@@ -266,7 +266,7 @@ line level    source
  248   1      //    UINT8 i;  
  249   1        
  250   1          while(!P17);
- 251   1          Timer1_Delay1ms(80);
+ 251   1          __delay_ms(80);
  252   1          n++;
  253   1      }
  254          
@@ -276,7 +276,7 @@ line level    source
  258   1          UINT32 k=0;
  259   1          for(i=0;i<First_Boot_code-2;i++)            //9-1ms low
  260   1          {
- 261   2              Timer1_Delay1ms(1);
+ 261   2              __delay_ms(1);
  262   2              if(P17)
  263   2              {
  264   3                  dat_clr();
@@ -304,7 +304,7 @@ line level    source
  286   1      #if 0   
                   for(i=0;i<Second_Boot_code;i++)           //4ms_OR_2ms  high
                   {
-                      Timer1_Delay1ms(1);
+                      __delay_ms(1);
                       if((!P17)&&(i>15))
                       {
                           long_press_flag = 1;
@@ -318,12 +318,12 @@ line level    source
                   while(P17); 
               #endif
  302   1      }
-C51 COMPILER V9.00   IR_RECIVE                                                             03/18/2017 16:18:50 PAGE 6   
+C51 COMPILER V9.00   IR_RECIVE                                                             03/25/2017 17:07:57 PAGE 6   
 
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    380    ----
+   CODE SIZE        =    360    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----

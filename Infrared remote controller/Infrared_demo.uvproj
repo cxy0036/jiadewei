@@ -124,7 +124,7 @@
             <Oh166RecLen>16</Oh166RecLen>
           </OPTHX>
           <Simulator>
-            <UseSimulator>0</UseSimulator>
+            <UseSimulator>1</UseSimulator>
             <LoadApplicationAtStartup>1</LoadApplicationAtStartup>
             <RunToMain>1</RunToMain>
             <RestoreBreakpoints>1</RestoreBreakpoints>
@@ -136,7 +136,7 @@
             <RestoreSysVw>1</RestoreSysVw>
           </Simulator>
           <Target>
-            <UseTarget>1</UseTarget>
+            <UseTarget>0</UseTarget>
             <LoadApplicationAtStartup>1</LoadApplicationAtStartup>
             <RunToMain>1</RunToMain>
             <RestoreBreakpoints>1</RestoreBreakpoints>
@@ -374,6 +374,21 @@
           <GroupName>module</GroupName>
           <Files>
             <File>
+              <FileName>FM1602_I2C.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\module\FM1602_I2C.c</FilePath>
+            </File>
+            <File>
+              <FileName>IR_recive.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\module\IR_recive.c</FilePath>
+            </File>
+            <File>
+              <FileName>NPCA110P.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\module\NPCA110P.c</FilePath>
+            </File>
+            <File>
               <FileName>I2C.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\module\I2C.c</FilePath>
@@ -382,26 +397,6 @@
               <FileName>bl-291-16.04.16.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\module\bl-291-16.04.16.c</FilePath>
-            </File>
-            <File>
-              <FileName>NPCA110P.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\module\NPCA110P.c</FilePath>
-            </File>
-            <File>
-              <FileName>IR_recive.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\module\IR_recive.c</FilePath>
-            </File>
-            <File>
-              <FileName>FM1602LF.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\module\FM1602LF.c</FilePath>
-            </File>
-            <File>
-              <FileName>字库.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\module\字库.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -432,6 +427,11 @@
               <FileName>SFR_Macro.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\include\SFR_Macro.h</FilePath>
+            </File>
+            <File>
+              <FileName>N76E003_GPIO.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\include\N76E003_GPIO.h</FilePath>
             </File>
           </Files>
         </Group>

@@ -1,3 +1,6 @@
+#ifndef __FUNCTION_DEFINE_H__
+#define __FUNCTION_DEFINE_H__
+
 /*****************************************************************************************
 * For GPIO setting 
 *****************************************************************************************/
@@ -409,3 +412,5 @@
 #define		Enable_BIT2_HighLevel_Trig			PICON&=0xEF;PINEN&=0xFB;PIPEN|=0x04
 #define		Enable_BIT1_HighLevel_Trig			PICON&=0xF7;PINEN&=0xFD;PIPEN|=0x02
 #define		Enable_BIT0_HighLevel_Trig			PICON&=0xFD;PINEN&=0xFE;PIPEN|=0x01
+
+#endif

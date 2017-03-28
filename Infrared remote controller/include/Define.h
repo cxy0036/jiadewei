@@ -1,3 +1,6 @@
+#ifndef __DEFINE_H__
+#define __DEFINE_H__
+
 #include <intrins.h>
 
 #define nop _nop_();
@@ -73,3 +76,5 @@
 
 #define FAIL            1
 #define PASS            0
+
+#endif

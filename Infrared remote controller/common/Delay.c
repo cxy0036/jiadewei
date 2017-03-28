@@ -19,6 +19,16 @@
 #include "Function_define.h"
 bit BIT_TMP;
 
+void __delay_ms( UINT16 u16CNT )		//@16MHz
+{
+		UINT16 j;
+		while(u16CNT != 0)
+		{
+				for(j=0;j<1340;j++);
+				u16CNT --;
+		}
+}
+
 //-------------------------------------------------------------------------
 void Delay10us(UINT16 u16CNT)
 {

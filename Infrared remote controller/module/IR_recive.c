@@ -25,7 +25,7 @@ void INT1_ISR(void)	interrupt 2
 		UINT8 i=0,j=0;
 		clr_EX1;
 		clr_GPIO1;																//亮指示灯
-		Timer1_Delay1ms(1);
+		__delay_ms(1);
 		if(P17)																		//抖动无用中断
 		{
 				set_EX1;
@@ -63,13 +63,13 @@ void INT1_ISR(void)	interrupt 2
 						set_EX1;
 						return;
 				}
-				Timer1_Delay1ms(1);
+				__delay_ms(1);
 		}
 		while(!P17);
 	
 		for(i=0;i<Second_Boot_code;i++)						//4ms	high
 		{
-				Timer1_Delay1ms(1);
+				__delay_ms(1);
 				if(!P17)
 				{
 						dat_clr();
@@ -85,7 +85,7 @@ void INT1_ISR(void)	interrupt 2
 				{
 						while(!P17);									//0.56ms	low
 					
-						Timer1_Delay1ms(Data_0_1_code);
+						__delay_ms(Data_0_1_code);
 						if(P17)												//数据 1	high
 						{
 								dat[i] >>= 1;
@@ -104,7 +104,7 @@ void INT1_ISR(void)	interrupt 2
 		
 		for(i=0;i<Stop_code;i++)					//40ms		high
 		{
-				Timer1_Delay1ms(1);
+				__delay_ms(1);
 				if(!P17)
 				{
 					dat_clr();
@@ -115,11 +115,11 @@ void INT1_ISR(void)	interrupt 2
 //		while(P17);	
 		
 		Data_Check();
-		Timer1_Delay1ms(2);									//delay2ms
+		__delay_ms(2);									//delay2ms
 		
 		for(i=0;i<First_Boot_code-2;i++)				
 		{
-				Timer1_Delay1ms(1);
+				__delay_ms(1);
 				if(P17)
 				{
 						dat_clr();
@@ -131,7 +131,7 @@ void INT1_ISR(void)	interrupt 2
 
 //		for(i=0;i<Second_Boot_code;i++)				
 //		{
-//				Timer1_Delay1ms(1);
+//				__delay_ms(1);
 //				if(!P17)
 //				{
 //						dat_clr();
@@ -142,7 +142,7 @@ void INT1_ISR(void)	interrupt 2
 		while(P17);														//2ms		high
 		
 		while(!P17);													//0.56ms	low
-//		Timer1_Delay1ms(2000);									//delay2ms
+//		__delay_ms(2000);									//delay2ms
 //		while(P17);
 		
 		dat_clr();
@@ -186,7 +186,7 @@ void one_press(void)
 				{
 						while(!P17);									//0.56ms	low
 					
-						Timer1_Delay1ms(Data_0_1_code);
+						__delay_ms(Data_0_1_code);
 						if(P17)												//数据 1	high
 						{
 								dat[i] >>= 1;
@@ -203,7 +203,7 @@ void one_press(void)
 			
 		while(!P17);													//0.56ms	low
 		
-		Timer1_Delay1ms(60);
+		__delay_ms(60);
 		while(!P17);
 		Data_Check();
 		n = 1;
@@ -211,7 +211,7 @@ void one_press(void)
 #if 0		
 		for(i=0;i<Stop_code;i++)							//40ms		high
 		{
-				Timer1_Delay1ms(1);
+				__delay_ms(1);
 				if(!P17)
 				{
 					dat_clr();
@@ -222,11 +222,11 @@ void one_press(void)
 //		while(P17);	
 		
 		Data_Check();
-		Timer1_Delay1ms(2);									//delay2ms
+		__delay_ms(2);									//delay2ms
 		
 		for(i=0;i<First_Boot_code-2;i++)				
 		{
-				Timer1_Delay1ms(1);
+				__delay_ms(1);
 				if(P17)
 				{
 						dat_clr();
@@ -248,7 +248,7 @@ void long_press(void)
 //		UINT8	i;  
 	
 		while(!P17);
-		Timer1_Delay1ms(80);
+		__delay_ms(80);
 		n++;
 }
 
@@ -258,7 +258,7 @@ void BootCode_OR_RepeatCode(void)
 		UINT32 k=0;
 		for(i=0;i<First_Boot_code-2;i++)						//9-1ms low
 		{
-				Timer1_Delay1ms(1);
+				__delay_ms(1);
 				if(P17)
 				{
 						dat_clr();
@@ -286,7 +286,7 @@ void BootCode_OR_RepeatCode(void)
 #if 0		
 		for(i=0;i<Second_Boot_code;i++)						//4ms_OR_2ms	high
 		{
-				Timer1_Delay1ms(1);
+				__delay_ms(1);
 				if((!P17)&&(i>15))
 				{
 						long_press_flag = 1;

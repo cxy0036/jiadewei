@@ -1,11 +1,11 @@
 #ifndef __I2C_H__
 #define __I2C_H__
-
-#ifndef		_EX_I2C
-	#define	_EX_I2C   
-#else
-	#define	_EX_I2C		extern
-#endif
+#define	_EX_I2C		extern
+//#ifndef		_EX_I2C
+//	#define	_EX_I2C   
+//#else
+//	#define	_EX_I2C		extern
+//#endif
 
 _EX_I2C	void	delay(void);
 _EX_I2C	void Init_I2C(void);

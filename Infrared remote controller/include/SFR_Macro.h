@@ -1,3 +1,5 @@
+#ifndef __SFR_MACRO_H__
+#define __SFR_MACRO_H__
 
 //EIPH1                     
 #define set_PWKTH   EIPH1   |= SET_BIT2
@@ -1266,3 +1268,5 @@
 #define clr_P32     P32      = 0
 #define clr_P31     P31      = 0
 #define clr_P30     P30      = 0
+
+#endif
