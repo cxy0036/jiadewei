@@ -23,8 +23,6 @@
 #define	GPIO_P1			1
 #define	GPIO_P2			2
 #define	GPIO_P3			3
-//#define	GPIO_P4			4
-//#define	GPIO_P5			5
 
 
 typedef struct
