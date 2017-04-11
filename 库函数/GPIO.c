@@ -14,7 +14,6 @@
 // 描述: 初始化IO口.
 // 参数: GPIOx: 结构参数,请参考timer.h里的定义.
 // 返回: 成功返回0, 空操作返回1,错误返回2.
-// 版本: V1.0, 2012-10-22
 //========================================================================
 u8	GPIO_Inilize(u8 GPIO, GPIO_InitTypeDef *GPIOx)
 {
@@ -33,6 +32,10 @@ u8	GPIO_Inilize(u8 GPIO, GPIO_InitTypeDef *GPIOx)
 		if(GPIOx->Mode == GPIO_HighZ)		P1M1 |=  GPIOx->Pin,	P1M2 &= ~GPIOx->Pin;	 //浮空输入
 		if(GPIOx->Mode == GPIO_OUT_OD)		P1M1 |=  GPIOx->Pin,	P1M2 |=  GPIOx->Pin;	 //开漏输出
 		if(GPIOx->Mode == GPIO_OUT_PP)		P1M1 &= ~GPIOx->Pin,	P1M2 |=  GPIOx->Pin;	 //推挽输出
+	}
+	if(GPIO == GPIO_P2)
+	{
+		if(GPIOx->Mode == GPIO_HighZ)													;	 //浮空输入
 	}
 	if(GPIO == GPIO_P3)
 	{

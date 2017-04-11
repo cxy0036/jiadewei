@@ -253,6 +253,12 @@ sbit PWM0       = P1^0;
 sbit P11        = P1^1;
 sbit PWM1       = P1^1;
 sbit P12        = P1^2;
+/*	Change in the later-day	*/
+sbit P13        = P1^3;
+sbit P14        = P1^4;
+sbit P15        = P1^5;
+sbit P16        = P1^6;
+//sbit P17        = P1^7;
 
 /*  TCON  */
 sbit TF1        = TCON^7;

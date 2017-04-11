@@ -1,11 +1,9 @@
-".\Objects\Recive_demo.obj",
-".\Objects\FM1602_I2C.obj",
-".\Objects\IR_recive.obj",
-".\Objects\NPCA110P.obj",
-".\Objects\I2C.obj",
-".\Objects\bl-291-16.04.16.obj",
+".\Objects\MAIN.obj",
+".\Objects\bluetooth.obj",
+".\Objects\adc.obj",
+".\Objects\gpio.obj",
+".\Objects\time0.obj",
 ".\Objects\STARTUP_N76E003beta.obj",
-".\Objects\Common.obj",
 ".\Objects\Delay.obj" 
 TO ".\Objects\Infrared_demo" 
 PRINT(".\Listings\Infrared_demo.m51") RAMSIZE(256) 

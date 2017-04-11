@@ -1,0 +1,90 @@
+C51 COMPILER V9.00   DEMO                                                                  04/11/2017 15:05:42 PAGE 1   
+
+
+C51 COMPILER V9.00, COMPILATION OF MODULE DEMO
+OBJECT MODULE PLACED IN .\Output\demo.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE src\demo.c OPTIMIZE(8,SPEED) BROWSE INCDIR(.\src;.\include) DEFINE(FOSC_
+                    -160000) DEBUG OBJECTEXTEND PRINT(.\Listings\demo.lst) OBJECT(.\Output\demo.obj)
+
+line level    source
+
+   1          #include <stdio.h>
+   2          #include "N76E003.h"
+   3          #include "Define.h"
+   4          #include "Common.h"
+   5          #include "Delay.h"
+   6          #include "SFR_Macro.h"
+   7          #include "Function_define.h"
+   8          
+   9          #include "sysInit.h"
+  10          #include "bluetooth.h"
+  11          
+  12          void    mcu_init(void)
+  13          {
+  14   1              Set_All_GPIO_Quasi_Mode;
+  15   1      }
+  16          
+  17          void main(void)
+  18          {
+  19   1      //      bit sys_flag = 0;
+  20   1              mcu_init();
+  21   1              sys_init();
+  22   1              __delay_10ms(20);
+  23   1              set_EA;
+  24   1              set_TR0;
+  25   1              __delay_10ms(500);
+  26   1              ST_BY = 1;
+  27   1              BT_POWER = 1;
+  28   1              while(1)
+  29   1              {
+  30   2      //              if(ST_BY && BT_POWER)
+  31   2      //              {
+  32   2      //                      sys_flag = 1;
+  33   2      //              }
+  34   2      //              else
+  35   2      //              {
+  36   2      //                      sys_flag = 0;
+  37   2      //              }
+  38   2      //              while(BT_DET && sys_flag)
+  39   2      //              while(sys_flag)
+  40   2                      while(ST_BY && BT_POWER)
+  41   2                      {
+  42   3                              Bluetooth_process();
+  43   3      //                      while(!BT_DET)
+  44   3      //                      {
+  45   3      //                              __delay_10ms(10);
+  46   3      //                              N_1s++;
+  47   3      //                              if(N_1s == 9000)//15*60s ±º‰
+  48   3      //                              {
+  49   3      //                                      BT_POWER = 0;
+  50   3      //                                      __delay_10ms(50);
+  51   3      //                                      ST_BY = 0;
+  52   3      //                                      N_1s = 0;
+  53   3      //                                      clr_EA;
+  54   3      //                                      while(1)
+C51 COMPILER V9.00   DEMO                                                                  04/11/2017 15:05:42 PAGE 2   
+
+  55   3      //                                      {
+  56   3      //                                              set_PD;                                         
+  57   3      //                                      }
+  58   3      //                              }
+  59   3      //                      }
+  60   3      //                      N_1s = 0;               
+  61   3                      }
+  62   2      
+  63   2              }
+  64   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     53    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

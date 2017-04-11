@@ -1,0 +1,125 @@
+C51 COMPILER V9.00   TIME0                                                                 04/11/2017 15:05:42 PAGE 1   
+
+
+C51 COMPILER V9.00, COMPILATION OF MODULE TIME0
+OBJECT MODULE PLACED IN .\Output\time0.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE src\time0.c OPTIMIZE(8,SPEED) BROWSE INCDIR(.\src;.\include) DEFINE(FOSC
+                    -_160000) DEBUG OBJECTEXTEND PRINT(.\Listings\time0.lst) OBJECT(.\Output\time0.obj)
+
+line level    source
+
+   1          #include        "time0.h"
+   2          
+   3          extern  UINT8   adc_count;
+   4          
+   5          UINT16  adc_data = 0;
+   6          UINT8   adc_V = 0;
+   7          bit             adc_V_flag = 0;
+   8          //UINT8 u8TH0_Tmp_1ms,u8TL0_Tmp_1ms;
+   9          UINT8   adc_flag=0;
+  10          
+  11          #define TH0_INIT_1ms    13290
+  12          #define TL0_INIT_1ms    13290
+  13          #define u8TH0_Tmp_1ms   (65536-TH0_INIT_1ms)/256
+  14          #define u8TL0_Tmp_1ms   (65536-TL0_INIT_1ms)%256
+  15          
+  16          void timer0_init(void)
+  17          {
+  18   1              set_T0M;                //œµÕ≥ ±÷”
+  19   1      //      u8TH0_Tmp_1ms = (65536-TH0_INIT_1ms)/256;
+  20   1      //      u8TL0_Tmp_1ms = (65536-TL0_INIT_1ms)%256;
+  21   1              TH0 = u8TH0_Tmp_1ms;
+  22   1          TL0 = u8TL0_Tmp_1ms;
+  23   1              set_ET0;
+  24   1      }
+  25          
+  26          
+  27          //void Timer0_ISR (void) interrupt 1 
+  28          //{
+  29          //      TH0 = u8TH0_Tmp_1ms;
+  30          //    TL0 = u8TL0_Tmp_1ms;
+  31          //      adc_data = adc_start();
+  32          //                      if(adc_data < V_3_3)
+  33          //                      {
+  34          //                              ST_BY = 0;
+  35          //                              BT_POWER = 0;
+  36          //                              LOW_BAT_NOTIFY = 0;
+  37          //                              __delay_10ms(1);
+  38          //                      }
+  39          //                      else if(adc_V < V_3_5)
+  40          //                      {
+  41          //                              ST_BY = 1;
+  42          //                              BT_POWER = 1;
+  43          //                              LOW_BAT_NOTIFY = 1;
+  44          //                              __delay_10ms(1);
+  45          //                      }
+  46          //                      else
+  47          //                      {
+  48          //                              ST_BY = 0;
+  49          //                              BT_POWER = 0;
+  50          //                              LOW_BAT_NOTIFY = 0;
+  51          //                              __delay_10ms(1);
+  52          //                      }
+  53          //}
+  54          #if 1
+C51 COMPILER V9.00   TIME0                                                                 04/11/2017 15:05:42 PAGE 2   
+
+  55          void Timer0_ISR (void) interrupt 1 
+  56          {
+  57   1              TH0 = u8TH0_Tmp_1ms;
+  58   1          TL0 = u8TL0_Tmp_1ms;
+  59   1              adc_flag++;
+  60   1              if(adc_flag>=50)//50ms
+  61   1              {
+  62   2                      adc_data += adc_start();
+  63   2                      if(adc_count == times)
+  64   2                      {
+  65   3                              adc_V = adc_data/100;
+  66   3                              adc_count = 0;
+  67   3                              adc_V_flag = 1;
+  68   3                              adc_data = ADCRL;
+  69   3                              adc_data = 0;
+  70   3                      }
+  71   2                      if(adc_V_flag)
+  72   2                      {
+  73   3                              if(adc_V < V_3_3)
+  74   3                              {
+  75   4                                      //ST_BY = 1;
+  76   4                                      BT_POWER = 0;
+  77   4                                      __delay_10ms(50);
+  78   4                                      ST_BY = 0;
+  79   4                                              while(1)
+  80   4                                              {
+  81   5                                                      set_PD;                                         
+  82   5                                              }
+  83   4                              }
+  84   3                              else if(adc_V < V_3_5)
+  85   3                              {
+  86   4      //                              BT_POWER = 1;
+  87   4                                      LOW_BAT_NOTIFY = 0;
+  88   4                              }
+  89   3                              else
+  90   3                              {
+  91   4      //                              BT_POWER = 1;
+  92   4                                      LOW_BAT_NOTIFY = 1;
+  93   4                              }
+  94   3                      }
+  95   2                      adc_flag = 0;
+  96   2              }
+  97   1      }
+  98          
+  99          #endif
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    174    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      4    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =      1    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

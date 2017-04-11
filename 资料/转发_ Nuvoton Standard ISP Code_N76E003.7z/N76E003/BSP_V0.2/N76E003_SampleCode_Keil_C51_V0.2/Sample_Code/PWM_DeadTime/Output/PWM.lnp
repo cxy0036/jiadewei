@@ -1,0 +1,5 @@
+".\Output\PWM.obj",
+".\Output\Delay.obj" 
+TO ".\Output\PWM" 
+PRINT(".\LST\PWM.m51") RAMSIZE(256) 
+DISABLEWARNING (16) 

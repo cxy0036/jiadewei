@@ -24,7 +24,7 @@ void __delay_ms( UINT16 u16CNT )		//@16MHz
 		UINT16 j;
 		while(u16CNT != 0)
 		{
-				for(j=0;j<1340;j++);
+				for(j=0;j<14420;j++);
 				u16CNT --;
 		}
 }

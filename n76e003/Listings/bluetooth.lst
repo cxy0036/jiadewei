@@ -1,0 +1,211 @@
+C51 COMPILER V9.00   BLUETOOTH                                                             04/11/2017 15:05:42 PAGE 1   
+
+
+C51 COMPILER V9.00, COMPILATION OF MODULE BLUETOOTH
+OBJECT MODULE PLACED IN .\Output\bluetooth.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE src\bluetooth.c OPTIMIZE(8,SPEED) BROWSE INCDIR(.\src;.\include) DEFINE(
+                    -FOSC_160000) DEBUG OBJECTEXTEND PRINT(.\Listings\bluetooth.lst) OBJECT(.\Output\bluetooth.obj)
+
+line level    source
+
+   1          #include        "bluetooth.h"
+   2          
+   3          bit             sw_time1 = 0;
+   4          bit             minutes_15_flag = 0;
+   5          UINT8   minutes_num = 0;
+   6          extern  bit             minute_1_flag;
+   7          
+   8          void    Bluetooth_process(void)
+   9          {
+  10   1              UINT8   i=0,count=0,CMD=0;
+  11   1              __delay_10ms(1);
+  12   1      /***********Induction remote commands**************/
+  13   1              if(CMD_PLAY)
+  14   1              {
+  15   2                      do
+  16   2                      {
+  17   3                              __delay_10ms(1);
+  18   3                              count++;
+  19   3                      }while(CMD_PLAY);
+  20   2                      if(count>20)
+  21   2                      {
+  22   3                              CMD=__PLAY;     
+  23   3                              Bluetooth_CMD(CMD);
+  24   3                              count=0;
+  25   3                      }
+  26   2              }
+  27   1              if(CMD_REV)
+  28   1              {
+  29   2                      do
+  30   2                      {
+  31   3                              __delay_10ms(1);
+  32   3                              count++;
+  33   3                      }while(CMD_REV);
+  34   2                      if(count>20)
+  35   2                      {
+  36   3                              CMD=__REV;
+  37   3                              Bluetooth_CMD(CMD);
+  38   3                              count=0;
+  39   3                      }
+  40   2              }
+  41   1              if(CMD_FWD)
+  42   1              {
+  43   2                      do
+  44   2                      {
+  45   3                              __delay_10ms(1);
+  46   3                              count++;
+  47   3                      }while(CMD_FWD);
+  48   2                      if(count>20)
+  49   2                      {
+  50   3                              CMD=__FWD;
+  51   3                              Bluetooth_CMD(CMD);
+  52   3                              count=0;
+  53   3                      }
+  54   2              }
+C51 COMPILER V9.00   BLUETOOTH                                                             04/11/2017 15:05:42 PAGE 2   
+
+  55   1              if(CMD_VOL_UP)
+  56   1              {
+  57   2                      do
+  58   2                      {
+  59   3                              __delay_10ms(1);
+  60   3                              count++;
+  61   3                      }while(CMD_VOL_UP);
+  62   2                      if(count>20)
+  63   2                      {
+  64   3                              CMD=__VOL_UP;
+  65   3                              Bluetooth_CMD(CMD);
+  66   3                              count=0;
+  67   3                      }
+  68   2              }
+  69   1              if(CMD_VOL_DOWN)
+  70   1              {
+  71   2                      do
+  72   2                      {
+  73   3                              __delay_10ms(1);
+  74   3                              count++;
+  75   3                      }while(CMD_VOL_DOWN);
+  76   2                      if(count>20)
+  77   2                      {
+  78   3                              CMD=__VOL_DOWN;
+  79   3                              Bluetooth_CMD(CMD);
+  80   3                              count=0;
+  81   3                      }
+  82   2              }
+  83   1              if(CMD_PAIR)
+  84   1              {
+  85   2                      do
+  86   2                      {
+  87   3                              __delay_10ms(1);
+  88   3                              count++;
+  89   3                      }while(CMD_PAIR);
+  90   2                      if(count>20)
+  91   2                      {
+  92   3                              CMD=__PAIR;
+  93   3                              Bluetooth_CMD(CMD);
+  94   3                              count=0;
+  95   3                      }
+  96   2              }       
+  97   1      
+  98   1      /***********Detection of Bluetooth connection status**************/
+  99   1              if(BT_DET)
+ 100   1              {
+ 101   2                      sw_time1 = 0;
+ 102   2                      minute_1_flag = 0;
+ 103   2                      minutes_15_flag = 0;
+ 104   2              }
+ 105   1              else
+ 106   1              {
+ 107   2                      if(!sw_time1)
+ 108   2                      {
+ 109   3                              set_TR1;        
+ 110   3                              sw_time1 = 1;
+ 111   3                      }
+ 112   2                      if(minute_1_flag)
+ 113   2                      {
+ 114   3                              set_TR1;
+ 115   3                              minutes_num++;
+ 116   3                              minute_1_flag = 0;
+C51 COMPILER V9.00   BLUETOOTH                                                             04/11/2017 15:05:42 PAGE 3   
+
+ 117   3                              if(minutes_num>15)
+ 118   3                              {
+ 119   4                                      minutes_15_flag = 1;
+ 120   4                                      minutes_num = 0;
+ 121   4                              }
+ 122   3                      }//if(minute_1_flag)
+ 123   2                      if(minutes_15_flag)
+ 124   2                      {
+ 125   3                              minutes_15_flag = 0;
+ 126   3                              BT_POWER = 0;
+ 127   3                              __delay_10ms(50);
+ 128   3                              ST_BY = 0;
+ 129   3                              clr_EA;
+ 130   3                              while(1)
+ 131   3                              {
+ 132   4                                      set_PD;                                         
+ 133   4                              }
+ 134   3                      }//if(minutes_15_flag)
+ 135   2              }//if(BT_DET)
+ 136   1      }
+ 137          
+ 138          void    Bluetooth_CMD(UINT8     cmd)
+ 139          {
+ 140   1              switch(cmd)
+ 141   1              {
+ 142   2                      case    __PLAY:
+ 143   2                              PLAY = 1;
+ 144   2                              __delay_10ms(25);
+ 145   2                              PLAY = 0;
+ 146   2                              break;
+ 147   2                      case    __REV:
+ 148   2                              REV = 1;
+ 149   2                              __delay_10ms(25);
+ 150   2                              REV = 0;
+ 151   2                              break;
+ 152   2                      case    __FWD:
+ 153   2                              FWD = 1;
+ 154   2                              __delay_10ms(25);
+ 155   2                              FWD = 0;
+ 156   2                              break;
+ 157   2                      case    __VOL_UP:
+ 158   2                              VOL_UP = 1;
+ 159   2      //                      P00 = 1;
+ 160   2                              __delay_10ms(25);
+ 161   2                              VOL_UP = 0;
+ 162   2      //                      P00 = 0;
+ 163   2      //                      while(1);
+ 164   2                              break;
+ 165   2                      case    __VOL_DOWN:
+ 166   2                              VOL_DOWN = 1;
+ 167   2      //                      P01 = 1;
+ 168   2                              __delay_10ms(25);
+ 169   2                              VOL_DOWN = 0;
+ 170   2      //                      P01 = 0;
+ 171   2      //                      while(1);
+ 172   2                              break;
+ 173   2                      case    __PAIR:
+ 174   2                              PAIR = 1;
+ 175   2                              __delay_10ms(25);
+ 176   2                              PAIR = 0;
+ 177   2                              break;
+ 178   2                      default:
+C51 COMPILER V9.00   BLUETOOTH                                                             04/11/2017 15:05:42 PAGE 4   
+
+ 179   2                              break;
+ 180   2              }
+ 181   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    438    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      1       3
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =      2    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
