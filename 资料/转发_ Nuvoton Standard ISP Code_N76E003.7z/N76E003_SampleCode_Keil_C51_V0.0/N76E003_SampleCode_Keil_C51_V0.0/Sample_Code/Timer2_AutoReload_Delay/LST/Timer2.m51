@@ -1,9 +1,9 @@
-BL51 BANKED LINKER/LOCATER V6.22                                                        07/21/2016  17:31:33  PAGE 1
+BL51 BANKED LINKER/LOCATER V6.22                                                        04/12/2017  00:58:05  PAGE 1
 
 
 BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
-C:\KEIL\C51\BIN\BL51.EXE .\Output\Capture.obj, .\Output\Delay.obj TO .\Output\Timer2 PRINT (.\LST\Timer2.m51) RAMSIZE (2
->> 56) DISABLEWARNING (16)
+C:\KEIL_V5\C51\BIN\BL51.EXE .\Output\Capture.obj, .\Output\Delay.obj TO .\Output\Timer2 PRINT (.\LST\Timer2.m51) RAMSIZE
+>>  (256) DISABLEWARNING (16)
 
 
 MEMORY MODEL: SMALL
@@ -12,8 +12,8 @@ MEMORY MODEL: SMALL
 INPUT MODULES INCLUDED:
   .\Output\Capture.obj (CAPTURE)
   .\Output\Delay.obj (DELAY)
-  C:\KEIL\C51\LIB\C51S.LIB (?C_STARTUP)
-  C:\KEIL\C51\LIB\C51S.LIB (?C?ULCMP)
+  C:\KEIL_V5\C51\LIB\C51S.LIB (?C_STARTUP)
+  C:\KEIL_V5\C51\LIB\C51S.LIB (?C?ULCMP)
 
 
 LINK MAP OF MODULE:  .\Output\Timer2 (CAPTURE)
@@ -43,9 +43,9 @@ LINK MAP OF MODULE:  .\Output\Timer2 (CAPTURE)
             CODE    007CH     004DH     UNIT         ?PR?_TIMER3_DELAY1MS?DELAY
             CODE    00C9H     004BH     UNIT         ?PR?_TIMER0_DELAY1MS?DELAY
             CODE    0114H     004BH     UNIT         ?PR?_TIMER1_DELAY1MS?DELAY
-            CODE    015FH     0033H     UNIT         ?PR?MAIN?CAPTURE
-            CODE    0192H     0011H     UNIT         ?C?LIB_CODE
-            CODE    01A3H     000CH     UNIT         ?C_C51STARTUP
+            CODE    015FH     002CH     UNIT         ?PR?MAIN?CAPTURE
+            CODE    018BH     0011H     UNIT         ?C?LIB_CODE
+            CODE    019CH     000CH     UNIT         ?C_C51STARTUP
 
 
 
@@ -59,7 +59,7 @@ SEGMENT
   +--> ?PR?MAIN?CAPTURE
 
 
-BL51 BANKED LINKER/LOCATER V6.22                                                      07/21/2016  17:31:33  PAGE 2
+BL51 BANKED LINKER/LOCATER V6.22                                                      04/12/2017  00:58:05  PAGE 2
 
 
 
@@ -73,10 +73,8 @@ SYMBOL TABLE OF MODULE:  .\Output\Timer2 (CAPTURE)
   D:00B1H         PUBLIC        P0M1
   D:00B3H         PUBLIC        P1M1
   D:0080H         PUBLIC        P0
-  D:00B5H         PUBLIC        P2M1
   D:00B4H         PUBLIC        P1M2
   D:0090H         PUBLIC        P1
-  D:00B6H         PUBLIC        P2M2
   D:00ACH         PUBLIC        P3M1
   D:00A0H         PUBLIC        P2
   D:00B0H         PUBLIC        P3
@@ -113,19 +111,19 @@ SYMBOL TABLE OF MODULE:  .\Output\Timer2 (CAPTURE)
   C:015FH         LINE#         67
   C:015FH         LINE#         68
   C:015FH         LINE#         69
-  C:0170H         LINE#         71
-  C:0176H         LINE#         72
-  C:017FH         LINE#         74
-  C:0182H         LINE#         75
-  C:0185H         LINE#         76
-  C:0187H         LINE#         77
-BL51 BANKED LINKER/LOCATER V6.22                                                      07/21/2016  17:31:33  PAGE 3
+  C:016CH         LINE#         72
+  C:016FH         LINE#         73
+  C:0178H         LINE#         75
+  C:017BH         LINE#         76
+  C:017EH         LINE#         77
+  C:0180H         LINE#         78
+  C:0182H         LINE#         80
+  C:0185H         LINE#         81
+BL51 BANKED LINKER/LOCATER V6.22                                                      04/12/2017  00:58:05  PAGE 3
 
 
-  C:0189H         LINE#         79
-  C:018CH         LINE#         80
-  C:018EH         LINE#         81
-  C:0190H         LINE#         83
+  C:0187H         LINE#         82
+  C:0189H         LINE#         84
   -------         ENDPROC       MAIN
   -------         ENDMOD        CAPTURE
 
@@ -179,11 +177,11 @@ SYMBOL TABLE OF MODULE:  .\Output\Timer2 (CAPTURE)
   C:000BH         LINE#         28
   C:000FH         LINE#         29
   C:000FH         LINE#         30
-BL51 BANKED LINKER/LOCATER V6.22                                                      07/21/2016  17:31:33  PAGE 4
-
-
   C:0012H         LINE#         31
   C:0015H         LINE#         32
+BL51 BANKED LINKER/LOCATER V6.22                                                      04/12/2017  00:58:05  PAGE 4
+
+
   C:0018H         LINE#         33
   C:001AH         LINE#         34
   C:001FH         LINE#         35
@@ -239,11 +237,11 @@ SYMBOL TABLE OF MODULE:  .\Output\Timer2 (CAPTURE)
   C:0054H         LINE#         80
   C:0057H         LINE#         81
   C:005AH         LINE#         82
-BL51 BANKED LINKER/LOCATER V6.22                                                      07/21/2016  17:31:33  PAGE 5
-
-
   C:005DH         LINE#         83
   C:005FH         LINE#         84
+BL51 BANKED LINKER/LOCATER V6.22                                                      04/12/2017  00:58:05  PAGE 5
+
+
   C:0077H         LINE#         85
   C:0079H         LINE#         86
   C:007BH         LINE#         87
@@ -268,8 +266,8 @@ SYMBOL TABLE OF MODULE:  .\Output\Timer2 (CAPTURE)
   -------         ENDMOD        DELAY
 
   -------         MODULE        ?C?ULCMP
-  C:0192H         PUBLIC        ?C?ULCMP
+  C:018BH         PUBLIC        ?C?ULCMP
   -------         ENDMOD        ?C?ULCMP
 
-Program Size: data=25.1 xdata=0 code=429
+Program Size: data=25.1 xdata=0 code=422
 LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

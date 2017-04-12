@@ -1,4 +1,4 @@
-C51 COMPILER V9.00   DEMO                                                                  04/11/2017 15:05:42 PAGE 1   
+C51 COMPILER V9.00   DEMO                                                                  04/12/2017 17:01:38 PAGE 1   
 
 
 C51 COMPILER V9.00, COMPILATION OF MODULE DEMO
@@ -29,10 +29,10 @@ line level    source
   19   1      //      bit sys_flag = 0;
   20   1              mcu_init();
   21   1              sys_init();
-  22   1              __delay_10ms(20);
+  22   1              __delay_10ms(2);
   23   1              set_EA;
   24   1              set_TR0;
-  25   1              __delay_10ms(500);
+  25   1              __delay_10ms(5);
   26   1              ST_BY = 1;
   27   1              BT_POWER = 1;
   28   1              while(1)
@@ -62,7 +62,7 @@ line level    source
   52   3      //                                      N_1s = 0;
   53   3      //                                      clr_EA;
   54   3      //                                      while(1)
-C51 COMPILER V9.00   DEMO                                                                  04/11/2017 15:05:42 PAGE 2   
+C51 COMPILER V9.00   DEMO                                                                  04/12/2017 17:01:38 PAGE 2   
 
   55   3      //                                      {
   56   3      //                                              set_PD;                                         

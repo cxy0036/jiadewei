@@ -122,12 +122,12 @@ void main (void)
 /* -------------------------------------------------------------------------*/
 	
 //call write byte 
-		write_DATAFLASH_BYTE (0x0200,0x55);
+		write_DATAFLASH_BYTE (0x3881,0x55);
 		write_DATAFLASH_BYTE (0x3882,0x56);
 		write_DATAFLASH_BYTE (0x3855,0xaa);
 		write_DATAFLASH_BYTE (0x3856,0x66);
 //call read byte
-		datatemp = read_APROM_BYTE(0x0200);
+		datatemp = read_APROM_BYTE(0x3882);
     while(1);
 }
 //-----------------------------------------------------------------------------------------------------------

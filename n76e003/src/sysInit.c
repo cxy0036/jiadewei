@@ -14,6 +14,8 @@ void	SetSysClock(void)
 {
 	CKSWT = 0x30;
 	CKEN  = 0x30;
+//	CKDIV = 0x02;
+	__delay_10ms(2);
 }
 
 void gpio_init(void)

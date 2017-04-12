@@ -8,18 +8,20 @@ bit		adc_V_flag = 0;
 //UINT8	u8TH0_Tmp_1ms,u8TL0_Tmp_1ms;
 UINT8	adc_flag=0;
 
-#define	TH0_INIT_1ms	13290
-#define	TL0_INIT_1ms	13290
-#define	u8TH0_Tmp_1ms	(65536-TH0_INIT_1ms)/256
-#define	u8TL0_Tmp_1ms	(65536-TL0_INIT_1ms)%256
+//#define	TH0_INIT_1ms	16000//13290
+//#define	TL0_INIT_1ms	16000//13290
+//#define	u8TH0_Tmp_1ms	(65536-TH0_INIT_1ms)/256
+//#define	u8TL0_Tmp_1ms	(65536-TL0_INIT_1ms)%256
 
 void timer0_init(void)
 {
-	set_T0M;		//系统时钟
+//	set_T0M;		//系统时钟
+	clr_T0M;
 //	u8TH0_Tmp_1ms = (65536-TH0_INIT_1ms)/256;
 //	u8TL0_Tmp_1ms = (65536-TL0_INIT_1ms)%256;
-	TH0 = u8TH0_Tmp_1ms;
-    TL0 = u8TL0_Tmp_1ms;
+	TIMER0_MODE1_ENABLE;
+	TH0 = HIBYTE(TIMER_DIV12_VALUE_10ms);
+    TL0 = LOBYTE(TIMER_DIV12_VALUE_10ms);
 	set_ET0;
 }
 
@@ -54,13 +56,14 @@ void timer0_init(void)
 #if 1
 void Timer0_ISR (void) interrupt 1 
 {
-	TH0 = u8TH0_Tmp_1ms;
-    TL0 = u8TL0_Tmp_1ms;
+	clr_TR0;
+	TH0 = TIMER_DIV12_VALUE_10ms;
+    TL0 = TIMER_DIV12_VALUE_10ms;
 	adc_flag++;
-	if(adc_flag>=50)//50ms
+	if(adc_flag>5)//50ms
 	{
 		adc_data += adc_start();
-		if(adc_count == times)
+		if(adc_count == times)//5s
 		{
 			adc_V =	adc_data/100;
 			adc_count = 0;
@@ -74,6 +77,7 @@ void Timer0_ISR (void) interrupt 1
 			{
 				//ST_BY = 1;
 				BT_POWER = 0;
+				LOW_BAT_NOTIFY = 0;
 				__delay_10ms(50);
 				ST_BY = 0;
 					while(1)
@@ -94,6 +98,7 @@ void Timer0_ISR (void) interrupt 1
 		}
 		adc_flag = 0;
 	}
+	set_TR0;
 }
 
 #endif

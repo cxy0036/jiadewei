@@ -1,10 +1,10 @@
-C51 COMPILER V9.00   IAP_BYTE                                                              03/14/2017 17:41:12 PAGE 1   
+C51 COMPILER V9.52.0.0   IAP_BYTE                                                          07/26/2016 18:16:33 PAGE 1   
 
 
-C51 COMPILER V9.00, COMPILATION OF MODULE IAP_BYTE
+C51 COMPILER V9.52.0.0, COMPILATION OF MODULE IAP_BYTE
 OBJECT MODULE PLACED IN .\Output\IAP_BYTE.obj
-COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE Code\IAP_BYTE.c OPTIMIZE(8,SPEED) BROWSE INCDIR(..\..\Include) DEFINE(FO
-                    -SC_160000) DEBUG OBJECTEXTEND PRINT(.\LST\IAP_BYTE.lst) TABS(2) OBJECT(.\Output\IAP_BYTE.obj)
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE Code\IAP_BYTE.c BROWSE INCDIR(..\..\Include) DEFINE(FOSC_160000) DEBUG OBJE
+                    -CTEXTEND PRINT(.\LST\IAP_BYTE.lst) TABS(2) OBJECT(.\Output\IAP_BYTE.obj)
 
 line level    source
 
@@ -62,7 +62,7 @@ line level    source
   41          void write_DATAFLASH_BYTE(UINT16 u16_addr,UINT8 u8_data)
   42          {
   43   1        UINT8 looptmp=0,u8_addrl_r;
-C51 COMPILER V9.00   IAP_BYTE                                                              03/14/2017 17:41:12 PAGE 2   
+C51 COMPILER V9.52.0.0   IAP_BYTE                                                          07/26/2016 18:16:33 PAGE 2   
 
   44   1        unsigned char code *cd_longaddr;
   45   1        unsigned char xdata *xd_tmp;
@@ -126,7 +126,7 @@ line level    source
  103   1          {
  104   2            IAPFD = *xd_tmp;
  105   2            set_IAPGO;
-C51 COMPILER V9.00   IAP_BYTE                                                              03/14/2017 17:41:12 PAGE 3   
+C51 COMPILER V9.52.0.0   IAP_BYTE                                                          07/26/2016 18:16:33 PAGE 3   
 
  106   2            IAPAL++;
  107   2            xd_tmp++;
@@ -148,12 +148,12 @@ line level    source
  122   1      /* -------------------------------------------------------------------------*/
  123   1        
  124   1      //call write byte 
- 125   1          write_DATAFLASH_BYTE (0x0200,0x55);
+ 125   1          write_DATAFLASH_BYTE (0x3881,0x55);
  126   1          write_DATAFLASH_BYTE (0x3882,0x56);
  127   1          write_DATAFLASH_BYTE (0x3855,0xaa);
  128   1          write_DATAFLASH_BYTE (0x3856,0x66);
  129   1      //call read byte
- 130   1          datatemp = read_APROM_BYTE(0x0200);
+ 130   1          datatemp = read_APROM_BYTE(0x3882);
  131   1          while(1);
  132   1      }
  133          //--------------------------------------------------------------------------------------------------------
@@ -161,7 +161,7 @@ line level    source
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    372    ----
+   CODE SIZE        =    368    ----
    CONSTANT SIZE    =   ----    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----

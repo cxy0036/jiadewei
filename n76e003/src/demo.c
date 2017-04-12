@@ -19,10 +19,10 @@ void main(void)
 //	bit sys_flag = 0;
 	mcu_init();
 	sys_init();
-	__delay_10ms(20);
+	__delay_10ms(2);
 	set_EA;
 	set_TR0;
-	__delay_10ms(500);
+	__delay_10ms(5);
 	ST_BY = 1;
 	BT_POWER = 1;
 	while(1)

@@ -17,7 +17,7 @@
 
 #include <stdio.h>
 #include "N76E885.h"
-#include "Typedef.h"
+//#include "Typedef.h"
 #include "Define.h"
 #include "SFR_Macro.h"
 #include "Common.h"

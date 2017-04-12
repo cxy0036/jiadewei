@@ -1,9 +1,9 @@
-BL51 BANKED LINKER/LOCATER V6.22                                                        04/07/2017  17:49:10  PAGE 1
+BL51 BANKED LINKER/LOCATER V6.22                                                        10/03/2016  15:31:45  PAGE 1
 
 
 BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
-C:\KEIL_V5\C51\BIN\BL51.EXE .\Output\GPIO.obj, .\Output\Delay.obj, .\Output\Common.obj, .\Output\STARTUP_N76E003beta.obj
->>  TO .\Output\GPIO PRINT (.\LST\GPIO.m51) RAMSIZE (256) DISABLEWARNING (16)
+C:\KEIL\C51\BIN\BL51.EXE .\Output\GPIO.obj, .\Output\Delay.obj, .\Output\Common.obj, .\Output\STARTUP_N76E003beta.obj TO
+>>  .\Output\GPIO PRINT (.\LST\GPIO.m51) RAMSIZE (256) DISABLEWARNING (16)
 
 
 MEMORY MODEL: SMALL
@@ -14,9 +14,9 @@ INPUT MODULES INCLUDED:
   .\Output\Delay.obj (DELAY)
   .\Output\Common.obj (COMMON)
   .\Output\STARTUP_N76E003beta.obj (?C_STARTUP)
-  C:\KEIL_V5\C51\LIB\C51S.LIB (?C?ULDIV)
-  C:\KEIL_V5\C51\LIB\C51S.LIB (?C?ULCMP)
-  C:\KEIL_V5\C51\LIB\C51S.LIB (?C?ULSHR)
+  C:\KEIL\C51\LIB\C51S.LIB (?C?ULDIV)
+  C:\KEIL\C51\LIB\C51S.LIB (?C?ULCMP)
+  C:\KEIL\C51\LIB\C51S.LIB (?C?ULSHR)
 
 
 LINK MAP OF MODULE:  .\Output\GPIO (GPIO)
@@ -47,19 +47,19 @@ LINK MAP OF MODULE:  .\Output\GPIO (GPIO)
             CODE    02BFH     004DH     UNIT         ?PR?_TIMER3_DELAY1MS?DELAY
             CODE    030CH     004BH     UNIT         ?PR?_TIMER0_DELAY1MS?DELAY
             CODE    0357H     004BH     UNIT         ?PR?_TIMER1_DELAY1MS?DELAY
-            CODE    03A2H     0039H     UNIT         ?PR?MAIN?GPIO
-            CODE    03DBH     0037H     UNIT         ?PR?_INITIALUART0_TIMER1?COMMON
-            CODE    0412H     0021H     UNIT         ?PR?_DELAY10US?DELAY
-            CODE    0433H     0008H     UNIT         ?PR?RECEIVE_DATA_FROM_UART0?COMMON
-            CODE    043BH     0008H     UNIT         ?PR?_SEND_DATA_TO_UART0?COMMON
-            CODE    0443H     0008H     UNIT         ?PR?RECEIVE_DATA_FROM_UART1?COMMON
-            CODE    044BH     0008H     UNIT         ?PR?_SEND_DATA_TO_UART1?COMMON
+            CODE    03A2H     003BH     UNIT         ?PR?MAIN?GPIO
+            CODE    03DDH     0037H     UNIT         ?PR?_INITIALUART0_TIMER1?COMMON
+            CODE    0414H     0021H     UNIT         ?PR?_DELAY10US?DELAY
+            CODE    0435H     0008H     UNIT         ?PR?RECEIVE_DATA_FROM_UART0?COMMON
+            CODE    043DH     0008H     UNIT         ?PR?_SEND_DATA_TO_UART0?COMMON
+            CODE    0445H     0008H     UNIT         ?PR?RECEIVE_DATA_FROM_UART1?COMMON
+            CODE    044DH     0008H     UNIT         ?PR?_SEND_DATA_TO_UART1?COMMON
 
 
 
 OVERLAY MAP OF MODULE:   .\Output\GPIO (GPIO)
 
-BL51 BANKED LINKER/LOCATER V6.22                                                      04/07/2017  17:49:10  PAGE 2
+BL51 BANKED LINKER/LOCATER V6.22                                                      10/03/2016  15:31:45  PAGE 2
 
 
 
@@ -87,18 +87,17 @@ SYMBOL TABLE OF MODULE:  .\Output\GPIO (GPIO)
   C:0000H         SYMBOL        _ICE_DUMMY_
   D:00B1H         PUBLIC        P0M1
   D:00B3H         PUBLIC        P1M1
-  D:00B2H         PUBLIC        P0M2
   D:0080H         PUBLIC        P0
   D:00B4H         PUBLIC        P1M2
   D:0090H         PUBLIC        P1
+  D:00ACH         PUBLIC        P3M1
   D:00A0H         PUBLIC        P2
   D:00B0H         PUBLIC        P3
+  D:00ADH         PUBLIC        P3M2
   D:00D8H         PUBLIC        PWMCON0
   D:00A8H         PUBLIC        IE
   D:00B8H         PUBLIC        IP
   C:03A2H         PUBLIC        main
-  B:0080H.0       PUBLIC        P00
-  B:0080H.1       PUBLIC        P01
   B:0090H.2       PUBLIC        P12
   D:0098H         PUBLIC        SCON
   D:0088H         PUBLIC        TCON
@@ -111,22 +110,20 @@ SYMBOL TABLE OF MODULE:  .\Output\GPIO (GPIO)
   -------         PROC          MAIN
   C:03A2H         LINE#         116
   C:03A2H         LINE#         117
-  C:03A2H         LINE#         119
-  C:03ADH         LINE#         120
-  C:03B0H         LINE#         121
-  C:03B6H         LINE#         122
-  C:03BCH         LINE#         123
-  C:03C2H         LINE#         124
-  C:03C2H         LINE#         125
-  C:03C2H         LINE#         128
-BL51 BANKED LINKER/LOCATER V6.22                                                      04/07/2017  17:49:10  PAGE 3
+  C:03A2H         LINE#         118
+  C:03AFH         LINE#         119
+  C:03B8H         LINE#         120
+  C:03BBH         LINE#         122
+  C:03BBH         LINE#         123
+  C:03BBH         LINE#         124
+  C:03BDH         LINE#         125
+  C:03C8H         LINE#         126
+  C:03CAH         LINE#         127
+BL51 BANKED LINKER/LOCATER V6.22                                                      10/03/2016  15:31:45  PAGE 3
 
 
-  C:03C4H         LINE#         129
-  C:03C6H         LINE#         130
-  C:03C8H         LINE#         131
-  C:03D3H         LINE#         132
-  C:03D8H         LINE#         133
+  C:03D5H         LINE#         128
+  C:03DAH         LINE#         129
   -------         ENDPROC       MAIN
   -------         ENDMOD        GPIO
 
@@ -147,7 +144,7 @@ SYMBOL TABLE OF MODULE:  .\Output\GPIO (GPIO)
   D:0098H         PUBLIC        SCON
   D:0089H         PUBLIC        TMOD
   D:0088H         PUBLIC        TCON
-  C:0412H         PUBLIC        _Delay10us
+  C:0414H         PUBLIC        _Delay10us
   D:00F8H         PUBLIC        SCON_1
   B:0088H.5       PUBLIC        TF0
   B:0088H.7       PUBLIC        TF1
@@ -172,24 +169,24 @@ SYMBOL TABLE OF MODULE:  .\Output\GPIO (GPIO)
   D:00D0H         PUBLIC        PSW
   -------         PROC          _DELAY10US
   D:0006H         SYMBOL        u16CNT
-  C:0412H         LINE#         23
-  C:0412H         LINE#         24
-  C:0412H         LINE#         25
-  C:0415H         LINE#         26
-  C:0418H         LINE#         27
-  C:041AH         LINE#         28
-  C:041EH         LINE#         29
-BL51 BANKED LINKER/LOCATER V6.22                                                      04/07/2017  17:49:10  PAGE 4
+  C:0414H         LINE#         23
+  C:0414H         LINE#         24
+  C:0414H         LINE#         25
+  C:0417H         LINE#         26
+  C:041AH         LINE#         27
+  C:041CH         LINE#         28
+  C:0420H         LINE#         29
+  C:0420H         LINE#         30
+  C:0423H         LINE#         31
+  C:0426H         LINE#         32
+BL51 BANKED LINKER/LOCATER V6.22                                                      10/03/2016  15:31:45  PAGE 4
 
 
-  C:041EH         LINE#         30
-  C:0421H         LINE#         31
-  C:0424H         LINE#         32
-  C:0427H         LINE#         33
-  C:0429H         LINE#         34
-  C:042EH         LINE#         35
-  C:0430H         LINE#         36
-  C:0432H         LINE#         37
+  C:0429H         LINE#         33
+  C:042BH         LINE#         34
+  C:0430H         LINE#         35
+  C:0432H         LINE#         36
+  C:0434H         LINE#         37
   -------         ENDPROC       _DELAY10US
   -------         PROC          _TIMER0_DELAY1MS
   D:0008H         SYMBOL        u32CNT
@@ -239,12 +236,12 @@ SYMBOL TABLE OF MODULE:  .\Output\GPIO (GPIO)
   C:0297H         LINE#         79
   C:0297H         LINE#         80
   C:029AH         LINE#         81
-BL51 BANKED LINKER/LOCATER V6.22                                                      04/07/2017  17:49:10  PAGE 5
-
-
   C:029DH         LINE#         82
   C:02A0H         LINE#         83
   C:02A2H         LINE#         84
+BL51 BANKED LINKER/LOCATER V6.22                                                      10/03/2016  15:31:45  PAGE 5
+
+
   C:02BAH         LINE#         85
   C:02BCH         LINE#         86
   C:02BEH         LINE#         87
@@ -295,37 +292,37 @@ SYMBOL TABLE OF MODULE:  .\Output\GPIO (GPIO)
   D:00C6H         PUBLIC        RH3
   D:008DH         PUBLIC        TH1
   D:00C5H         PUBLIC        RL3
-  C:03DBH         PUBLIC        _InitialUART0_Timer1
+  C:03DDH         PUBLIC        _InitialUART0_Timer1
   C:0191H         PUBLIC        _InitialUART0_Timer3
   C:0204H         PUBLIC        _InitialUART1_Timer3
   B:0088H.6       PUBLIC        TR1
-BL51 BANKED LINKER/LOCATER V6.22                                                      04/07/2017  17:49:10  PAGE 6
-
-
   D:00E8H         PUBLIC        ADCCON0
-  C:043BH         PUBLIC        _Send_Data_To_UART0
-  C:044BH         PUBLIC        _Send_Data_To_UART1
+  C:043DH         PUBLIC        _Send_Data_To_UART0
+  C:044DH         PUBLIC        _Send_Data_To_UART1
+BL51 BANKED LINKER/LOCATER V6.22                                                      10/03/2016  15:31:45  PAGE 6
+
+
   D:00C0H         PUBLIC        I2CON
   D:00C8H         PUBLIC        T2CON
   D:00C4H         PUBLIC        T3CON
-  C:0433H         PUBLIC        Receive_Data_From_UART0
-  C:0443H         PUBLIC        Receive_Data_From_UART1
+  C:0435H         PUBLIC        Receive_Data_From_UART0
+  C:0445H         PUBLIC        Receive_Data_From_UART1
   D:008EH         PUBLIC        CKCON
   D:00D0H         PUBLIC        PSW
   -------         PROC          _INITIALUART0_TIMER1
   D:0004H         SYMBOL        u32Baudrate
-  C:03DBH         LINE#         25
-  C:03DBH         LINE#         26
-  C:03DBH         LINE#         27
-  C:03E1H         LINE#         28
-  C:03E7H         LINE#         30
-  C:03EAH         LINE#         31
-  C:03EDH         LINE#         33
-  C:03F0H         LINE#         34
-  C:03F3H         LINE#         35
-  C:03F6H         LINE#         39
-  C:040FH         LINE#         44
-  C:0411H         LINE#         45
+  C:03DDH         LINE#         25
+  C:03DDH         LINE#         26
+  C:03DDH         LINE#         27
+  C:03E3H         LINE#         28
+  C:03E9H         LINE#         30
+  C:03ECH         LINE#         31
+  C:03EFH         LINE#         33
+  C:03F2H         LINE#         34
+  C:03F5H         LINE#         35
+  C:03F8H         LINE#         39
+  C:0411H         LINE#         44
+  C:0413H         LINE#         45
   -------         ENDPROC       _INITIALUART0_TIMER1
   -------         PROC          _INITIALUART0_TIMER3
   D:0014H         SYMBOL        u32Baudrate
@@ -346,25 +343,25 @@ SYMBOL TABLE OF MODULE:  .\Output\GPIO (GPIO)
   -------         DO            
   D:0007H         SYMBOL        c
   -------         ENDDO         
-  C:0433H         LINE#         68
-  C:0433H         LINE#         69
-  C:0433H         LINE#         72
-  C:0436H         LINE#         73
-  C:0438H         LINE#         74
-  C:043AH         LINE#         75
-  C:043AH         LINE#         76
+  C:0435H         LINE#         68
+  C:0435H         LINE#         69
+  C:0435H         LINE#         72
+  C:0438H         LINE#         73
+  C:043AH         LINE#         74
+  C:043CH         LINE#         75
+  C:043CH         LINE#         76
   -------         ENDPROC       RECEIVE_DATA_FROM_UART0
   -------         PROC          _SEND_DATA_TO_UART0
   D:0007H         SYMBOL        c
-  C:043BH         LINE#         78
-  C:043BH         LINE#         79
-  C:043BH         LINE#         80
-BL51 BANKED LINKER/LOCATER V6.22                                                      04/07/2017  17:49:10  PAGE 7
+  C:043DH         LINE#         78
+  C:043DH         LINE#         79
+  C:043DH         LINE#         80
+  C:043FH         LINE#         81
+  C:0441H         LINE#         82
+  C:0444H         LINE#         83
+BL51 BANKED LINKER/LOCATER V6.22                                                      10/03/2016  15:31:45  PAGE 7
 
 
-  C:043DH         LINE#         81
-  C:043FH         LINE#         82
-  C:0442H         LINE#         83
   -------         ENDPROC       _SEND_DATA_TO_UART0
   -------         PROC          _INITIALUART1_TIMER3
   D:0018H         SYMBOL        u32Baudrate
@@ -383,22 +380,22 @@ SYMBOL TABLE OF MODULE:  .\Output\GPIO (GPIO)
   -------         DO            
   D:0007H         SYMBOL        c
   -------         ENDDO         
-  C:0443H         LINE#         117
-  C:0443H         LINE#         118
-  C:0443H         LINE#         121
-  C:0446H         LINE#         122
-  C:0448H         LINE#         123
-  C:044AH         LINE#         124
-  C:044AH         LINE#         125
+  C:0445H         LINE#         117
+  C:0445H         LINE#         118
+  C:0445H         LINE#         121
+  C:0448H         LINE#         122
+  C:044AH         LINE#         123
+  C:044CH         LINE#         124
+  C:044CH         LINE#         125
   -------         ENDPROC       RECEIVE_DATA_FROM_UART1
   -------         PROC          _SEND_DATA_TO_UART1
   D:0007H         SYMBOL        c
-  C:044BH         LINE#         127
-  C:044BH         LINE#         128
-  C:044BH         LINE#         129
-  C:044DH         LINE#         130
-  C:044FH         LINE#         131
-  C:0452H         LINE#         132
+  C:044DH         LINE#         127
+  C:044DH         LINE#         128
+  C:044DH         LINE#         129
+  C:044FH         LINE#         130
+  C:0451H         LINE#         131
+  C:0454H         LINE#         132
   -------         ENDPROC       _SEND_DATA_TO_UART1
   -------         ENDMOD        COMMON
 
@@ -419,12 +416,12 @@ SYMBOL TABLE OF MODULE:  .\Output\GPIO (GPIO)
   N:0000H         SYMBOL        PDATALEN
   N:0000H         SYMBOL        PDATASTART
   N:0000H         SYMBOL        PPAGE
-BL51 BANKED LINKER/LOCATER V6.22                                                      04/07/2017  17:49:10  PAGE 8
-
-
   N:0000H         SYMBOL        PPAGEENABLE
   D:00A0H         SYMBOL        PPAGE_SFR
   D:0081H         SYMBOL        SP
+BL51 BANKED LINKER/LOCATER V6.22                                                      10/03/2016  15:31:45  PAGE 8
+
+
   C:00F5H         SYMBOL        STARTUP1
   N:0000H         SYMBOL        XBPSTACK
   N:0000H         SYMBOL        XBPSTACKTOP
@@ -479,12 +476,12 @@ SYMBOL TABLE OF MODULE:  .\Output\GPIO (GPIO)
   C:0171H         LINE#         160
   C:0174H         LINE#         161
   C:0177H         LINE#         167
-BL51 BANKED LINKER/LOCATER V6.22                                                      04/07/2017  17:49:10  PAGE 9
-
-
   C:0179H         LINE#         168
   C:017AH         LINE#         169
   C:017BH         LINE#         170
+BL51 BANKED LINKER/LOCATER V6.22                                                      10/03/2016  15:31:45  PAGE 9
+
+
   C:017DH         LINE#         174
   C:0180H         LINE#         175
   C:0182H         LINE#         177
@@ -509,5 +506,5 @@ SYMBOL TABLE OF MODULE:  .\Output\GPIO (GPIO)
   C:00E2H         PUBLIC        ?C?ULSHR
   -------         ENDMOD        ?C?ULSHR
 
-Program Size: data=33.1 xdata=0 code=1107
+Program Size: data=33.1 xdata=0 code=1109
 LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -114,7 +114,7 @@ void	Bluetooth_process(void)
 			set_TR1;
 			minutes_num++;
 			minute_1_flag = 0;
-			if(minutes_num>15)
+			if(minutes_num>3)
 			{
 				minutes_15_flag = 1;
 				minutes_num = 0;
@@ -124,8 +124,12 @@ void	Bluetooth_process(void)
 		{
 			minutes_15_flag = 0;
 			BT_POWER = 0;
+			LOW_BAT_NOTIFY = 0;
 			__delay_10ms(50);
 			ST_BY = 0;
+//			BT_POWER = 0;
+//			__delay_10ms(50);
+//			ST_BY = 0;
 			clr_EA;
 			while(1)
 			{
