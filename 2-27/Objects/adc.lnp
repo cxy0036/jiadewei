@@ -1,9 +1,0 @@
-".\Objects\Main.obj",
-".\Objects\INT1.obj",
-".\Objects\Timer2.obj",
-".\Objects\Common.obj",
-".\Objects\Delay.obj",
-".\Objects\STARTUP_N76E003beta.obj" 
-TO ".\Objects\adc" 
-PRINT(".\Listings\adc.m51") RAMSIZE(256) 
-DISABLEWARNING (16) 

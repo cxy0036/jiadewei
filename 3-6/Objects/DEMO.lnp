@@ -1,9 +1,0 @@
-".\Objects\Recive_demo.obj",
-".\Objects\Common.obj",
-".\Objects\Delay.obj",
-".\Objects\STARTUP_N76E003beta.obj",
-".\Objects\ex-int1.obj",
-".\Objects\time0.obj" 
-TO ".\Objects\DEMO" 
-PRINT(".\Listings\DEMO.m51") RAMSIZE(256) 
-DISABLEWARNING (16) 

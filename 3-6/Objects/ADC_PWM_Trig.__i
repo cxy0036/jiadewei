@@ -1,1 +1,0 @@
-"module\ADC_PWM_Trig.c" OPTIMIZE (8,SPEED) BROWSE INCDIR(.\include) DEFINE (FOSC_160000) DEBUG OBJECTEXTEND PRINT(.\Listings\ADC_PWM_Trig.lst) TABS (2) OBJECT(.\Objects\ADC_PWM_Trig.obj)
