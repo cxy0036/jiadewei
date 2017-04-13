@@ -4,6 +4,7 @@ bit		sw_time1 = 0;
 bit		minutes_15_flag = 0;
 UINT8	minutes_num = 0;
 extern 	bit		minute_1_flag;
+extern	bit		adc_V35_flag;
 
 void	Bluetooth_process(void)
 {
@@ -95,6 +96,24 @@ void	Bluetooth_process(void)
 		}
 	}	
 
+/***********Control the gesture switch**************/
+	if(!adc_V35_flag)
+	{
+		LOW_BAT_NOTIFY = 0;
+	}
+	else if(!BT_DET)
+	{
+		LOW_BAT_NOTIFY = 0;
+		__delay_10ms(6);
+		LOW_BAT_NOTIFY = 1;
+		__delay_10ms(12);
+		LOW_BAT_NOTIFY = 0;
+//		__delay_10ms(6);
+	}
+	else
+	{
+		LOW_BAT_NOTIFY = 1;
+	}	
 /***********Detection of Bluetooth connection status**************/
 	if(BT_DET)
 	{
@@ -124,13 +143,9 @@ void	Bluetooth_process(void)
 		{
 			minutes_15_flag = 0;
 			BT_POWER = 0;
-			__delay_10ms(10);
+			__delay_10ms(50);
 			LOW_BAT_NOTIFY = 0;
-//			while(1);
 			ST_BY = 0;
-//			BT_POWER = 0;
-//			__delay_10ms(50);
-//			ST_BY = 0;
 			clr_EA;
 			while(1)
 			{

@@ -1,4 +1,4 @@
-A51 MACRO ASSEMBLER  STARTUP_N76E003BETA                                                  04/12/2017 21:11:45 PAGE     1
+A51 MACRO ASSEMBLER  STARTUP_N76E003BETA                                                  04/13/2017 11:08:02 PAGE     1
 
 
 MACRO ASSEMBLER A51 V8.2.5.0
@@ -122,7 +122,7 @@ LOC  OBJ            LINE     SOURCE
 
                       57     ;  Page Definition for Using the Compact Model with 64 KByte xdata RAM
 
-A51 MACRO ASSEMBLER  STARTUP_N76E003BETA                                                  04/12/2017 21:11:45 PAGE     2
+A51 MACRO ASSEMBLER  STARTUP_N76E003BETA                                                  04/13/2017 11:08:02 PAGE     2
 
                       58     ;
 
@@ -256,7 +256,7 @@ LOC  OBJ            LINE     SOURCE
 
 0031 75C755          123             MOV 0C7H,#55H
 
-A51 MACRO ASSEMBLER  STARTUP_N76E003BETA                                                  04/12/2017 21:11:45 PAGE     3
+A51 MACRO ASSEMBLER  STARTUP_N76E003BETA                                                  04/13/2017 11:08:02 PAGE     3
 
 0034 43A401          124             ORL 0A4H,#01H
 
@@ -390,7 +390,7 @@ LOC  OBJ            LINE     SOURCE
 
                                              MOV     PPAGE_SFR,#PPAGE
 
-A51 MACRO ASSEMBLER  STARTUP_N76E003BETA                                                  04/12/2017 21:11:45 PAGE     4
+A51 MACRO ASSEMBLER  STARTUP_N76E003BETA                                                  04/13/2017 11:08:02 PAGE     4
 
                              ENDIF
 
@@ -464,7 +464,7 @@ LOC  OBJ            LINE     SOURCE
 
                      225                     END
 
-A51 MACRO ASSEMBLER  STARTUP_N76E003BETA                                                  04/12/2017 21:11:45 PAGE     5
+A51 MACRO ASSEMBLER  STARTUP_N76E003BETA                                                  04/13/2017 11:08:02 PAGE     5
 
 SYMBOL TABLE LISTING
 ------ ----- -------

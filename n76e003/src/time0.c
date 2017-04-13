@@ -5,6 +5,7 @@ extern	UINT8	adc_count;
 UINT16	adc_data = 0;
 UINT8	adc_V = 0;
 bit		adc_V_flag = 0;
+bit		adc_V35_flag = 0;
 //UINT8	u8TH0_Tmp_1ms,u8TL0_Tmp_1ms;
 UINT8	adc_flag=0;
 
@@ -85,15 +86,15 @@ void Timer0_ISR (void) interrupt 1
 						set_PD;						
 					}
 			}
-			else if(adc_V < V_3_5)
+			if(adc_V < V_3_5)
 			{
-//				BT_POWER = 1;
-				LOW_BAT_NOTIFY = 0;
+//				LOW_BAT_NOTIFY = 0;
+				adc_V35_flag = 0;
 			}
 			else
 			{
-//				BT_POWER = 1;
-				LOW_BAT_NOTIFY = 1;
+//				LOW_BAT_NOTIFY = 1;
+				adc_V35_flag = 1;
 			}
 		}
 		adc_flag = 0;
