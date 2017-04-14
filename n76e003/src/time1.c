@@ -7,7 +7,9 @@
 
 //UINT8	u8TH1_Tmp_1ms,u8TL1_Tmp_1ms;
 bit		minute_1_flag = 0;
-UINT16	count = 0;
+bit		ms_400_flag = 0,ms_200_flag = 0;
+UINT16	count1 = 0;
+UINT8	count2 = 0;
 
 void timer1_init(void)
 {
@@ -26,11 +28,26 @@ void Timer1_ISR (void) interrupt 3
 	clr_TR1;
 	TH1 = HIBYTE(TIMER_DIV12_VALUE_10ms);
     TL1 = LOBYTE(TIMER_DIV12_VALUE_10ms);
-	count++;
-	if(count>6000)
+	count1++;
+	count2++;
+	if(count1>6000)
 	{
 		minute_1_flag = 1;
-		count = 0;
+		count1 = 0;
+	}
+	if(count2<40)
+	{
+		ms_400_flag = 1;
+		ms_200_flag = 0;
+	}	
+	else if(count2<60)
+	{
+		ms_400_flag = 0;
+		ms_200_flag = 1;
+	}
+	else
+	{
+		count2 = 0;
 	}
 	set_TR1;
 }

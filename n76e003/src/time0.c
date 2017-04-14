@@ -1,6 +1,7 @@
 #include	"time0.h"
 
 extern	UINT8	adc_count;
+extern	bit		ms_400_flag,ms_200_flag;
 
 UINT16	adc_data = 0;
 UINT8	adc_V = 0;
@@ -88,7 +89,14 @@ void Timer0_ISR (void) interrupt 1
 			else if(adc_V < V_3_5)
 			{
 //				BT_POWER = 1;
-				LOW_BAT_NOTIFY = 0;
+				if(ms_400_flag)
+				{
+					LOW_BAT_NOTIFY = 0;
+				}
+				if(ms_200_flag)
+				{
+					LOW_BAT_NOTIFY = 1;
+				}
 			}
 			else
 			{

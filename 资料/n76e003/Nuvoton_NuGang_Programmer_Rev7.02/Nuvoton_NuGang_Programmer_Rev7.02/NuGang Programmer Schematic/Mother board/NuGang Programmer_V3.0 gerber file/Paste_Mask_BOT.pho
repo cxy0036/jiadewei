@@ -1,0 +1,78 @@
+*
+*
+G04 PADS 9.5 Build Number: 522968 generated Gerber (RS-274-X) file*
+G04 PC Version=2.1*
+*
+%IN "(Layout) NuGang Program"*%
+*
+%MOIN*%
+*
+%FSLAX35Y35*%
+*
+*
+*
+*
+G04 PC Standard Apertures*
+*
+*
+G04 Thermal Relief Aperture macro.*
+%AMTER*
+1,1,$1,0,0*
+1,0,$1-$2,0,0*
+21,0,$3,$4,0,0,45*
+21,0,$3,$4,0,0,135*
+%
+*
+*
+G04 Annular Aperture macro.*
+%AMANN*
+1,1,$1,0,0*
+1,0,$2,0,0*
+%
+*
+*
+G04 Odd Aperture macro.*
+%AMODD*
+1,1,$1,0,0*
+1,0,$1-0.005,0,0*
+%
+*
+*
+G04 PC Custom Aperture Macros*
+*
+*
+*
+*
+*
+*
+G04 PC Aperture Table*
+*
+%ADD022C,0.006*%
+%ADD049C,0.001*%
+*
+*
+*
+*
+G04 PC Circuitry*
+G04 Layer Name (Layout) NuGang Program - circuitry*
+%LPD*%
+*
+*
+G04 PC Custom Flashes*
+G04 Layer Name (Layout) NuGang Program - flashes*
+%LPD*%
+*
+*
+G04 PC Circuitry*
+G04 Layer Name (Layout) NuGang Program - circuitry*
+%LPD*%
+*
+G54D22*
+G01X100000Y100000D02*
+X888000D01*
+Y651000*
+X100000*
+Y100000*
+G54D49*
+X0Y0D02*
+M02*
