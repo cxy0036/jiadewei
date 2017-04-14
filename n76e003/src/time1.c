@@ -7,7 +7,7 @@
 
 //UINT8	u8TH1_Tmp_1ms,u8TL1_Tmp_1ms;
 bit		minute_1_flag = 0;
-bit		ms_400_flag = 0,ms_200_flag = 0;
+bit		ms_800_flag = 0,ms_200_flag = 0;
 UINT16	count1 = 0;
 UINT8	count2 = 0;
 
@@ -35,15 +35,15 @@ void Timer1_ISR (void) interrupt 3
 		minute_1_flag = 1;
 		count1 = 0;
 	}
-	if(count2<40)
+	if(count2<20)
 	{
-		ms_400_flag = 1;
-		ms_200_flag = 0;
-	}	
-	else if(count2<60)
-	{
-		ms_400_flag = 0;
+		ms_800_flag = 0;
 		ms_200_flag = 1;
+	}	
+	else if(count2<100)
+	{
+		ms_800_flag = 1;
+		ms_200_flag = 0;
 	}
 	else
 	{
