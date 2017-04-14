@@ -1,5 +1,0 @@
-Nuvoton N76E003，不少人说资料看不到，这个贴子的目的是把现有的资料都整理进来，不断更新中。FTP 上一直会有最新的资料
-
-nftp.nuvoton.com        不要忘了加ftp ：//
-NuMicro_Workshop     账号
-qxwy8d+                      密码
