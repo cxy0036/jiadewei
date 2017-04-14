@@ -1,1 +1,0 @@
-"common\Common.c" OPTIMIZE (8,SPEED) BROWSE INCDIR(.\include;.\common;.\module;..\¿âº¯Êý) DEFINE (FOSC_160000) DEBUG OBJECTEXTEND PRINT(.\Listings\Common.lst) OBJECT(.\Objects\Common.obj)
