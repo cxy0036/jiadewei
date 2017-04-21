@@ -101,7 +101,7 @@ void Timer0_ISR (void) interrupt 1
 			else
 			{
 //				BT_POWER = 1;
-				LOW_BAT_NOTIFY = 1;
+				LOW_BAT_NOTIFY = 0;
 			}
 		}
 		adc_flag = 0;
