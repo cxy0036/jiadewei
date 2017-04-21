@@ -40,7 +40,7 @@ void Timer1_ISR (void) interrupt 3
 		ms_800_flag = 0;
 		ms_200_flag = 1;
 	}	
-	else if(count2<100)
+	else if(count2<200)
 	{
 		ms_800_flag = 1;
 		ms_200_flag = 0;
