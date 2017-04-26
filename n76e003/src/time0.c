@@ -98,7 +98,7 @@ void Timer0_ISR (void) interrupt 1
 					LOW_BAT_NOTIFY = 1;
 				}
 			}
-			else
+			else if(adc_V > V_3_6)
 			{
 //				BT_POWER = 1;
 				LOW_BAT_NOTIFY = 0;

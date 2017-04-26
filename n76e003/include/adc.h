@@ -27,6 +27,7 @@
 
 #define	V_3_3	0x54//0xc9//33
 #define	V_3_5	0x59//0xd5//35
+#define V_3_6	0x5b
 
 
 
