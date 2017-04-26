@@ -17,7 +17,7 @@ void	Bluetooth_process(void)
 			__delay_10ms(1);
 			count++;
 		}while(CMD_PLAY);
-		if(count>4)
+		if(count>15)
 		{
 			CMD=__PLAY;	
 			Bluetooth_CMD(CMD);
@@ -31,7 +31,7 @@ void	Bluetooth_process(void)
 			__delay_10ms(1);
 			count++;
 		}while(CMD_REV);
-		if(count>4)
+		if(count>15)
 		{
 			CMD=__REV;
 			Bluetooth_CMD(CMD);
@@ -45,7 +45,7 @@ void	Bluetooth_process(void)
 			__delay_10ms(1);
 			count++;
 		}while(CMD_FWD);
-		if(count>4)
+		if(count>15)
 		{
 			CMD=__FWD;
 			Bluetooth_CMD(CMD);
@@ -59,7 +59,7 @@ void	Bluetooth_process(void)
 			__delay_10ms(1);
 			count++;
 		}while(CMD_VOL_UP);
-		if(count>4)
+		if(count>2)
 		{
 			CMD=__VOL_UP;
 			Bluetooth_CMD(CMD);
@@ -73,7 +73,7 @@ void	Bluetooth_process(void)
 			__delay_10ms(1);
 			count++;
 		}while(CMD_VOL_DOWN);
-		if(count>4)
+		if(count>2)
 		{
 			CMD=__VOL_DOWN;
 			Bluetooth_CMD(CMD);
@@ -87,7 +87,7 @@ void	Bluetooth_process(void)
 			__delay_10ms(1);
 			count++;
 		}while(CMD_PAIR);
-		if(count>4)
+		if(count>15)
 		{
 			CMD=__PAIR;
 			Bluetooth_CMD(CMD);
