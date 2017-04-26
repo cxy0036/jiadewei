@@ -6,6 +6,7 @@ extern	bit		ms_800_flag,ms_200_flag;
 UINT16	adc_data = 0;
 UINT8	adc_V = 0;
 bit		adc_V_flag = 0;
+bit		adc_PWM_flag = 0;
 //UINT8	u8TH0_Tmp_1ms,u8TL0_Tmp_1ms;
 UINT8	adc_flag=0;
 
@@ -88,7 +89,24 @@ void Timer0_ISR (void) interrupt 1
 			}
 			else if(adc_V < V_3_5)
 			{
-//				BT_POWER = 1;
+				adc_PWM_flag = 1;
+//				if(ms_800_flag)
+//				{
+//					LOW_BAT_NOTIFY = 0;
+//				}
+//				if(ms_200_flag)
+//				{
+//					LOW_BAT_NOTIFY = 1;
+//				}
+			}
+			else if(adc_V > V_3_6)
+			{
+				adc_PWM_flag = 0;
+//				LOW_BAT_NOTIFY = 0;
+			}
+		}
+		if(adc_PWM_flag)
+		{
 				if(ms_800_flag)
 				{
 					LOW_BAT_NOTIFY = 0;
@@ -97,12 +115,10 @@ void Timer0_ISR (void) interrupt 1
 				{
 					LOW_BAT_NOTIFY = 1;
 				}
-			}
-			else if(adc_V > V_3_6)
-			{
-//				BT_POWER = 1;
-				LOW_BAT_NOTIFY = 0;
-			}
+		}
+		else
+		{
+			LOW_BAT_NOTIFY = 0;
 		}
 		adc_flag = 0;
 	}
