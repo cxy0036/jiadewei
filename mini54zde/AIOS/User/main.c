@@ -39,6 +39,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "Mini51Series.h"
 //AIOS
 #include "AIOS.h"
+#include "task.h"
 
 #define PLLCON_SETTING  CLK_PLLCON_50MHz_HXT
 #define PLL_CLOCK       50000000
@@ -160,12 +161,16 @@ static void SetupHardware(void)
 
 	/* Init System, peripheral clock and multi-function I/O */
 	SYS_Init();
-
+	
+	/* Init GPIO mode */
+	GPIO_Init();
+	
 	/* Lock protected registers */
 	SYS_LockReg();
 
 	/* Init UART0 for printf */
 	UART0_Init();
+	
 
 	printf("\n\nCPU @ %dHz\n", SystemCoreClock);
 
@@ -178,9 +183,7 @@ static void SetupHardware(void)
 	printf("|    NuTiny EVB LED Sample Code         |\n");
 	printf("+---------------------------------------+\n");
 
-	/* Init P2.3 and P3.6 to be output mode */
-	GPIO_SetMode(P2, BIT3, GPIO_PMD_OUTPUT); 
-	GPIO_SetMode(P3, BIT6, GPIO_PMD_OUTPUT); 
+
 //	P2->PMD = (P2->PMD & ~(0x3 << 2*3)) | (1 << 2*3);
 //	P3->PMD = (P3->PMD & ~(0x3 << 2*6)) | (1 << 2*6);  
 }
@@ -199,6 +202,7 @@ int32_t main(void)
 	//创建任务，控制LED灯
 	CtrlTaskHandle	= OSTaskCreate(CtrlTask, NULL, OSMINIMAL_STACK_SIZE, OSLOWEAST_PRIORITY+1, "Ctrl" );
 	LedTaskHandle	= OSTaskCreate(LedTask, NULL, OSMINIMAL_STACK_SIZE, OSLOWEAST_PRIORITY+1, "Led" );
+
 
 	OSTimerStart(Timer500msHandle);
 

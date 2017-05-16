@@ -12,8 +12,8 @@
 #include "i2c_software_gpio_with_timer.h"
 
 /* SDA = GP3.4, CLK = GP3.5 */
-#define I2C_SW_SDA P34
-#define I2C_SW_CLK P35
+#define I2C_SW_SDA P23
+#define I2C_SW_CLK P22
 
 typedef void (*TIMER_CALLBACK)(void);
 

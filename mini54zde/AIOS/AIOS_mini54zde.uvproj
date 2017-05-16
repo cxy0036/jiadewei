@@ -542,6 +542,11 @@
               <FileType>1</FileType>
               <FilePath>.\StdDriver\src\wdt.c</FilePath>
             </File>
+            <File>
+              <FileName>i2c_software_gpio_with_timer.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\StdDriver\src\i2c_software_gpio_with_timer.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -553,19 +558,14 @@
               <FilePath>.\User\main.c</FilePath>
             </File>
             <File>
-              <FileName>task.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\User\task.c</FilePath>
-            </File>
-            <File>
-              <FileName>NTP8230.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\User\NTP8230.c</FilePath>
-            </File>
-            <File>
               <FileName>ir.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\User\ir.c</FilePath>
+            </File>
+            <File>
+              <FileName>task.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\task.c</FilePath>
             </File>
           </Files>
         </Group>
