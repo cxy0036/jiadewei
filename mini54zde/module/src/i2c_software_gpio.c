@@ -47,7 +47,8 @@ int32_t I2C_SW_Open(uint32_t u32BusClock)
 int32_t I2C_SW_Send_byte(uint8_t u8Data)
 {
     uint32_t u32count;
-    for(u32count=0; u32count<8; u32count++) {
+    for(u32count=0; u32count<8; u32count++) 
+	{
         I2C_SW_SDA = u8Data>>(7-u32count);
         CLK_SysTickDelay(u32_I2C_SW_Delay);
         I2C_SW_CLK = 1;
@@ -85,7 +86,8 @@ int32_t I2C_SW_Send(uint8_t u8Address, uint8_t* p8Data, uint32_t u32ByteSize)
     I2C_SW_CLK = 0;
     CLK_SysTickDelay(u32_I2C_SW_Delay);
 
-    if(I2C_SW_Send_byte(u8Address<<1))
+//    if(I2C_SW_Send_byte(u8Address<<1))
+	if(I2C_SW_Send_byte(u8Address&0xfe))
         goto I2C_SW_Stop_Send;
 
     while(u32count<u32ByteSize) {

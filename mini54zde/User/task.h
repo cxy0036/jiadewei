@@ -52,7 +52,7 @@
 
 //VOL	Addr 0x2D: Master Volume Fine Control
 
-
+void _RST_8230( void );
 void Sys_power( void );
 void GPIO_Init( void );
 void Channel_select( void );

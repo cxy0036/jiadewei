@@ -98,3 +98,69 @@ Time[18:22:17]       Slave[0x54]     Address[0x1B]     Data[0x15]
 Time[18:22:17]       Slave[0x54]     Address[0x28]     Data[0x04]
 Time[18:22:17]       Slave[0x54]     Address[0x27]     Data[0x00]
 Time[18:22:17]       Slave[0x54]     Address[0x26]     Data[0x00]
+
+
+
+
+
+1> Addr 0x7E = 0x03    // write enable  
+2> 5 coefficients of LPF and HPF(32-bit size)  
+Addr 0x2D=0x0855C430 
+Addr 0x2E=0x0855C430 
+Addr 0x2F=0x20000000 
+Addr 0x30=0x107E5440 
+Addr 0x31=0x20000000 
+Addr 0x32=0x1010D9F0 
+Addr 0x33=0x1090D9F0 
+Addr 0x34=0x20000000 
+Addr 0x35=0x0E06CFE0 
+Addr 0x36=0x20000000  
+3> Addr 0x7E = 0x00 
+4> applied to 2 channel  
+Addr 0x19 = 0x0A // refer to Datasheet for detail information. 
+Addr 0x1A = 0x0A  // Loudness Low frequency BQ6 , High frequency BQ7
+5> Addr 0x7E = 0x03  
+6> Addr 0x3E = Loudness filter gain for BQ6 :  About Gain refer to Table 1 
+7> Addr 0x3F = Loudness filter gain for BQ7 
+8> Addr 0x7E = 0x00 
+9> Main volume setting.
+
+
+Used loudness filter gains   
+Low 16dB   
+1> Addr 0x7E = 0x03 
+2> Addr 0x3E = 0x1329E7F0 // Loudness filter gain for BQ6 
+3> Addr 0x3F = 0x125DE0A0  //Loudness filter gain for BQ7  
+4> Addr 0x7E = 0x00  
+Low 14dB  
+1> Addr 0x7E = 0x03 
+2> Addr 0x3E = 0x13006140 // Loudness filter gain for BQ6 
+3> Addr 0x3F = 0x120A62C0  //Loudness filter gain for BQ7  
+4> Addr 0x7E = 0x00  
+Low 12dB  
+1> Addr 0x7E = 0x03 
+2> Addr 0x3E = 0x123EC9E0 // Loudness filter gain for BQ6 
+3> Addr 0x3F = 0x1168C0C0  //Loudness filter gain for BQ7  
+4> Addr 0x7E = 0x00  
+Low 10dB  
+1> Addr 0x7E = 0x03 
+2> Addr 0x3E = 0x120A62C0 // Loudness filter gain for BQ6 
+3> Addr 0x3F = 0x111E8E70  //Loudness filter gain for BQ7  
+4> Addr 0x7E = 0x00 
+
+
+Low 8dB  
+1> Addr 0x7E = 0x03  
+2> Addr 0x3E = 0x11418580 // Loudness filter gain for BQ6 
+3> Addr 0x3F = 0x107EC980  //Loudness filter gain for BQ7  
+4> Addr 0x7E = 0x00  
+Low 6dB  
+1> Addr 0x7E = 0x03 
+2> Addr 0x3E = 0x107EC980 // Loudness filter gain for BQ6 
+3> Addr 0x3F = 0x10473D50  //Loudness filter gain for BQ7  
+4> Addr 0x7E = 0x00  
+Low 4dB  
+1> Addr 0x7E = 0x03 
+2> Addr 0x3E = 0x1015BB90 // Loudness filter gain for BQ6 
+3> Addr 0x3F = 0x1015BB90  //Loudness filter gain for BQ7  
+4> Addr 0x7E = 0x00

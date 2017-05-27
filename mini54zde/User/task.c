@@ -9,7 +9,7 @@
 void GPIO_Init( void )
 {
 	/* Set P1.5 to ADC channel 0 input pin */
-    SYS->P1_MFP = SYS_MFP_P15_AIN5;
+    SYS->P1_MFP = SYS_MFP_P15_AIN5;//SYS_MFP_P10_AIN1
 	/* Analog pin OFFD to prevent leakage */
     P1->OFFD |= (1 << 5) << GPIO_OFFD_OFFD_Pos;
 	
@@ -23,12 +23,23 @@ void GPIO_Init( void )
 //	GPIO_SetMode(P2, BIT2, GPIO_PMD_OUTPUT);//_SCL
 //	GPIO_SetMode(P2, BIT3, GPIO_PMD_OUTPUT);//_SDA
 	GPIO_SetMode(P2, BIT4, GPIO_PMD_OUTPUT);//_RST
+//	GPIO_SetMode(P2, BIT4, GPIO_PMD_QUASI);
 	GPIO_SetMode(P2, BIT5, GPIO_PMD_OUTPUT);//_4052_A
 	GPIO_SetMode(P2, BIT6, GPIO_PMD_OUTPUT);//_4052_B
 	GPIO_SetMode(P3, BIT6, GPIO_PMD_OUTPUT);//ST_BY 
 	/* Configure P2.2 and P2.3 as open-drain mode */
     GPIO_SetMode(P2, BIT2, GPIO_PMD_OPEN_DRAIN);
 	GPIO_SetMode(P2, BIT3, GPIO_PMD_OPEN_DRAIN);
+	
+	/*****init gpio output******/
+	ST_BY = 1;
+	_4052_A = 0;
+	_4052_B = 0;
+	_RST = 0;
+	P23 = 0;
+	P22 = 0;
+	P23 = 1;
+	P22 = 1;
 }
 
 
@@ -41,6 +52,15 @@ void Channel_select( void )
 {
 	_4052_A = 1;
 	_4052_B = 0;
+}
+
+void _RST_8230( void )
+{
+	_RST = 1;
+	TIMER_Delay( TIMER0, 5000 );
+	_RST = 0;
+	TIMER_Delay( TIMER0, 5000 );
+	_RST = 1;
 }
 
 #if 0

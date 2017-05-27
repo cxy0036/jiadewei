@@ -1,4 +1,8 @@
 
+#define KEY_GLOBALS
+#include "KEY_Scan.h"
+
+
 #define POWER_KEY   		P15
 #define KEY_VALUE			1
 #define KEY_NULL			0
@@ -7,11 +11,12 @@
 #define KEY_LONG_PERIOD		100
 #define KEY_CONTINUE_PERIOD	25
 //¶¨Òå°´¼ü·µ»ØÖµ×´Ì¬(°´ÏÂ,³¤°´,Á¬_·¢,ÊÍ·Å)
-#define KEY_DOWN		1
-#define KEY_short		2
-#define KEY_LONG		3
-#define KEY_CONTINUE	4
-#define KEY_UP			5
+#define KEY_DOWN		0x80
+//#define KEY_short		0x40
+#define KEY_LONG		0x40
+#define KEY_CONTINUE	0x20
+#define KEY_UP			0x10
+//#define KEY_UP			5
 //¶¨Òå°´¼ü×´Ì¬
 #define KEY_STATE_INIT		0	//³õÊ¼×´Ì¬
 #define KEY_STATE_WOBBLE	1	//Ïû¶¶×´Ì¬
@@ -24,17 +29,18 @@ void KeyInit(void)
 {
 	POWER_KEY = 1;
 }
-static uint8 KeyScan(void) 
+static uint8_t KeyScan(void) 
 { 
 	if(POWER_KEY == 0)return KEY_VALUE;
-	return KEY_NULL; 
-} 
-void GetKey( uint8 *pKeyValue )
+	return KEY_NULL;
+}
+//void GetKey( uint8_t *pKeyValue )
+uint8_t GetKey( void )
 {
-	static uint8 s_u8KeyState = KEY_STATE_INIT;
-	static uint8 s_u8KeyTimeCount = 0;
-	static uint8 s_u8LastKey = KEY_NULL;
-	uint8 KeyTemp = KEY_NULL;
+	static uint8_t s_u8KeyState = KEY_STATE_INIT;
+	static uint8_t s_u8KeyTimeCount = 0;
+	static uint8_t s_u8LastKey = KEY_NULL;
+	uint8_t KeyTemp = KEY_NULL;
 	
 	KeyTemp = KeyScan();
 	switch(s_u8KeyState)
@@ -55,6 +61,7 @@ void GetKey( uint8 *pKeyValue )
 			{
 				s_u8LastKey = KeyTemp;
 				KeyTemp |= KEY_DOWN;
+//				KeyTemp |= KEY_short;				
 				s_u8KeyState = KEY_STATE_LONG;
 			}
 			else
@@ -69,13 +76,12 @@ void GetKey( uint8 *pKeyValue )
 				if( ++s_u8KeyTimeCount > KEY_LONG_PERIOD )
 				{
 					s_u8KeyTimeCount = 0;
-					POWER_KEY_4052++;
+					KeyTemp |= KEY_LONG;
 					s_u8KeyState = KEY_STATE_CONTINUE;
 				}
 			}
 			else
 			{
-				KeyTemp |= KEY_short;
 				s_u8KeyState = KEY_STATE_RELEASE;
 			}
 			break;
@@ -104,6 +110,9 @@ void GetKey( uint8 *pKeyValue )
 		default:
 			break;
 	}
-	*pKeyValue = KeyTemp;
+	return KeyTemp;
+	
+//	*pKeyValue = KeyTemp;
 }
+
 
