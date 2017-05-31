@@ -321,13 +321,13 @@ unsigned char NTP_8230[]=
 /*---------------------------------------------------------------------------------------------------------*/
 int32_t main(void)
 {
-//	uint8_t Tx_Data[6];
+//	uint8_t power = 1;
 	
 	SetupHardware();
 	
 	POWER_FLAG = 0;
 	Channel = 0;
-	
+	POWER = 1;
 	Sys_power_on();
 	
 	_RST_8230();
@@ -338,13 +338,18 @@ int32_t main(void)
 	
 	while(1)
 	{
-		if( POWER_FLAG )
+		if( POWER_FLAG & POWER )
 		{
 			Sys_power_on();
+			_RST_8230();
+			I2C_SW_Open(50000);
+			I2C_SW_Send( 0x54,NTP_8230,350);
+			POWER = 0;
 		}
-		else
+		else if( !(POWER_FLAG) )
 		{
 			Sys_power_off();
+//			POWER = 1;
 		}
 		Channel_select( Channel );
 		//if()

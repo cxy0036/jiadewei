@@ -52,6 +52,7 @@ void GPIO01_IRQHandler(void)
 			if(POWER_KEY == 0)			//PressLong	or PressShort
 			{
 				POWER_FLAG = ~POWER_FLAG;
+				POWER = 1;
 			}
 			else
 			{
