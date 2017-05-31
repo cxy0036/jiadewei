@@ -26,8 +26,8 @@
 #define KEY_STATE_CONTINUE	4	//Á¬°´×´Ì¬
 #define KEY_STATE_RELEASE	5	//ÊÍ·Å×´Ì¬
 
-char n = 0,m = 0;
-	static uint8_t s_u8LastKey = KEY_NULL,BOTH_EDGE = 0;
+char n = 0,m = 0,k=0,j=0,flag = 0;
+	static uint8_t s_u8LastKey = KEY_NULL,BOTH_EDGE_ROTOB = 1,BOTH_EDGE_ROTOA = 1;
 
 /**
  * @brief       Port0/Port1 IRQ
@@ -80,11 +80,51 @@ void GPIO01_IRQHandler(void)
  */
 void GPIO234_IRQHandler(void)
 {
-    /* To check if P2.2 interrupt occurred */
-    if (P2->ISRC & BIT2) 
+		NVIC_DisableIRQ(GPIO5_IRQn);
+    /* To check if P3.0 interrupt occurred */
+    if (P3->ISRC & BIT0) 
 	{
-        P2->ISRC = BIT2;
-//        printf("P2.2 INT occurred. \n");
+        P3->ISRC = BIT0;
+//        printf("P3.0 INT occurred. \n");
+		m++;
+
+			CLK_SysTickDelay(500);
+			if( VOL_ROTOA & BOTH_EDGE_ROTOA )
+			{
+				CLK_SysTickDelay(500);
+				BOTH_EDGE_ROTOA = 0;
+				if(VOL_ROTOA)k++;
+//				{
+//					flag++;
+//					if( flag == 1)
+//					{
+//						k++;
+//					}
+//					else
+//					{
+//						flag = 0;
+//					}						
+//				}
+			}
+			else if( !( VOL_ROTOA | BOTH_EDGE_ROTOA) )
+			{
+				CLK_SysTickDelay(500);
+				BOTH_EDGE_ROTOA = 1;
+				if(!VOL_ROTOA)k++;
+//				{
+//					flag++;
+//					if( flag == 1)
+//					{
+//						k++;
+//					}
+//					else
+//					{
+//						flag = 0;
+//					}	
+//				}
+			}			
+	
+//		NVIC_EnableIRQ(GPIO5_IRQn);
     } 
 	else 
 	{
@@ -111,22 +151,47 @@ void GPIO5_IRQHandler(void)
     if (P5->ISRC & BIT4) 
 	{
         P5->ISRC = BIT4;
+		NVIC_DisableIRQ(GPIO234_IRQn);
 //        printf("P2.2 INT occurred. \n");
-		CLK_SysTickDelay(5000);
-		if( VOL_ROTOB & BOTH_EDGE)
-		{
-			CLK_SysTickDelay(5000);
-			BOTH_EDGE = 0;
-			if(VOL_ROTOB)
-				n++;		
-		}
-		else if(!( VOL_ROTOB | BOTH_EDGE))
-		{
-			CLK_SysTickDelay(5000);
-			BOTH_EDGE = 1;
-			if(!VOL_ROTOB)
-				m++;
-		}
+
+			CLK_SysTickDelay(15000);
+			if( VOL_ROTOB & BOTH_EDGE_ROTOB)
+			{
+				CLK_SysTickDelay(15000);
+				BOTH_EDGE_ROTOB = 0;
+				if(VOL_ROTOB)
+				{
+					flag++;
+					if( flag == 1)
+					{
+						n++;
+					}
+					else
+					{
+						flag = 0;
+					}	
+				}
+			}
+			else if( !( VOL_ROTOB | BOTH_EDGE_ROTOB) )
+			{
+				CLK_SysTickDelay(15000);
+				BOTH_EDGE_ROTOB = 1;
+				if(!VOL_ROTOB)
+				{
+					flag++;
+					if( flag == 1)
+					{
+						n++;
+					}
+					else
+					{
+						flag = 0;
+					}	
+				}
+			}			
+
+
+		NVIC_EnableIRQ(GPIO234_IRQn);
     } 
 	else 
 	{
