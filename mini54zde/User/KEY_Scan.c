@@ -26,7 +26,8 @@
 #define KEY_STATE_CONTINUE	4	//Á¬°´×´Ì¬
 #define KEY_STATE_RELEASE	5	//ÊÍ·Å×´Ì¬
 
-char n = 0;
+char n = 0,m = 0;
+	static uint8_t s_u8LastKey = KEY_NULL,BOTH_EDGE = 0;
 
 /**
  * @brief       Port0/Port1 IRQ
@@ -44,18 +45,27 @@ void GPIO01_IRQHandler(void)
 	{
        P1->ISRC = BIT5;
 //        printf("P1.5 INT occurred. \n");
-//		CLK_SysTickDelay(100000);
-		n =	GetKey();
-
-//		n++;
-
+		CLK_SysTickDelay(150000);		//150ms
+		if(POWER_KEY == 0)				//The only correct interruption
+		{
+			CLK_SysTickDelay(150000);	//150ms
+			if(POWER_KEY == 0)			//PressLong	or PressShort
+			{
+				POWER_FLAG = ~POWER_FLAG;
+			}
+			else
+			{
+				Channel++;
+				if( Channel >= 0x04 )Channel = 0;				
+			}
+		}
     } 
 	else 
 	{
         /* Un-expected interrupt. Just clear all PORT0, PORT1 interrupts */
         P0->ISRC = P0->ISRC;
         P1->ISRC = P1->ISRC;
-        printf("Un-expected interrupts. \n");
+//        printf("Un-expected interrupts. \n");
     }
 }
 
@@ -74,7 +84,7 @@ void GPIO234_IRQHandler(void)
     if (P2->ISRC & BIT2) 
 	{
         P2->ISRC = BIT2;
-        printf("P2.2 INT occurred. \n");
+//        printf("P2.2 INT occurred. \n");
     } 
 	else 
 	{
@@ -82,10 +92,54 @@ void GPIO234_IRQHandler(void)
         P2->ISRC = P2->ISRC;
         P3->ISRC = P3->ISRC;
         P4->ISRC = P4->ISRC;
-        printf("Un-expected interrupts. \n");
+//        printf("Un-expected interrupts. \n");
     }
 }
 
+/**
+ * @brief       Port5 IRQ
+ *
+ * @param       None
+ *
+ * @return      None
+ *
+ * @details     The Port5 default IRQ, declared in startup_Mini51.s.
+ */
+void GPIO5_IRQHandler(void)
+{
+    /* To check if P5.4 interrupt occurred */
+    if (P5->ISRC & BIT4) 
+	{
+        P5->ISRC = BIT4;
+//        printf("P2.2 INT occurred. \n");
+		CLK_SysTickDelay(5000);
+		if( VOL_ROTOB & BOTH_EDGE)
+		{
+			CLK_SysTickDelay(5000);
+			BOTH_EDGE = 0;
+			if(VOL_ROTOB)
+				n++;		
+		}
+		else if(!( VOL_ROTOB | BOTH_EDGE))
+		{
+			CLK_SysTickDelay(5000);
+			BOTH_EDGE = 1;
+			if(!VOL_ROTOB)
+				m++;
+		}
+    } 
+	else 
+	{
+        /* Un-expected interrupt. Just clear all PORT2, PORT3 and PORT4 interrupts */
+        P2->ISRC = P2->ISRC;
+        P3->ISRC = P3->ISRC;
+        P4->ISRC = P4->ISRC;
+ //       printf("Un-expected interrupts. \n");
+    }
+}
+
+
+#if 0
 void KeyInit(void) 
 {
 	POWER_KEY = 1;
@@ -100,7 +154,7 @@ uint8_t GetKey(  )
 {
 	static uint8_t s_u8KeyState = KEY_STATE_PRESS;
 	static uint8_t s_u8KeyTimeCount = 0;
-	static uint8_t s_u8LastKey = KEY_NULL;
+//	static uint8_t s_u8LastKey = KEY_NULL;
 	uint8_t KeyTemp = KEY_NULL;
 	
 	KeyTemp |= KeyScan();
@@ -172,15 +226,7 @@ uint8_t GetKey(  )
 		
 		case	KEY_STATE_RELEASE:
 			s_u8LastKey |= KEY_UP;
-			if( s_u8LastKey & KEY_LONG )
-			{
-				POWER_FLAG = ~POWER_FLAG;
-			}
-			else if( s_u8LastKey & KEY_DOWN)
-			{
-				Channel++;
-				if( Channel >= 0x04 )Channel = 0;				
-			}
+
 			KeyTemp |= s_u8LastKey;
 			s_u8LastKey = 0;
 			s_u8KeyState = KEY_STATE_PRESS;
@@ -193,5 +239,5 @@ uint8_t GetKey(  )
 	
 //	*pKeyValue = KeyTemp;
 }
-
+#endif
 

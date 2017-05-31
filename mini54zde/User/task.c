@@ -42,7 +42,7 @@ void GPIO_Init( void )
 //    GPIO_SetMode(P2, BIT2, GPIO_PMD_OPEN_DRAIN);
 //	GPIO_SetMode(P2, BIT3, GPIO_PMD_OPEN_DRAIN);
 
-    GPIO_EnableInt(P1, 5, GPIO_INT_FALLING);
+    GPIO_EnableInt(P1, 5, GPIO_INT_FALLING);//GPIO_INT_LOW);//
     NVIC_EnableIRQ(GPIO01_IRQn);
 //	GPIO_EnableInt(P3, 0, GPIO_INT_RISING);
     GPIO_EnableInt(P3, 0, GPIO_INT_FALLING);
@@ -51,7 +51,7 @@ void GPIO_Init( void )
 	GPIO_EnableInt(P3, 4, GPIO_INT_FALLING);
 	GPIO_EnableInt(P3, 5, GPIO_INT_FALLING);
     NVIC_EnableIRQ(GPIO234_IRQn);
-	GPIO_EnableInt(P5, 4, GPIO_INT_FALLING);
+	GPIO_EnableInt(P5, 4, GPIO_INT_BOTH_EDGE);
 	NVIC_EnableIRQ(GPIO5_IRQn);
 	
 	/*****init gpio output******/
