@@ -8,50 +8,96 @@
  */
 void GPIO_Init( void )
 {
-	/* Set P1.5 to ADC channel 0 input pin */
-    SYS->P1_MFP = SYS_MFP_P15_AIN5;//SYS_MFP_P10_AIN1
-	/* Analog pin OFFD to prevent leakage */
-    P1->OFFD |= (1 << 5) << GPIO_OFFD_OFFD_Pos;
+//	/* Set P1.5 to ADC channel 0 input pin */
+//    SYS->P1_MFP = SYS_MFP_P15_AIN5;//SYS_MFP_P10_AIN1
+//	/* Analog pin OFFD to prevent leakage */
+//    P1->OFFD |= (1 << 5) << GPIO_OFFD_OFFD_Pos;
 	
 	/* Init P2.2 P2.3 P2.4 and P3.6 to be output mode */
 	GPIO_SetMode(P0, BIT4, GPIO_PMD_OUTPUT);//BT_REV
 	GPIO_SetMode(P0, BIT5, GPIO_PMD_OUTPUT);//BT_FWD
 	GPIO_SetMode(P0, BIT7, GPIO_PMD_OUTPUT);//BT_POWER
+	
 	GPIO_SetMode(P1, BIT2, GPIO_PMD_OUTPUT);//LED_B
 	GPIO_SetMode(P1, BIT3, GPIO_PMD_OUTPUT);//LED_G
 	GPIO_SetMode(P1, BIT4, GPIO_PMD_OUTPUT);//LED_R
-//	GPIO_SetMode(P2, BIT2, GPIO_PMD_OUTPUT);//_SCL
-//	GPIO_SetMode(P2, BIT3, GPIO_PMD_OUTPUT);//_SDA
+	GPIO_SetMode(P1, BIT5, GPIO_PMD_QUASI);	//POWER_KEY
+	
+    GPIO_SetMode(P2, BIT2, GPIO_PMD_OPEN_DRAIN);//_SCL
+	GPIO_SetMode(P2, BIT3, GPIO_PMD_OPEN_DRAIN);//_SDA
 	GPIO_SetMode(P2, BIT4, GPIO_PMD_OUTPUT);//_RST
 //	GPIO_SetMode(P2, BIT4, GPIO_PMD_QUASI);
 	GPIO_SetMode(P2, BIT5, GPIO_PMD_OUTPUT);//_4052_A
 	GPIO_SetMode(P2, BIT6, GPIO_PMD_OUTPUT);//_4052_B
+	
+	GPIO_SetMode(P3, BIT0, GPIO_PMD_QUASI);	//VOL_ROTOA
+	GPIO_SetMode(P3, BIT1, GPIO_PMD_QUASI);	//TREBLE_ROTOA
+	GPIO_SetMode(P3, BIT2, GPIO_PMD_QUASI);	//TREBLE_ROTOB
+	GPIO_SetMode(P3, BIT4, GPIO_PMD_QUASI);	//SUB_ROTOA
+	GPIO_SetMode(P3, BIT5, GPIO_PMD_QUASI);	//SUB_ROTOB
 	GPIO_SetMode(P3, BIT6, GPIO_PMD_OUTPUT);//ST_BY 
-	/* Configure P2.2 and P2.3 as open-drain mode */
-    GPIO_SetMode(P2, BIT2, GPIO_PMD_OPEN_DRAIN);
-	GPIO_SetMode(P2, BIT3, GPIO_PMD_OPEN_DRAIN);
+	
+	GPIO_SetMode(P5, BIT4, GPIO_PMD_QUASI);	//VOL_ROTOB
+//	/* Configure P2.2 and P2.3 as open-drain mode */
+//    GPIO_SetMode(P2, BIT2, GPIO_PMD_OPEN_DRAIN);
+//	GPIO_SetMode(P2, BIT3, GPIO_PMD_OPEN_DRAIN);
+
+    GPIO_EnableInt(P1, 5, GPIO_INT_FALLING);
+    NVIC_EnableIRQ(GPIO01_IRQn);
+//	GPIO_EnableInt(P3, 0, GPIO_INT_RISING);
+    GPIO_EnableInt(P3, 0, GPIO_INT_FALLING);
+	GPIO_EnableInt(P3, 1, GPIO_INT_FALLING);
+	GPIO_EnableInt(P3, 2, GPIO_INT_FALLING);
+	GPIO_EnableInt(P3, 4, GPIO_INT_FALLING);
+	GPIO_EnableInt(P3, 5, GPIO_INT_FALLING);
+    NVIC_EnableIRQ(GPIO234_IRQn);
+	GPIO_EnableInt(P5, 4, GPIO_INT_FALLING);
+	NVIC_EnableIRQ(GPIO5_IRQn);
 	
 	/*****init gpio output******/
-	ST_BY = 1;
+	ST_BY = 0;
 	_4052_A = 0;
 	_4052_B = 0;
 	_RST = 0;
-	P23 = 0;
-	P22 = 0;
-	P23 = 1;
-	P22 = 1;
+
 }
 
 
-void Sys_power( void )
+void Sys_power_on( void )
 {
 	ST_BY = 1;
 }
 
-void Channel_select( void )
+void Sys_power_off( void )
 {
-	_4052_A = 1;
-	_4052_B = 0;
+	ST_BY = 0;
+}
+
+void Channel_select( uint8_t Channel )
+{
+	switch( Channel )
+	{
+		case 0:
+			_4052_A = 0;
+			_4052_B = 0;
+			break;
+		case 1:
+			_4052_A = 1;
+			_4052_B = 0;
+			break;
+		case 2:
+			_4052_A = 0;
+			_4052_B = 1;
+			break;
+		case 3:
+			_4052_A = 1;
+			_4052_B = 1;
+			break;
+		default:
+			break;
+	}
+//	_4052_A = 1;
+//	_4052_B = 0;
 }
 
 void _RST_8230( void )

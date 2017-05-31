@@ -41,6 +41,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //#include "AIOS.h"
 #include "task.h"
 #include "i2c_software_gpio.h"
+#include "KEY_Scan.h"
 
 #define PLLCON_SETTING  CLK_PLLCON_50MHz_HXT
 #define PLL_CLOCK       50000000
@@ -320,33 +321,32 @@ unsigned char NTP_8230[]=
 /*---------------------------------------------------------------------------------------------------------*/
 int32_t main(void)
 {
-	uint8_t Tx_Data[6];
+//	uint8_t Tx_Data[6];
 	
 	SetupHardware();
 	
-	Sys_power();
-	Channel_select();
+	POWER_FLAG = 0;
+	Channel = 0;
+	
+	Sys_power_on();
+	
 	_RST_8230();
-	
-	
+		
 //    printf("Initiate software I2C for Master\n");
     I2C_SW_Open(50000);
-//	Tx_Data[0] = 0x7e;
-//    Tx_Data[1] = 0x03;
-//	I2C_SW_Send(0x54,Tx_Data,2);
-//	while(1)
 	I2C_SW_Send( 0x54,NTP_8230,350);
 	
-//	Tx_Data[0] = 0x2d | 0x10;
-//	Tx_Data[1] = 0x08;
-//	Tx_Data[2] = 0x55;
-//    Tx_Data[3] = 0xc4;
-//	Tx_Data[4] = 0x30;
-    
-    
-//    Tx_Data[5]=0xdd;
 	while(1)
 	{
+		if( POWER_FLAG )
+		{
+			Sys_power_on();
+		}
+		else
+		{
+			Sys_power_off();
+		}
+		Channel_select( Channel );
 		//if()
 //		I2C_SW_Send(0x54,Tx_Data,6);
 //		CLK_SysTickDelay(5000);
