@@ -91,7 +91,7 @@ void GPIO5_IRQHandler(void)
 		if( VOL_B )
 		{
 			n++;
-			Encoder_flag = 0;
+			Encoder_vol_flag = 0;
 			Encoder_Task();
 		}
 
@@ -127,11 +127,51 @@ void GPIO234_IRQHandler(void)
 		if( VOL_A )
 		{
 			m++;
-			Encoder_flag = 1;
+			Encoder_vol_flag = 1;
 			Encoder_Task();
 		}
 
     } 
+	else if(P3->ISRC & BIT1)
+	{
+		P3->ISRC = BIT1;
+		CLK_SysTickDelay(1000);
+		if( TREBLE_A )
+		{
+			Encoder_treble_flag = 1;
+			Encoder_Task();
+		}
+	}
+	else if(P3->ISRC & BIT2)
+	{
+		P3->ISRC = BIT2;
+		CLK_SysTickDelay(1000);
+		if( TREBLE_B )
+		{
+			Encoder_treble_flag = 0;
+			Encoder_Task();
+		}
+	}
+	else if(P3->ISRC & BIT4)
+	{
+		P3->ISRC = BIT4;
+		CLK_SysTickDelay(1000);
+		if( SUB_A )
+		{
+			Encoder_sub_flag = 1;
+			Encoder_Task();
+		}
+	}
+	else if(P3->ISRC & BIT5)
+	{
+		P3->ISRC = BIT5;
+		CLK_SysTickDelay(1000);
+		if( SUB_B )
+		{
+			Encoder_sub_flag = 0;
+			Encoder_Task();
+		}
+	}
 	else 
 	{
         /* Un-expected interrupt. Just clear all PORT2, PORT3 and PORT4 interrupts */

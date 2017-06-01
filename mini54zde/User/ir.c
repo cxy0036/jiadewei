@@ -76,6 +76,7 @@ void GPIO234_IRQHandler(void)
         printf("Un-expected interrupts. \n\r");
     }
 }
+#if 0
 void IR_test(void)
 {
     /*Configure P24 for LED control */
@@ -110,4 +111,5 @@ void IR_test(void)
                 }
         }
 }
+#endif
 
