@@ -42,6 +42,9 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "task.h"
 #include "i2c_software_gpio.h"
 #include "KEY_Scan.h"
+#include "Headset.h"
+#include "Bluetooth.h"
+#include "Encoder.h"
 
 #define PLLCON_SETTING  CLK_PLLCON_50MHz_HXT
 #define PLL_CLOCK       50000000
@@ -212,7 +215,7 @@ static void SetupHardware(void)
 //	P3->PMD = (P3->PMD & ~(0x3 << 2*6)) | (1 << 2*6);  
 }
 
-unsigned char NTP_8230[]=
+uint8_t NTP_8230[]=
 	{     
 			  0x02,     0x00,
               0x00,     0x00,
@@ -341,6 +344,7 @@ int32_t main(void)
 		if( POWER_FLAG & POWER )
 		{
 			Sys_power_on();
+			CLK_SysTickDelay(100000);
 			_RST_8230();
 			I2C_SW_Open(50000);
 			I2C_SW_Send( 0x54,NTP_8230,350);
@@ -352,6 +356,8 @@ int32_t main(void)
 //			POWER = 1;
 		}
 		Channel_select( Channel );
+		Headset_Test_Task();
+		Bluetooth_Test_Task();
 		//if()
 //		I2C_SW_Send(0x54,Tx_Data,6);
 //		CLK_SysTickDelay(5000);

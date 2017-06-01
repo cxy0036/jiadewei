@@ -81,7 +81,7 @@ void IR_test(void)
     /*Configure P24 for LED control */
     GPIO_SetMode(P2, BIT4, GPIO_PMD_OUTPUT);
         
-        /*  Configure P2.5 as Quasi-bidirection mode and enable interrupt by falling edge trigger */
+    /*  Configure P2.5 as Quasi-bidirection mode and enable interrupt by falling edge trigger */
     GPIO_SetMode(P2, BIT5, GPIO_PMD_QUASI);
     GPIO_EnableInt(P2, 5, GPIO_INT_FALLING);
     NVIC_EnableIRQ(GPIO234_IRQn);

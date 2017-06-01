@@ -71,6 +71,81 @@ void GPIO01_IRQHandler(void)
 }
 
 /**
+ * @brief       Port5 IRQ
+ *
+ * @param       None
+ *
+ * @return      None
+ *
+ * @details     The Port5 default IRQ, declared in startup_Mini51.s.
+ */
+void GPIO5_IRQHandler(void)
+{
+    /* To check if P5.4 interrupt occurred */
+    if (P5->ISRC & BIT4) 
+	{
+        P5->ISRC = BIT4;
+//		NVIC_DisableIRQ(GPIO234_IRQn);
+//        printf("P2.2 INT occurred. \n");
+		CLK_SysTickDelay(1000);
+		if( VOL_B )
+		{
+			n++;
+			Encoder_flag = 0;
+			Encoder_Task();
+		}
+
+//		NVIC_EnableIRQ(GPIO234_IRQn);
+    } 
+	else 
+	{
+        /* Un-expected interrupt. Just clear all PORT2, PORT3 and PORT4 interrupts */
+        P2->ISRC = P2->ISRC;
+        P3->ISRC = P3->ISRC;
+        P4->ISRC = P4->ISRC;
+ //       printf("Un-expected interrupts. \n");
+    }
+}
+
+/**
+ * @brief       Port2/Port3/Port4 IRQ
+ *
+ * @param       None
+ *
+ * @return      None
+ *
+ * @details     The Port2/Port3/Port4 default IRQ, declared in startup_Mini51.s.
+ */
+void GPIO234_IRQHandler(void)
+{
+    /* To check if P3.0 interrupt occurred */
+    if (P3->ISRC & BIT0) 
+	{
+        P3->ISRC = BIT0;
+//        printf("P3.0 INT occurred. \n");
+		CLK_SysTickDelay(1000);
+		if( VOL_A )
+		{
+			m++;
+			Encoder_flag = 1;
+			Encoder_Task();
+		}
+
+    } 
+	else 
+	{
+        /* Un-expected interrupt. Just clear all PORT2, PORT3 and PORT4 interrupts */
+        P2->ISRC = P2->ISRC;
+        P3->ISRC = P3->ISRC;
+        P4->ISRC = P4->ISRC;
+//        printf("Un-expected interrupts. \n");
+    }
+}
+
+
+#if 0
+
+/**
  * @brief       Port2/Port3/Port4 IRQ
  *
  * @param       None
@@ -203,6 +278,7 @@ void GPIO5_IRQHandler(void)
  //       printf("Un-expected interrupts. \n");
     }
 }
+#endif
 
 
 #if 0

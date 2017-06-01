@@ -80,13 +80,13 @@
 //Addr 0x7E: Bi-Quad Filter Coefficient Page
 //Addr 0x7F: Chip ID 0x99
 
-
+unsigned char vol[] = { 0x2e,0xa0};
 unsigned char NTP_8230[]=
 	{     
-			  0x02,     0x00,
-              0x00,     0x00,
-              0x2E,     0xCF,
-              0x2D,     0x00,
+			  0x02,     0x00,// 主时钟频率控制 12.288MHZ
+              0x00,     0x00,//音频输入格式 I2S slave mode
+              0x2E,     0xCF,//主控音量
+              0x2D,     0x00,//主控音量精细控制
               0x2F,     0xCF,
               0x30,     0xCF,
               0x31,     0xCF,
