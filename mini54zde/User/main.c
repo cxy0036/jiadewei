@@ -45,6 +45,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "Headset.h"
 #include "Bluetooth.h"
 #include "Encoder.h"
+#include "ir.h"
 
 #define PLLCON_SETTING  CLK_PLLCON_50MHz_HXT
 #define PLL_CLOCK       50000000
@@ -358,6 +359,7 @@ int32_t main(void)
 		Channel_select( Channel );
 		Headset_Test_Task();
 		Bluetooth_Test_Task();
+		IR_test();
 		//if()
 //		I2C_SW_Send(0x54,Tx_Data,6);
 //		CLK_SysTickDelay(5000);

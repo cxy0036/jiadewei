@@ -10,6 +10,7 @@ void GPIO_Init( void )
 {
 //	/* Set P1.5 to ADC channel 0 input pin */
 //    SYS->P1_MFP = SYS_MFP_P15_AIN5;//SYS_MFP_P10_AIN1
+//	SYS->P3_MFP = SYS_MFP_P32_GPIO;
 //	/* Analog pin OFFD to prevent leakage */
 //    P1->OFFD |= (1 << 5) << GPIO_OFFD_OFFD_Pos;
 	
@@ -18,6 +19,7 @@ void GPIO_Init( void )
 	GPIO_SetMode(P0, BIT5, GPIO_PMD_OUTPUT);//BT_FWD
 	GPIO_SetMode(P0, BIT7, GPIO_PMD_OUTPUT);//BT_POWER
 	
+	GPIO_SetMode(P1, BIT0, GPIO_PMD_QUASI);	//IR
 	GPIO_SetMode(P1, BIT2, GPIO_PMD_OUTPUT);//LED_B
 	GPIO_SetMode(P1, BIT3, GPIO_PMD_OUTPUT);//LED_G
 	GPIO_SetMode(P1, BIT4, GPIO_PMD_OUTPUT);//LED_R
@@ -47,7 +49,9 @@ void GPIO_Init( void )
 //	GPIO_EnableInt(P3, 0, GPIO_INT_RISING);
     GPIO_EnableInt(P3, 0, GPIO_INT_FALLING);
 	GPIO_EnableInt(P3, 1, GPIO_INT_FALLING);
-	GPIO_EnableInt(P3, 2, GPIO_INT_FALLING);
+//	GPIO_EnableInt(P3, 2, GPIO_INT_FALLING);
+	GPIO_EnableEINT0(P3, 2, GPIO_INT_FALLING);
+	NVIC_EnableIRQ(EINT0_IRQn);
 	GPIO_EnableInt(P3, 4, GPIO_INT_FALLING);
 	GPIO_EnableInt(P3, 5, GPIO_INT_FALLING);
     NVIC_EnableIRQ(GPIO234_IRQn);

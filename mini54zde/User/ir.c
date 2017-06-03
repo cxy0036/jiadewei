@@ -7,8 +7,7 @@
 * @note
 * Copyright (C) 2000-2014 PM9GZY by yuanxihua@21cn.com. All rights reserved.
 ******************************************************************************/
-#include <stdio.h>
-#include "Mini51Series.h"
+#include "ir.h"
 /*
     红外线编码是数据传输和家用电器遥控常用的一种通讯方法，
 其实质是一种脉宽调制的串行通讯。
@@ -23,6 +22,7 @@
     当键盘按下长达108ms时，发射端开始发送连续信号，与单次发送一样，
 只是数据头header信号是由9ms的间隔加2.5ms的脉冲组成的。
 */
+uint8_t d=0;
 /*
 _________________________________________________
 |        MINI54FDE                                                LED                        |
@@ -37,9 +37,10 @@ _________________________________________________
 #define TIME_INFRARED_REPEAT_US         11500        //当键盘按下长达108ms时，发送连续信号的数据头的时间：TH=9+2.5=11.5ms
 #define TIME_INFRARED_ZERO_US           1125         //数据“0”的时间：T0=0.565+0.56=1.125ms
 #define TIME_INFRARED_ONE_US            2245         //数据“1”的时间：T1=1.685+0.56=2.245ms
+#define TIME_INFRARED_STOP_US			40560		 //数据结束的时间：TH=40+0.56=40.56ms
 
-typedef enum  {IDLE=1,HEAD,DATA} irstatus_t; 
-typedef union {uint32_t data;struct {uint8_t data0;uint8_t data1;uint16_t address;};}irdata_t;
+typedef enum  {IDLE=1,HEAD,REPEAT,DATA,STOP} irstatus_t; 
+typedef union {uint32_t data;struct {uint8_t address0;uint8_t address1;uint8_t data0;uint8_t data1;};}irdata_t;
 irdata_t ir;
 uint32_t irticks=0,ircount=0,ledcount=0;
 irstatus_t irwork=IDLE;
@@ -50,6 +51,117 @@ void TMR1_IRQHandler(void)
         irticks++;ledcount++;
         TIMER_ClearIntFlag(TIMER1);
 }
+
+/**
+ * @brief       Port0/Port1 IRQ
+ *
+ * @param       None
+ *
+ * @return      None
+ *
+ * @details     The Port0/Port1 default IRQ, declared in startup_Mini51.s.
+ */
+void GPIO01_IRQHandler(void)
+{
+	 uint8_t irdata;
+    /* To check if P1.5 interrupt occurred */
+    if (P1->ISRC & BIT5) 
+	{
+       P1->ISRC = BIT5;
+//        printf("P1.5 INT occurred. \n");
+		CLK_SysTickDelay(150000);		//150ms
+		if(POWER_KEY == 0)				//The only correct interruption
+		{
+			CLK_SysTickDelay(150000);	//150ms
+			if(POWER_KEY == 0)			//PressLong	or PressShort
+			{
+				POWER_FLAG = ~POWER_FLAG;
+				POWER = 1;
+			}
+			else
+			{
+				Channel++;
+				if( Channel >= 0x04 )Channel = 0;				
+			}
+		}
+    } 
+	else if(P1->ISRC & BIT0)
+	{
+		d++;
+		        switch(irwork)
+                {
+                        case IDLE: 
+							irwork=HEAD;
+                        break;
+						
+                        case HEAD: 
+							irwork=(irticks>((TIME_INFRARED_HEAD_US+TIME_INFRARED_REPEAT_US)/2)/TIME_INTERRUPT_PERIOD_US)?DATA:REPEAT;
+                                ir.data=0;ircount=0;
+                        break;
+						
+						case REPEAT:
+							irwork = HEAD;
+							disp_flag++;
+						break;
+						
+                        case DATA: 
+//							irwork = ( irticks >( ( TIME_INFRARED_ZERO_US + TIME_INFRARED_REPEAT_US )/ 2 )/TIME_INTERRUPT_PERIOD_US)?IDLE:DATA;
+							irdata=(irticks>((TIME_INFRARED_ZERO_US+TIME_INFRARED_ONE_US   )/2)/TIME_INTERRUPT_PERIOD_US)?1:0;
+								if( ircount < 8 )
+								{
+									ir.address0 >>= 1;
+									ir.address0 |= ( irdata << 7 );
+								}
+								else if( ircount < 16 )
+								{
+									ir.address1 >>= 1;
+									ir.address1 |= ( irdata << 7 );
+								}
+								else if( ircount < 24 )
+								{
+									ir.data0 >>= 1;
+									ir.data0 |= ( irdata << 7 );
+								}
+								else if( ircount < 32 )
+								{
+									ir.data1 >>= 1;
+									ir.data1 |= ( irdata << 7 );
+								}
+								else	
+								{
+									disp_flag=1;
+									irwork = STOP;
+								}
+								ircount++;
+						break;
+								
+						case	STOP:
+							irwork = REPEAT;
+						break;
+								
+//								ir.data |= ( irdata << 7 );
+//								ircount++;
+//                                ir.data<<=1;ir.data|=irdata;ircount++;
+//                                if(ircount>=32)
+//								{
+//									irwork=IDLE;
+//									disp_flag=1;
+//								}
+//                                break;
+                }  
+		irticks=0; 
+		P1->ISRC = BIT0;
+	}
+	else 
+	{
+        /* Un-expected interrupt. Just clear all PORT0, PORT1 interrupts */
+        P0->ISRC = P0->ISRC;
+        P1->ISRC = P1->ISRC;
+//        printf("Un-expected interrupts. \n");
+    }
+}
+
+#if 0
 // The Port2/Port3/Port4 default IRQ, declared in startup_Mini51.s.
 void GPIO234_IRQHandler(void)
 {
@@ -76,16 +188,18 @@ void GPIO234_IRQHandler(void)
         printf("Un-expected interrupts. \n\r");
     }
 }
-#if 0
+#endif
+
+#if 1
 void IR_test(void)
 {
     /*Configure P24 for LED control */
-    GPIO_SetMode(P2, BIT4, GPIO_PMD_OUTPUT);
+ //   GPIO_SetMode(P1, BIT4, GPIO_PMD_OUTPUT);
         
     /*  Configure P2.5 as Quasi-bidirection mode and enable interrupt by falling edge trigger */
-    GPIO_SetMode(P2, BIT5, GPIO_PMD_QUASI);
-    GPIO_EnableInt(P2, 5, GPIO_INT_FALLING);
-    NVIC_EnableIRQ(GPIO234_IRQn);
+    GPIO_SetMode(P1, BIT0, GPIO_PMD_QUASI);
+    GPIO_EnableInt(P1, 0, GPIO_INT_FALLING);
+    NVIC_EnableIRQ(GPIO01_IRQn);
         
         // Enable IP clock
         CLK_EnableModuleClock(TMR1_MODULE);        
@@ -104,10 +218,12 @@ void IR_test(void)
         {
                 if(disp_flag)
                 {
-                        printf("ir.data=0x%x, ADDR=%04x DATA1=%02x /DATA1=%02x DATA0=%02x \n\r",
-                                        ir.data,ir.address,ir.data1,0xff-ir.data1,ir.data0);
-                        if((0xff-ir.data0)==ir.data1){P24^=1;}
-                        disp_flag=0;
+ //                       printf("ir.data=0x%x, ADDR=%04x DATA1=%02x /DATA1=%02x DATA0=%02x \n\r",
+//                                        ir.data,ir.address,ir.data1,0xff-ir.data1,ir.data0);
+//                        if((0xff-ir.data0)==ir.data1){P14^=1;}
+//                        disp_flag=0;
+					if(ir.data0!=0){P14^=1;}
+					disp_flag=0;
                 }
         }
 }
