@@ -188,7 +188,106 @@ void GPIO234_IRQHandler(void)
 }
 #endif
 
-#if 1
+void IR_init(void)
+{
+	/*  Configure P2.5 as Quasi-bidirection mode and enable interrupt by falling edge trigger */
+    GPIO_SetMode(P1, BIT0, GPIO_PMD_QUASI);
+    GPIO_EnableInt(P1, 0, GPIO_INT_FALLING);
+    NVIC_EnableIRQ(GPIO01_IRQn);
+	// Enable IP clock
+    CLK_EnableModuleClock(TMR1_MODULE);        
+    // Select Timer 1 clock source from internal 22.1184MHz RC clock.
+    CLK_SetModuleClock(TMR1_MODULE,CLK_CLKSEL1_TMR1_S_IRC22M,1);
+    // configure timer to operate in specified mode.
+    TIMER_Open(TIMER1, TIMER_PERIODIC_MODE, 7812);        //7.8125K = 0.128MS = 128US
+    // start Timer counting
+    TIMER_Start(TIMER1);
+    // enable the Timer time-out interrupt function.
+    TIMER_EnableInt(TIMER1);
+    // Enable timer interrupt
+    NVIC_EnableIRQ(TMR1_IRQn);
+}
+
+void IR_test_task(void)
+{
+				if(disp_flag)
+                {
+					switch(KEY_data)
+					{
+						case 0x01:
+							P12 = 1;P13 = 1;P14 = 1;
+							if(disp)
+							{
+								P12 = 0;P13 = 0;P14 = 0;
+							}
+							disp_flag=0;
+						break;
+							
+						case 0x02:
+							P12 = 1;P13 = 1;P14 = 0;
+							disp_flag=0;
+						break;
+						
+						case 0x03:
+							P12 = 1;P13 = 0;P14 = 1;
+							disp_flag=0;
+						break;
+						
+						case 0x04:
+							P12 = 1;P13 = 0;P14 = 0;
+							disp_flag=0;
+						break;
+						
+						case 0x0a:
+							P12 = 0;P13 = 1;P14 = 1;
+							disp_flag=0;
+						break;
+						
+						case 0x0b:
+							P12 = 0;P13 = 1;P14 = 0;
+							disp_flag=0;
+						break;
+												
+						case 0x0c:
+							P12 = 0;P13 = 0;P14 = 1;
+							disp_flag=0;
+						break;
+
+						case 0x0d:
+							P12 = 0;P13 = 0;P14 = 0;
+							disp_flag=0;
+						break;
+
+						case 0x12:
+							P12 = 1;P13 = 0;P14 = 1;
+							disp_flag=0;
+						break;
+
+						case 0x13:
+							P12 = 0;P13 = 0;P14 = 1;
+							disp_flag=0;
+						break;
+
+						case 0x14:
+							P12 = 0;P13 = 0;P14 = 1;
+							disp_flag=0;
+						break;
+
+						case 0x15:
+							P12 = 0;P13 = 0;P14 = 1;
+							disp_flag=0;
+						break;
+
+						case 0x18:
+							P12 = 0;P13 = 0;P14 = 1;
+							disp_flag=0;
+						break;
+
+					}
+				}
+}
+
+#if 0
 void IR_test(void)
 {
 	static uint8_t irdata;
@@ -305,4 +404,5 @@ void IR_test(void)
         }
 }
 #endif
+
 

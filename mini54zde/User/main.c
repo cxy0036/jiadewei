@@ -193,6 +193,9 @@ static void SetupHardware(void)
 	/* Init GPIO mode */
 	GPIO_Init();
 	
+	/* Init IR mode */
+	IR_init();
+	
 	/* Lock protected registers */
 	SYS_LockReg();
 
@@ -359,7 +362,7 @@ int32_t main(void)
 		Channel_select( Channel );
 		Headset_Test_Task();
 		Bluetooth_Test_Task();
-		IR_test();
+		IR_test_task();
 		//if()
 //		I2C_SW_Send(0x54,Tx_Data,6);
 //		CLK_SysTickDelay(5000);
