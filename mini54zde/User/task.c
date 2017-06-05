@@ -1,5 +1,22 @@
 #define TASK_GLOBALS
 #include "task.h"
+
+#pragma anon_unions
+#define TIME_INTERRUPT_PERIOD_US        128          //定时中断时间，用于计算下降沿到下降沿之间时间，也就是一个脉冲+间隙的时间
+#define TIME_INFRARED_HEAD_US           13500        //数据头的时间：TH=9+4.5=13.5ms
+#define TIME_INFRARED_REPEAT_US         11500        //当键盘按下长达108ms时，发送连续信号的数据头的时间：TH=9+2.5=11.5ms
+#define TIME_INFRARED_ZERO_US           1125         //数据“0”的时间：T0=0.565+0.56=1.125ms
+#define TIME_INFRARED_ONE_US            2245         //数据“1”的时间：T1=1.685+0.56=2.245ms
+#define TIME_INFRARED_STOP_US			40560		 //数据结束的时间：TH=40+0.56=40.56ms
+typedef enum  {IDLE=1,HEAD,DATA} irstatus_t; 
+typedef union {uint32_t data;struct {uint8_t address0;uint8_t address1;uint8_t data0;uint8_t data1;};}irdata_t;
+irdata_t ir;
+uint32_t irticks=0,ircount=0,ledcount=0;
+irstatus_t irwork=IDLE;
+uint8_t disp_flag=0,disp=0;
+uint8_t KEY_data = 0;
+uint8_t d=0;
+
 /************************************************************
  *@init file
  ************************************************************/
@@ -66,44 +83,6 @@ void GPIO_Init( void )
 
 }
 
-
-void Sys_power_on( void )
-{
-	ST_BY = 1;
-}
-
-void Sys_power_off( void )
-{
-	ST_BY = 0;
-}
-
-void Channel_select( uint8_t Channel )
-{
-	switch( Channel )
-	{
-		case 0:
-			_4052_A = 0;
-			_4052_B = 0;
-			break;
-		case 1:
-			_4052_A = 1;
-			_4052_B = 0;
-			break;
-		case 2:
-			_4052_A = 0;
-			_4052_B = 1;
-			break;
-		case 3:
-			_4052_A = 1;
-			_4052_B = 1;
-			break;
-		default:
-			break;
-	}
-//	_4052_A = 1;
-//	_4052_B = 0;
-}
-
 void _RST_8230( void )
 {
 	_RST = 1;
@@ -113,216 +92,246 @@ void _RST_8230( void )
 	_RST = 1;
 }
 
-#if 0
-
-uOS8_t POWER_KEY_4052 = 0,IR_POWER_KEY;
-
-
-
-/************************************************************
- *@Headset file
- ************************************************************/
- /*
- *Headset test task function
- */
-void Headset_Test_Task(void *pvParameters)
+// The Timer1 default IRQ, declared in startup_Mini51.s.
+void TMR1_IRQHandler(void)
 {
-	sOSBase_t xStatus;
-	unsigned char	pdata[]={0x7e,0x01};
-	for( ;; )
-	{
-		if(EP_DET)
-		{
-			I2C_SW_I_Send(0x56,pdata,2);      //关闭功放     
-			I2C_SW_I_Send(0x56,pdata,2); 	  //打开耳机通道
-		}
-		else
-		{
-			I2C_SW_I_Send(0x56,pdata,2);      //打开功放   
-			I2C_SW_I_Send(0x56,pdata,2); 	  //关闭耳机通道
-		}
-	}
+        irticks++;ledcount++;
+        TIMER_ClearIntFlag(TIMER1);
 }
- /*
- *Headset work task function
- */
-//void Headset_task( void *pvParameters )
-//{
-//	unsigned char	pdata[]={0x7e,0x01};
-//	for( ;; )
-//	{
-//		OSSemPend(Headset_SemHandle, OSPEND_FOREVER_VALUE);	
-//		I2C_SW_I_Send(0x56,pdata,2);      //关闭功放     
-//		I2C_SW_I_Send(0x56,pdata,2); 	  //打开耳机通道
-//	}	
-//}
 
-/************************************************************
- *@Bluetooth file
- ************************************************************/
- /*
- *Bluetooth Test task function
+/**
+ * @brief       Port0/Port1 IRQ
+ *
+ * @param       None
+ *
+ * @return      None
+ *
+ * @details     The Port0/Port1 default IRQ, declared in startup_Mini51.s.
  */
-void Bluetooth_Test_Task(void *pvParameters)
+void GPIO01_IRQHandler(void)
 {
-	sOSBase_t xStatus;
-	for( ;; )
+	 uint8_t irdata;
+    /* To check if P1.5 interrupt occurred */
+    if (P1->ISRC & BIT5) 
 	{
-		if(BT_DET)
+       P1->ISRC = BIT5;
+		CLK_SysTickDelay(150000);		//150ms
+		if(POWER_KEY == 0)				//The only correct interruption
 		{
-			xStatus = OSSemPost(Bluetooth_SemHandle);			
-			if( xStatus != OS_TRUE )
+			CLK_SysTickDelay(150000);	//150ms
+			if(POWER_KEY == 0)			//PressLong	or PressShort
 			{
-				printf("Could not post semaphore.\r\n" );
-			}		
-			OSTaskSleep( OSM2T(200) );
-		}
-	}
-}
- /*
- *Bluetooth work task function
- */
-void Encoder_Task(void *pvParameters)
-{
-	for( ;; )
-	{
-		OSSemPend(Bluetooth_SemHandle, OSPEND_FOREVER_VALUE);
-		if( IR_BT_REV )
-		{
-			BT_REV = 1;
-		}
-		if( IR_BT_FWD )
-		{
-			BT_FWD = 1;
-		}
-//		switch(Pin)
-//		{
-//			case VOL_ROTOA:
-//				break;
-//			case VOL_ROTOB:
-//				break;
-//		}
-	}
-}
-
-/************************************************************
- *@KeyPress file
- ************************************************************/
- /*
- *KeyPress test task function
- */
-void KeyPress_test_Task( void )
-{
-	for( ;; )
-	{
-		// Enable channel 5
-		ADC_Open(ADC, 0, 0, 0x10);
-		// Power on ADC
-		ADC_POWER_ON(ADC);
-		if( IR_POWER_KEY )
-		{
-			IR_POWER_KEY = 0;
-			POWER_KEY_4052++;
-			switch( POWER_KEY_4052 )
-			{
-				case 1:
-					_4052_A = 0;
-					_4052_B = 0;
-					break;
-				case 2:
-					_4052_A = 0;
-					_4052_B = 1;
-					break;
-				case 3:
-					_4052_A = 1;
-					_4052_B = 0;
-					break;
-				case 4:
-					_4052_A = 1;
-					_4052_B = 1;
-					break;
-				default:
-					break;
+				POWER_FLAG = ~POWER_FLAG;
+				POWER = 1;
 			}
-//			if( POWER_KEY_4052 == 1 )
-//			{
-//				_4052_A = 0;
-//				_4052_B = 0;
-//			}
+			else
+			{
+				Channel++;
+				if( Channel >= 0x04 )Channel = 0;				
+			}
+		}
+    } 
+	else if(P1->ISRC & BIT0)
+	{
+		d++;
+		        switch(irwork)
+                {
+                        case IDLE: 
+							irwork=HEAD;
+                        break;
+						
+                        case HEAD: 
+							irwork=(irticks>((TIME_INFRARED_HEAD_US+TIME_INFRARED_REPEAT_US)/2)/TIME_INTERRUPT_PERIOD_US)?DATA:IDLE;
+							if( irwork == DATA)			//BOOT_code
+							{
+								ir.data = 0;
+								ircount = 0;
+								disp_flag = 0;
+							}
+                            else// if( disp_flag == 1)	//REPEAT_code
+							{
+								disp++;
+								disp_flag = 1;
+							}								
+                        break;
+						
+
+                        case DATA: 
+							irdata=(irticks>((TIME_INFRARED_ZERO_US+TIME_INFRARED_ONE_US )/2)/TIME_INTERRUPT_PERIOD_US)?1:0;
+								if( ircount < 8 )
+								{
+									ir.address0 >>= 1;
+									ir.address0 |= ( irdata << 7 );
+									disp_flag = 0;
+								}
+								else if( ircount < 16 )
+								{
+									ir.address1 >>= 1;
+									ir.address1 |= ( irdata << 7 );
+									disp_flag = 0;
+								}
+								else if( ircount < 24 )
+								{
+									ir.data0 >>= 1;
+									ir.data0 |= ( irdata << 7 );
+									disp_flag = 0;
+								}
+								else if( ircount < 32 )
+								{
+									ir.data1 >>= 1;
+									ir.data1 |= ( irdata << 7 );
+									disp_flag = 0;
+								}
+								ircount++;
+								if( ircount >= 32 )	
+								{
+									irwork = IDLE;
+									disp_flag=1;
+									disp = 0;
+									KEY_data = ir.data0;
+								}
+						break;
+                }  
+		irticks=0; 
+		P1->ISRC = BIT0;
+	}
+	else 
+	{
+        /* Un-expected interrupt. Just clear all PORT0, PORT1 interrupts */
+        P0->ISRC = P0->ISRC;
+        P1->ISRC = P1->ISRC;
+    }
+}
+
+
+
+/**
+ * @brief       Port2/Port3/Port4 IRQ
+ *
+ * @param       None
+ *
+ * @return      None
+ *
+ * @details     The Port2/Port3/Port4 default IRQ, declared in startup_Mini51.s.
+ */
+void GPIO234_IRQHandler(void)
+{
+    /* To check if P3.0 interrupt occurred */
+    if (P3->ISRC & BIT0) 
+	{
+        P3->ISRC = BIT0;
+		CLK_SysTickDelay(1000);
+		if( VOL_A )
+		{
+			Encoder_vol_flag = 1;
+			Encoder_Task();
+		}
+
+    } 
+	else if(P3->ISRC & BIT1)
+	{
+		P3->ISRC = BIT1;
+		CLK_SysTickDelay(1000);
+		if( TREBLE_A )
+		{
+			Encoder_treble_flag = 1;
+			Encoder_Task();
 		}
 	}
-}
-
-/************************************************************
- *@Encoder file
- ************************************************************/
-/*
- *Encoder test task function
- */
-void Encoder_test_Task( void *pdata )
-{
-	unsigned char coder = 0;
-	for( ;; )
+//	else if(P3->ISRC & BIT2)
+//	{
+//		P3->ISRC = BIT2;
+//		CLK_SysTickDelay(1000);
+//		if( TREBLE_B )
+//		{
+//						m++;
+//			Encoder_treble_flag = 0;
+//			Encoder_Task();
+//		}
+//	}
+	else if(P3->ISRC & BIT4)
 	{
-		if( VOL_ROTOA )
+		P3->ISRC = BIT4;
+		CLK_SysTickDelay(1000);
+		if( SUB_A )
 		{
-			coder = VOL_ROTOA_1;
+			Encoder_sub_flag = 1;
+			Encoder_Task();
 		}
-		if( VOL_ROTOB )
+	}
+	else if(P3->ISRC & BIT5)
+	{
+		P3->ISRC = BIT5;
+		CLK_SysTickDelay(1000);
+		if( SUB_B )
 		{
-			coder = VOL_ROTOB_2;
+			Encoder_sub_flag = 0;
+			Encoder_Task();
 		}
-		if( TREBLE_ROTOA )
-		{
-			coder = TREBLE_ROTOA_3;
-		}
-		if( TREBLE_ROTOB )
-		{
-			coder = TREBLE_ROTOB_4;
-		}
-		if ( SUB_ROTOA )
-		{
-			coder = SUB_ROTOA_5;
-		}
-		if( SUB_ROTOB )
-		{
-			coder = SUB_ROTOB_6;
-		}
-		switch( coder )
-		{
-			case VOL_ROTOA_1:
-				coder = 0;
-				I2C_SW_I_Send(0x56,pdata,2); //Volume up
-				break;
-			case VOL_ROTOB_2:
-				coder = 0;
-				I2C_SW_I_Send(0x56,pdata,2); //Volume down
-				break;
-			case TREBLE_ROTOA_3:
-				coder = 0;
-				I2C_SW_I_Send(0x56,pdata,2); //Treble up
-				break;
-			case TREBLE_ROTOB_4:
-				coder = 0;
-				I2C_SW_I_Send(0x56,pdata,2); //Treble down
-				break;
-			case SUB_ROTOA_5:
-				coder = 0;
-				I2C_SW_I_Send(0x56,pdata,2); //Bass up
-				break;
-			case SUB_ROTOB_6:
-				coder = 0;
-				I2C_SW_I_Send(0x56,pdata,2); //Bass down
-				break;
-			default:
-				break;
-		}
-	}	
+	}
+	else 
+	{
+        /* Un-expected interrupt. Just clear all PORT2, PORT3 and PORT4 interrupts */
+        P2->ISRC = P2->ISRC;
+        P3->ISRC = P3->ISRC;
+        P4->ISRC = P4->ISRC;
+    }
 }
 
-/************************************************************
- *@IR file
- ************************************************************/
 
-#endif
+
+/**
+ * @brief       Port5 IRQ
+ *
+ * @param       None
+ *
+ * @return      None
+ *
+ * @details     The Port5 default IRQ, declared in startup_Mini51.s.
+ */
+void GPIO5_IRQHandler(void)
+{
+    /* To check if P5.4 interrupt occurred */
+    if (P5->ISRC & BIT4) 
+	{
+        P5->ISRC = BIT4;
+		CLK_SysTickDelay(1000);
+		if( VOL_B )
+		{
+			Encoder_vol_flag = 0;
+			Encoder_Task();
+		}
+
+    } 
+	else 
+	{
+        /* Un-expected interrupt. Just clear all PORT2, PORT3 and PORT4 interrupts */
+        P2->ISRC = P2->ISRC;
+        P3->ISRC = P3->ISRC;
+        P4->ISRC = P4->ISRC;
+    }
+}
+
+
+/**
+ * @brief       External INT0 IRQ
+ *
+ * @param       None
+ *
+ * @return      None
+ *
+ * @details     The External INT0(P3.2) default IRQ, declared in startup_Mini51.s.
+ */
+void EINT0_IRQHandler(void)
+{
+    /* For P3.2, clear the INT flag */
+    P3->ISRC = BIT2;
+		CLK_SysTickDelay(1000);
+		if( TREBLE_B )
+		{
+			Encoder_treble_flag = 0;
+			Encoder_Task();
+		}
+}
+
 

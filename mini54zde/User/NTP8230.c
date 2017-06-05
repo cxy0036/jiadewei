@@ -1,5 +1,7 @@
 
 
+#include "NTP8230.h"
+#define	NTP8230_GLOBALS
 /*******I2C Address  0x54*****
  ************AD = 0  0X54*****
  ************AD = 1  0X56*****/
@@ -88,10 +90,38 @@
 // 0x4b 0x4c
 // 0x52
 
-unsigned char vol[] = { 0x2e,0xa0};
+void VOL_A_TASK(void)
+{
+	;
+}
+void VOL_B_TASK(void)
+{
+	;
+}
+void TREBLE_A_TASK(void)
+{
+	;
+}
+void TREBLE_B_TASK(void)
+{
+	;
+}
+void SUB_A_TASK(void)
+{
+	;
+}	
+void SUB_B_TASK(void)
+{
+	;
+}	
+void POWER_TASK(void)
+{
+	;
+}	
+
 unsigned char NTP_8230[]=
 	{     
-	      0x02,     0x00,// 主时钟频率控制 12.288MHZ
+			  0x02,     0x00,// 主时钟频率控制 12.288MHZ
               0x00,     0x00,//音频输入格式 I2S slave mode
               0x2E,     0xCF,//主控音量
               0x2D,     0x00,//主控音量精细控制
@@ -191,4 +221,4 @@ unsigned char NTP_8230[]=
               0x28,     0x04,
               0x27,     0x00,
               0x26,     0x00
-	};
+	};		

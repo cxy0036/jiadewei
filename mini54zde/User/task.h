@@ -1,13 +1,19 @@
+#ifndef __TASK_H__
+#define __TASK_H__
+
 #include <stdio.h>
-//#include "AIOS.h"
 #include "Mini51Series.h"
-//#include "i2c_software_gpio_with_timer.h"
+#include "Encoder.h"
+#include "KEY_Scan.h"
 
 #ifdef TASK_GLOBALS
 	#define TASK_EXT 
 #else
 	#define TASK_EXT extern
 #endif
+	
+TASK_EXT	uint8_t disp_flag;
+TASK_EXT	uint8_t KEY_data;
 
 /**
   * IR Define
@@ -50,11 +56,15 @@
 #define	SUB_ROTOA_5			5
 #define SUB_ROTOB_6			6
 
-//VOL	Addr 0x2D: Master Volume Fine Control
-
-void _RST_8230( void );
-void Sys_power_on( void );
-void Sys_power_off( void );
 void GPIO_Init( void );
 void Channel_select( uint8_t Channel );
+void _RST_8230( void );
+void TMR1_IRQHandler(void);
+void GPIO01_IRQHandler(void);
+void GPIO234_IRQHandler(void);
+void GPIO5_IRQHandler(void);
+void EINT0_IRQHandler(void);
+
+#endif
+
 
