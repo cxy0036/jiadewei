@@ -218,41 +218,49 @@ int32_t main(void)
 	POWER_FLAG = 0;
 	Channel = 0;
 	POWER = 1;
-	Sys_power_on();
-	
+	POWER_OFF = 1;
+	I2C_SW_Open(50000);
+//	Sys_power_on();
+//	ST_BY = 1;
+	BT_POWER = 1;
+//	while(1);
 	_RST_8230();
-		
+//		
     I2C_SW_Open(50000);
 	I2C_SW_Send( 0x54,NTP_8230,350);
-	
+	#if 1
 	while(1)
 	{
 		if( POWER_FLAG & POWER )
 		{
 			Sys_power_on();
-			CLK_SysTickDelay(100000);
-			_RST_8230();
-			I2C_SW_Open(50000);
-			I2C_SW_Send( 0x54,NTP_8230,350);
-			POWER = 0;
+			Power_Meter_Control();
 		}
-		else if( !(POWER_FLAG) )
+		else if( !(POWER_FLAG) & POWER_OFF )
 		{
 			Sys_power_off();
-//			POWER = 1;
 		}
 		Channel_select( Channel );
 		Headset_Test_Task();
 		Bluetooth_Test_Task();
 		IR_test_task();
+//		if(ST_BY)
+//		{
+//			Power_Meter_Detect();
+//		}
+//		if(Power_Meter>0xff)
+//		{
+//			Sys_power_off();
+//		}
 	}
+	#endif
 }
-
 
 
 
 void Timer500ms( void *pvParameters )
 {
 	// 500ms软件定时器. 
+//	Power_Meter_Detect();
 }
 

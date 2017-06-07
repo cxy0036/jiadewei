@@ -26,16 +26,36 @@
 #define KEY_STATE_RELEASE	5	//ÊÍ·Å×´Ì¬
 
 char n = 0,m = 0,k=0,j=0,flag = 0;
+uint8_t	SYS_power_flag = 0;
 //	static uint8_t s_u8LastKey = KEY_NULL,BOTH_EDGE_ROTOB = 1,BOTH_EDGE_ROTOA = 1;
 
 void Sys_power_on( void )
 {
 	ST_BY = 1;
+	CLK_SysTickDelay(200000);	
+	POWER = 0;
+	SYS_power_flag = 1;
+	NTP_8230_INIT();
+	_RST_8230();
+
+	
+//	I2C_SW_Open(50000);
+//	I2C_SW_Send( 0x54,NTP_8230,350);
 }
 
 void Sys_power_off( void )
 {
+	Soft_Mute_flag = 1;
+	Soft_Mute();
+	PWM_Switching_flag = 1;
+	PWM_Switching();
+	PWM_MASK();
+	Driver_Control();
+	CLK_SysTickDelay(20000);	
 	ST_BY = 0;
+	SYS_power_flag = 0;
+	P12 = 1;P13 = 1;P14 = 1;
+	POWER_OFF = 0;
 }
 
 void Channel_select( uint8_t Channel )
@@ -45,22 +65,34 @@ void Channel_select( uint8_t Channel )
 		case 0:
 			_4052_A = 0;
 			_4052_B = 0;
-			P12 = 0;P13 = 1;P14 = 1;
+			if( SYS_power_flag )
+			{
+				P12 = 0;P13 = 1;P14 = 1;		
+			}
 			break;
 		case 1:
 			_4052_A = 1;
 			_4052_B = 0;
-			P12 = 1;P13 = 0;P14 = 1;
+			if( SYS_power_flag )
+			{
+				P12 = 1;P13 = 0;P14 = 1;		
+			}
 			break;
 		case 2:
 			_4052_A = 0;
 			_4052_B = 1;
-			P12 = 1;P13 = 1;P14 = 0;
+			if( SYS_power_flag )
+			{
+				P12 = 1;P13 = 1;P14 = 0;		
+			}
 			break;
 		case 3:
 			_4052_A = 1;
 			_4052_B = 1;
-			P12 = 0;P13 = 0;P14 = 0;
+			if( SYS_power_flag )
+			{
+				P12 = 0;P13 = 0;P14 = 0;		
+			}
 			break;
 		default:
 			break;

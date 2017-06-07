@@ -92,6 +92,7 @@ void _RST_8230( void )
 	_RST = 1;
 }
 
+
 // The Timer1 default IRQ, declared in startup_Mini51.s.
 void TMR1_IRQHandler(void)
 {
@@ -118,11 +119,12 @@ void GPIO01_IRQHandler(void)
 		CLK_SysTickDelay(150000);		//150ms
 		if(POWER_KEY == 0)				//The only correct interruption
 		{
-			CLK_SysTickDelay(150000);	//150ms
+			CLK_SysTickDelay(2850000);	//2850ms
 			if(POWER_KEY == 0)			//PressLong	or PressShort
 			{
 				POWER_FLAG = ~POWER_FLAG;
 				POWER = 1;
+				POWER_OFF = 1;
 			}
 			else
 			{
