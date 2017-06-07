@@ -216,17 +216,17 @@ int32_t main(void)
 	SetupHardware();
 	
 	POWER_FLAG = 0;
-	Channel = 0;
+//	Channel = 0;
 	POWER = 1;
 	POWER_OFF = 1;
-	I2C_SW_Open(50000);
 //	Sys_power_on();
 //	ST_BY = 1;
 	BT_POWER = 1;
+	I2C_SW_Open(20000);
 //	while(1);
 	_RST_8230();
 //		
-    I2C_SW_Open(50000);
+//    I2C_SW_Open(50000);
 	I2C_SW_Send( 0x54,NTP_8230,350);
 	#if 1
 	while(1)
@@ -244,10 +244,11 @@ int32_t main(void)
 		Headset_Test_Task();
 		Bluetooth_Test_Task();
 		IR_test_task();
-//		if(ST_BY)
-//		{
-//			Power_Meter_Detect();
-//		}
+		if(SYS_power_flag && ledcount>50000 )
+		{
+			ledcount = 0;
+			Power_Meter_Detect();
+		}
 //		if(Power_Meter>0xff)
 //		{
 //			Sys_power_off();

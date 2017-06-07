@@ -14,7 +14,7 @@
 	
 TASK_EXT	uint8_t disp_flag;
 TASK_EXT	uint8_t KEY_data;
-
+TASK_EXT	uint32_t ledcount;
 /**
   * IR Define
   */
@@ -57,7 +57,7 @@ TASK_EXT	uint8_t KEY_data;
 #define SUB_ROTOB_6			6
 
 void GPIO_Init( void );
-void Channel_select( uint8_t Channel );
+//void Channel_select( uint8_t Channel );
 void _RST_8230( void );
 void TMR1_IRQHandler(void);
 void GPIO01_IRQHandler(void);

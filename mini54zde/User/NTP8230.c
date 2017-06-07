@@ -91,7 +91,7 @@
 // 0x52
 uint8_t Soft_Mute_flag = 0x00;
 uint8_t PWM_Switching_flag = 0x00;
-uint8_t Power_Meter = 0x00;
+uint32_t Power_Meter = 0x00;
 
 void NTP_8230_INIT(void)
 {
@@ -138,15 +138,18 @@ void Power_Meter_Control(void)		//0x53
 	NTP_8230_REG[167] = 0x00;
 	I2C_SW_Send(0x54,NTP_8230_REG+166,2);
 }
-void Power_Meter_Detect(void)
+void Power_Meter_Detect(void)		//0x54
 {
 //	I2C_SW_Send(0x54,NTP_8230_REG+168,1);
 	I2C_SW_Get(0x54,NTP_8230_REG+168,1);
 	if(NTP_8230_REG[169]>0x90)
 	{
-		Power_Meter++;
-		Soft_Mute_flag = 1;
-		Soft_Mute();
+//		Power_Meter++;
+		if(Power_Meter>3000000)
+		{
+			Soft_Mute_flag = 1;
+			Soft_Mute();
+		}
 	}
 	else
 	{

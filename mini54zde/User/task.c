@@ -96,7 +96,7 @@ void _RST_8230( void )
 // The Timer1 default IRQ, declared in startup_Mini51.s.
 void TMR1_IRQHandler(void)
 {
-        irticks++;ledcount++;
+        irticks++;ledcount++;Power_Meter++;
         TIMER_ClearIntFlag(TIMER1);
 }
 
@@ -125,17 +125,20 @@ void GPIO01_IRQHandler(void)
 				POWER_FLAG = ~POWER_FLAG;
 				POWER = 1;
 				POWER_OFF = 1;
+				Channel[0] = d;
 			}
 			else
 			{
-				Channel++;
-				if( Channel >= 0x04 )Channel = 0;				
+				d++;
+				if(d >= 0x04 )d = 0;
+				Channel[0] = d;
+//				if( Channel[0] >= 0x04 )Channel[0] = 0;				
 			}
 		}
     } 
 	else if(P1->ISRC & BIT0)
 	{
-		d++;
+//		d++;
 		        switch(irwork)
                 {
                         case IDLE: 

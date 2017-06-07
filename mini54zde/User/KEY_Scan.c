@@ -27,6 +27,7 @@
 
 char n = 0,m = 0,k=0,j=0,flag = 0;
 uint8_t	SYS_power_flag = 0;
+uint8_t Channel[1] = {0x00};
 //	static uint8_t s_u8LastKey = KEY_NULL,BOTH_EDGE_ROTOB = 1,BOTH_EDGE_ROTOA = 1;
 
 void Sys_power_on( void )
@@ -58,41 +59,49 @@ void Sys_power_off( void )
 	POWER_OFF = 0;
 }
 
-void Channel_select( uint8_t Channel )
+void Channel_select( uint8_t* Channel )
 {
-	switch( Channel )
+	switch( *Channel )
 	{
 		case 0:
 			_4052_A = 0;
 			_4052_B = 0;
 			if( SYS_power_flag )
 			{
+				Power_Meter_Detect();
 				P12 = 0;P13 = 1;P14 = 1;		
 			}
+			*Channel = 0xff;
 			break;
 		case 1:
 			_4052_A = 1;
 			_4052_B = 0;
 			if( SYS_power_flag )
 			{
+				Power_Meter_Detect();
 				P12 = 1;P13 = 0;P14 = 1;		
 			}
+			*Channel = 0xff;
 			break;
 		case 2:
 			_4052_A = 0;
 			_4052_B = 1;
 			if( SYS_power_flag )
 			{
+				Power_Meter_Detect();
 				P12 = 1;P13 = 1;P14 = 0;		
 			}
+			*Channel = 0xff;
 			break;
 		case 3:
 			_4052_A = 1;
 			_4052_B = 1;
 			if( SYS_power_flag )
 			{
+				Power_Meter_Detect();
 				P12 = 0;P13 = 0;P14 = 0;		
 			}
+			*Channel = 0xff;
 			break;
 		default:
 			break;
