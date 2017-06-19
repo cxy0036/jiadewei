@@ -227,6 +227,8 @@ int32_t main(void)
 	_RST_8230();
 //		
 //    I2C_SW_Open(50000);
+//	I2C_SW_Get(0xa1,NTP_8230_REG,0x7f);//read 24c02 all byte
+	
 	I2C_SW_Send( 0x54,NTP_8230,350);
 	#if 1
 	while(1)

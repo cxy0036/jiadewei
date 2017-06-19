@@ -187,7 +187,7 @@ void POWER_TASK(void)
 	;
 }	
 
-unsigned char NTP_8230[]=
+uint8_t NTP_8230[]=
 	{     
 			  0x02,     0x00,// 主时钟频率控制 12.288MHZ
               0x00,     0x00,//音频输入格式 I2S slave mode
