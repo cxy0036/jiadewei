@@ -32,36 +32,43 @@ void GPIO_Init( void )
 //    P1->OFFD |= (1 << 5) << GPIO_OFFD_OFFD_Pos;
 	
 	/* Init P2.2 P2.3 P2.4 and P3.6 to be output mode */
-	GPIO_SetMode(P0, BIT4, GPIO_PMD_OUTPUT);//BT_REV
-	GPIO_SetMode(P0, BIT5, GPIO_PMD_OUTPUT);//BT_FWD
-	GPIO_SetMode(P0, BIT7, GPIO_PMD_OUTPUT);//BT_POWER
+	GPIO_SetMode(P0, BIT0, GPIO_PMD_OUTPUT);//BT_REV
+	GPIO_SetMode(P0, BIT1, GPIO_PMD_OUTPUT);//BT_FWD
+	GPIO_SetMode(P1, BIT0, GPIO_PMD_OUTPUT);//BT_POWER
+	GPIO_SetMode(P5, BIT4, GPIO_PMD_OUTPUT);//BT_DET
 	
-	GPIO_SetMode(P1, BIT0, GPIO_PMD_QUASI);	//IR
-	GPIO_SetMode(P1, BIT2, GPIO_PMD_OUTPUT);//LED_B
-	GPIO_SetMode(P1, BIT3, GPIO_PMD_OUTPUT);//LED_G
-	GPIO_SetMode(P1, BIT4, GPIO_PMD_OUTPUT);//LED_R
-	GPIO_SetMode(P1, BIT5, GPIO_PMD_QUASI);	//POWER_KEY
+	GPIO_SetMode(P3, BIT0, GPIO_PMD_QUASI);	//IR
+	
+	GPIO_SetMode(P3, BIT2, GPIO_PMD_OUTPUT);//LED_B
+	GPIO_SetMode(P3, BIT1, GPIO_PMD_OUTPUT);//LED_G
+	GPIO_SetMode(P5, BIT4, GPIO_PMD_OUTPUT);//LED_R
+	
+	GPIO_SetMode(P1, BIT4, GPIO_PMD_QUASI);	//POWER_KEY
 	
     GPIO_SetMode(P2, BIT2, GPIO_PMD_OPEN_DRAIN);//_SCL
 	GPIO_SetMode(P2, BIT3, GPIO_PMD_OPEN_DRAIN);//_SDA
-	GPIO_SetMode(P2, BIT4, GPIO_PMD_OUTPUT);//_RST
-//	GPIO_SetMode(P2, BIT4, GPIO_PMD_QUASI);
-	GPIO_SetMode(P2, BIT5, GPIO_PMD_OUTPUT);//_4052_A
-	GPIO_SetMode(P2, BIT6, GPIO_PMD_OUTPUT);//_4052_B
 	
-	GPIO_SetMode(P3, BIT0, GPIO_PMD_QUASI);	//VOL_ROTOA
-	GPIO_SetMode(P3, BIT1, GPIO_PMD_QUASI);	//TREBLE_ROTOA
-	GPIO_SetMode(P3, BIT2, GPIO_PMD_QUASI);	//TREBLE_ROTOB
-	GPIO_SetMode(P3, BIT4, GPIO_PMD_QUASI);	//SUB_ROTOA
-	GPIO_SetMode(P3, BIT5, GPIO_PMD_QUASI);	//SUB_ROTOB
+/*	GPIO_SetMode(P2, BIT4, GPIO_PMD_OUTPUT);//_RST*/
+	
+	GPIO_SetMode(P2, BIT4, GPIO_PMD_QUASI);//AMP_MUTE
+	
+	GPIO_SetMode(P1, BIT2, GPIO_PMD_OUTPUT);//_4052_A
+	GPIO_SetMode(P1, BIT3, GPIO_PMD_OUTPUT);//_4052_B
+	
+	GPIO_SetMode(P0, BIT4, GPIO_PMD_QUASI);	//VOL_ROTOA
+	GPIO_SetMode(P0, BIT5, GPIO_PMD_QUASI);	//VOL_ROTOB
+	GPIO_SetMode(P0, BIT6, GPIO_PMD_QUASI);	//TREBLE_ROTOA
+	GPIO_SetMode(P0, BIT7, GPIO_PMD_QUASI);	//TREBLE_ROTOB
+	GPIO_SetMode(P2, BIT6, GPIO_PMD_QUASI);	//SUB_ROTOA
+	GPIO_SetMode(P2, BIT5, GPIO_PMD_QUASI);	//SUB_ROTOB
+	
 	GPIO_SetMode(P3, BIT6, GPIO_PMD_OUTPUT);//ST_BY 
 	
-	GPIO_SetMode(P5, BIT4, GPIO_PMD_QUASI);	//VOL_ROTOB
 //	/* Configure P2.2 and P2.3 as open-drain mode */
 //    GPIO_SetMode(P2, BIT2, GPIO_PMD_OPEN_DRAIN);
 //	GPIO_SetMode(P2, BIT3, GPIO_PMD_OPEN_DRAIN);
 
-    GPIO_EnableInt(P1, 5, GPIO_INT_FALLING);//GPIO_INT_LOW);//
+    GPIO_EnableInt(P1, 4, GPIO_INT_FALLING);//GPIO_INT_LOW);//
     NVIC_EnableIRQ(GPIO01_IRQn);
 //	GPIO_EnableInt(P3, 0, GPIO_INT_RISING);
     GPIO_EnableInt(P3, 0, GPIO_INT_FALLING);
@@ -83,14 +90,14 @@ void GPIO_Init( void )
 
 }
 
-void _RST_8230( void )
-{
-	_RST = 1;
-	TIMER_Delay( TIMER0, 5000 );
-	_RST = 0;
-	TIMER_Delay( TIMER0, 5000 );
-	_RST = 1;
-}
+//void _RST_8230( void )
+//{
+//	_RST = 1;
+//	TIMER_Delay( TIMER0, 5000 );
+//	_RST = 0;
+//	TIMER_Delay( TIMER0, 5000 );
+//	_RST = 1;
+//}
 
 
 // The Timer1 default IRQ, declared in startup_Mini51.s.
@@ -112,14 +119,15 @@ void TMR1_IRQHandler(void)
 void GPIO01_IRQHandler(void)
 {
 	 uint8_t irdata;
-    /* To check if P1.5 interrupt occurred */
-    if (P1->ISRC & BIT5) 
+    /* To check if P1.4 interrupt occurred */
+    if (P1->ISRC & BIT4) 
 	{
-       P1->ISRC = BIT5;
+       P1->ISRC = BIT4;
 		CLK_SysTickDelay(150000);		//150ms
 		if(POWER_KEY == 0)				//The only correct interruption
 		{
-			CLK_SysTickDelay(2850000);	//2850ms
+//			CLK_SysTickDelay(2850000);	//2850ms
+			CLK_SysTickDelay(3000000);	//3000ms
 			if(POWER_KEY == 0)			//PressLong	or PressShort
 			{
 				POWER_FLAG = ~POWER_FLAG;

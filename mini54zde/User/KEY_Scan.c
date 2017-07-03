@@ -36,8 +36,10 @@ void Sys_power_on( void )
 	CLK_SysTickDelay(200000);	
 	POWER = 0;
 	SYS_power_flag = 1;
-	NTP_8230_INIT();
-	_RST_8230();
+//	_RST = 1;
+//	BT_DET = 1;
+//	NTP_8230_INIT();
+//	_RST_8230();
 
 	
 //	I2C_SW_Open(50000);
@@ -47,15 +49,17 @@ void Sys_power_on( void )
 void Sys_power_off( void )
 {
 	Soft_Mute_flag = 1;
-	Soft_Mute();
+//	Soft_Mute();
+//	BT_DET = 0;
+//	_RST = 0;
 	PWM_Switching_flag = 1;
-	PWM_Switching();
-	PWM_MASK();
-	Driver_Control();
+//	PWM_Switching();
+//	PWM_MASK();
+//	Driver_Control();
 	CLK_SysTickDelay(20000);	
 	ST_BY = 0;
 	SYS_power_flag = 0;
-	P12 = 1;P13 = 1;P14 = 1;
+	LED_R = 1;LED_B = 1;LED_G = 1;
 	POWER_OFF = 0;
 }
 
@@ -68,8 +72,8 @@ void Channel_select( uint8_t* Channel )
 			_4052_B = 0;
 			if( SYS_power_flag )
 			{
-				Power_Meter_Detect();
-				P12 = 0;P13 = 1;P14 = 1;		
+//				Power_Meter_Detect();
+				LED_R = 0;LED_B = 1;LED_G = 1;		
 			}
 			*Channel = 0xff;
 			break;
@@ -78,8 +82,8 @@ void Channel_select( uint8_t* Channel )
 			_4052_B = 0;
 			if( SYS_power_flag )
 			{
-				Power_Meter_Detect();
-				P12 = 1;P13 = 0;P14 = 1;		
+//				Power_Meter_Detect();
+				LED_R = 1;LED_B = 0;LED_G = 1;		
 			}
 			*Channel = 0xff;
 			break;
@@ -88,8 +92,8 @@ void Channel_select( uint8_t* Channel )
 			_4052_B = 1;
 			if( SYS_power_flag )
 			{
-				Power_Meter_Detect();
-				P12 = 1;P13 = 1;P14 = 0;		
+//				Power_Meter_Detect();
+				LED_R = 1;LED_B = 1;LED_G = 0;		
 			}
 			*Channel = 0xff;
 			break;
@@ -98,8 +102,8 @@ void Channel_select( uint8_t* Channel )
 			_4052_B = 1;
 			if( SYS_power_flag )
 			{
-				Power_Meter_Detect();
-				P12 = 0;P13 = 0;P14 = 0;		
+//				Power_Meter_Detect();
+				LED_R = 0;LED_B = 0;LED_G = 0;		
 			}
 			*Channel = 0xff;
 			break;

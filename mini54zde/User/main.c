@@ -44,7 +44,8 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "Bluetooth.h"
 #include "Encoder.h"
 #include "ir.h"
-#include "NTP8230.h"
+#include "tas5754.h"
+
 
 #define PLLCON_SETTING  CLK_PLLCON_50MHz_HXT
 #define PLL_CLOCK       50000000
@@ -216,40 +217,42 @@ int32_t main(void)
 	SetupHardware();
 	
 	POWER_FLAG = 0;
-//	Channel = 0;
 	POWER = 1;
 	POWER_OFF = 1;
-//	Sys_power_on();
-//	ST_BY = 1;
 	BT_POWER = 1;
-	I2C_SW_Open(20000);
-//	while(1);
-	_RST_8230();
-//		
-//    I2C_SW_Open(50000);
-//	I2C_SW_Get(0xa1,NTP_8230_REG,0x7f);//read 24c02 all byte
+	I2C_SW_Open(20000);	
+//	I2C_SW_Send( slave_addr,TAS_5754_REG0,35);
+//	CLK_SysTickDelay(1000);
+//	ST_BY = 0;
+//	Sys_power_on();
+//	CLK_SysTickDelay(1000);
+//	PA_5754_Init(slave_addr);
+//	CLK_SysTickDelay(1000);
+//	Sys_power_off();
 	
-	I2C_SW_Send( 0x54,NTP_8230,350);
 	#if 1
 	while(1)
 	{
 		if( POWER_FLAG & POWER )
 		{
 			Sys_power_on();
-			Power_Meter_Control();
+			PA_5754_Init(slave_addr);
+			_RST = 1;
+//			Power_Meter_Control();
 		}
 		else if( !(POWER_FLAG) & POWER_OFF )
 		{
-			Sys_power_off();
+			_RST = 0;
+			Sys_power_off();			
 		}
 		Channel_select( Channel );
-		Headset_Test_Task();
-		Bluetooth_Test_Task();
-		IR_test_task();
+//		Headset_Test_Task();
+//		Bluetooth_Test_Task();
+//		IR_test_task();
 		if(SYS_power_flag && ledcount>50000 )
 		{
 			ledcount = 0;
-			Power_Meter_Detect();
+//			Power_Meter_Detect();
 		}
 //		if(Power_Meter>0xff)
 //		{

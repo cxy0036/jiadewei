@@ -12,9 +12,9 @@
 void IR_init(void)
 {
 	/*  Configure P1.0 as Quasi-bidirection mode and enable interrupt by falling edge trigger */
-    GPIO_SetMode(P1, BIT0, GPIO_PMD_QUASI);
-    GPIO_EnableInt(P1, 0, GPIO_INT_FALLING);
-    NVIC_EnableIRQ(GPIO01_IRQn);
+    GPIO_SetMode(P3, BIT0, GPIO_PMD_QUASI);
+    GPIO_EnableInt(P3, 0, GPIO_INT_FALLING);
+    NVIC_EnableIRQ(GPIO234_IRQn);
 	// Enable IP clock
     CLK_EnableModuleClock(TMR1_MODULE);        
     // Select Timer 1 clock source from internal 22.1184MHz RC clock.
@@ -36,22 +36,22 @@ void IR_test_task(void)
 					switch(KEY_data)
 					{
 						case 0x01:							//BASS+
-							SUB_A_TASK();
+//							SUB_A_TASK();
 							disp_flag=0;
 						break;
 							
 						case 0x02:							//BASS-
-							SUB_B_TASK();
+//							SUB_B_TASK();
 							disp_flag=0;
 						break;
 						
 						case 0x03:							//TREBLE+
-							TREBLE_A_TASK();
+//							TREBLE_A_TASK();
 							disp_flag=0;
 						break;
 						
 						case 0x04:							//TREBLE-
-							TREBLE_B_TASK();
+//							TREBLE_B_TASK();
 							disp_flag=0;
 						break;
 						
@@ -81,17 +81,17 @@ void IR_test_task(void)
 						break;
 
 						case 0x12:							//VOL+
-							VOL_A_TASK();
+//							VOL_A_TASK();
 							disp_flag=0;
 						break;
 
 						case 0x13:							//VOL-
-							VOL_B_TASK();
+//							VOL_B_TASK();
 							disp_flag=0;
 						break;
 
 						case 0x14:							//ON-OFF
-							POWER_TASK();
+//							POWER_TASK();
 							disp_flag=0;
 						break;
 
