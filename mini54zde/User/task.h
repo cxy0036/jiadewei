@@ -3,7 +3,7 @@
 
 #include <stdio.h>
 #include "Mini51Series.h"
-#include "Encoder.h"
+//#include "Encoder.h"
 #include "KEY_Scan.h"
 
 #ifdef TASK_GLOBALS

@@ -27,6 +27,7 @@
 
 char n = 0,m = 0,k=0,j=0,flag = 0;
 uint8_t	SYS_power_flag = 0;
+uint32_t key_count = 0;
 uint8_t Channel[1] = {0x00};
 //	static uint8_t s_u8LastKey = KEY_NULL,BOTH_EDGE_ROTOB = 1,BOTH_EDGE_ROTOA = 1;
 
@@ -44,19 +45,20 @@ void Sys_power_on( void )
 	
 //	I2C_SW_Open(50000);
 //	I2C_SW_Send( 0x54,NTP_8230,350);
+	LED_R = 0;LED_B = 0;LED_G = 0;	
 }
 
 void Sys_power_off( void )
 {
-	Soft_Mute_flag = 1;
+//	Soft_Mute_flag = 1;
 //	Soft_Mute();
 //	BT_DET = 0;
 //	_RST = 0;
-	PWM_Switching_flag = 1;
+//	PWM_Switching_flag = 1;
 //	PWM_Switching();
 //	PWM_MASK();
 //	Driver_Control();
-	CLK_SysTickDelay(20000);	
+//	CLK_SysTickDelay(20000);	
 	ST_BY = 0;
 	SYS_power_flag = 0;
 	LED_R = 1;LED_B = 1;LED_G = 1;

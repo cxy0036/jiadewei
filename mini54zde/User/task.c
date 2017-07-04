@@ -32,12 +32,12 @@ void GPIO_Init( void )
 //    P1->OFFD |= (1 << 5) << GPIO_OFFD_OFFD_Pos;
 	
 	/* Init P2.2 P2.3 P2.4 and P3.6 to be output mode */
-	GPIO_SetMode(P0, BIT0, GPIO_PMD_OUTPUT);//BT_REV
-	GPIO_SetMode(P0, BIT1, GPIO_PMD_OUTPUT);//BT_FWD
-	GPIO_SetMode(P1, BIT0, GPIO_PMD_OUTPUT);//BT_POWER
-	GPIO_SetMode(P5, BIT4, GPIO_PMD_OUTPUT);//BT_DET
-	
-	GPIO_SetMode(P3, BIT0, GPIO_PMD_QUASI);	//IR
+//	GPIO_SetMode(P0, BIT0, GPIO_PMD_OUTPUT);//BT_REV
+//	GPIO_SetMode(P0, BIT1, GPIO_PMD_OUTPUT);//BT_FWD
+//	GPIO_SetMode(P1, BIT0, GPIO_PMD_OUTPUT);//BT_POWER
+//	GPIO_SetMode(P5, BIT4, GPIO_PMD_OUTPUT);//BT_DET
+//	
+//	GPIO_SetMode(P3, BIT0, GPIO_PMD_QUASI);	//IR
 	
 	GPIO_SetMode(P3, BIT2, GPIO_PMD_OUTPUT);//LED_B
 	GPIO_SetMode(P3, BIT1, GPIO_PMD_OUTPUT);//LED_G
@@ -48,7 +48,7 @@ void GPIO_Init( void )
     GPIO_SetMode(P2, BIT2, GPIO_PMD_OPEN_DRAIN);//_SCL
 	GPIO_SetMode(P2, BIT3, GPIO_PMD_OPEN_DRAIN);//_SDA
 	
-/*	GPIO_SetMode(P2, BIT4, GPIO_PMD_OUTPUT);//_RST*/
+//	GPIO_SetMode(P2, BIT4, GPIO_PMD_OUTPUT);//_RST
 	
 	GPIO_SetMode(P2, BIT4, GPIO_PMD_QUASI);//AMP_MUTE
 	
@@ -57,10 +57,10 @@ void GPIO_Init( void )
 	
 	GPIO_SetMode(P0, BIT4, GPIO_PMD_QUASI);	//VOL_ROTOA
 	GPIO_SetMode(P0, BIT5, GPIO_PMD_QUASI);	//VOL_ROTOB
-	GPIO_SetMode(P0, BIT6, GPIO_PMD_QUASI);	//TREBLE_ROTOA
-	GPIO_SetMode(P0, BIT7, GPIO_PMD_QUASI);	//TREBLE_ROTOB
-	GPIO_SetMode(P2, BIT6, GPIO_PMD_QUASI);	//SUB_ROTOA
-	GPIO_SetMode(P2, BIT5, GPIO_PMD_QUASI);	//SUB_ROTOB
+//	GPIO_SetMode(P0, BIT6, GPIO_PMD_QUASI);	//TREBLE_ROTOA
+//	GPIO_SetMode(P0, BIT7, GPIO_PMD_QUASI);	//TREBLE_ROTOB
+//	GPIO_SetMode(P2, BIT6, GPIO_PMD_QUASI);	//SUB_ROTOA
+//	GPIO_SetMode(P2, BIT5, GPIO_PMD_QUASI);	//SUB_ROTOB
 	
 	GPIO_SetMode(P3, BIT6, GPIO_PMD_OUTPUT);//ST_BY 
 	
@@ -68,19 +68,19 @@ void GPIO_Init( void )
 //    GPIO_SetMode(P2, BIT2, GPIO_PMD_OPEN_DRAIN);
 //	GPIO_SetMode(P2, BIT3, GPIO_PMD_OPEN_DRAIN);
 
-    GPIO_EnableInt(P1, 4, GPIO_INT_FALLING);//GPIO_INT_LOW);//
-    NVIC_EnableIRQ(GPIO01_IRQn);
+//    GPIO_EnableInt(P1, 4, GPIO_INT_FALLING);//GPIO_INT_LOW);//
+//    NVIC_EnableIRQ(GPIO01_IRQn);
 //	GPIO_EnableInt(P3, 0, GPIO_INT_RISING);
-    GPIO_EnableInt(P3, 0, GPIO_INT_FALLING);
-	GPIO_EnableInt(P3, 1, GPIO_INT_FALLING);
+//    GPIO_EnableInt(P3, 0, GPIO_INT_FALLING);
+//	GPIO_EnableInt(P3, 1, GPIO_INT_FALLING);
 //	GPIO_EnableInt(P3, 2, GPIO_INT_FALLING);
-	GPIO_EnableEINT0(P3, 2, GPIO_INT_FALLING);
-	NVIC_EnableIRQ(EINT0_IRQn);
-	GPIO_EnableInt(P3, 4, GPIO_INT_FALLING);
-	GPIO_EnableInt(P3, 5, GPIO_INT_FALLING);
-    NVIC_EnableIRQ(GPIO234_IRQn);
-	GPIO_EnableInt(P5, 4, GPIO_INT_BOTH_EDGE);
-	NVIC_EnableIRQ(GPIO5_IRQn);
+//	GPIO_EnableEINT0(P3, 2, GPIO_INT_FALLING);
+//	NVIC_EnableIRQ(EINT0_IRQn);
+//	GPIO_EnableInt(P3, 4, GPIO_INT_FALLING);
+//	GPIO_EnableInt(P3, 5, GPIO_INT_FALLING);
+//    NVIC_EnableIRQ(GPIO234_IRQn);
+//	GPIO_EnableInt(P5, 4, GPIO_INT_BOTH_EDGE);
+//	NVIC_EnableIRQ(GPIO5_IRQn);
 	
 	/*****init gpio output******/
 	ST_BY = 0;
@@ -103,9 +103,37 @@ void GPIO_Init( void )
 // The Timer1 default IRQ, declared in startup_Mini51.s.
 void TMR1_IRQHandler(void)
 {
-        irticks++;ledcount++;Power_Meter++;
+//	VOL_ROTOB = ~VOL_ROTOB;
+	if(POWER_KEY)
+	{
+		if(key_count > 0x1000)				//key which long press
+		{
+			POWER_FLAG = ~POWER_FLAG;
+			POWER = 1;
+			POWER_OFF = 1;
+			Channel[0] = d;			
+		}
+		else if(key_count > 0x100)			//key which short press
+		{
+			d++;
+			if(d >= 0x04 )d = 0;
+			Channel[0] = d;	
+//			VOL_ROTOA = ~VOL_ROTOA;
+		}
+		key_count = 0;
+		key_status = 1;
+	}
+	else
+	{
+//		if(key_count == 0)VOL_ROTOA = ~VOL_ROTOA;
+		key_count++;
+		if(key_count > 0xffff)key_count = 0xffff;
+		key_status = 0;
+	}
+        irticks++;ledcount++;//Power_Meter++;
         TIMER_ClearIntFlag(TIMER1);
 }
+
 
 /**
  * @brief       Port0/Port1 IRQ
@@ -123,11 +151,12 @@ void GPIO01_IRQHandler(void)
     if (P1->ISRC & BIT4) 
 	{
        P1->ISRC = BIT4;
-		CLK_SysTickDelay(150000);		//150ms
+				ledcount++;
+		CLK_SysTickDelay(70000);		//70ms
 		if(POWER_KEY == 0)				//The only correct interruption
 		{
 //			CLK_SysTickDelay(2850000);	//2850ms
-			CLK_SysTickDelay(3000000);	//3000ms
+			CLK_SysTickDelay(1500000);	//1500ms
 			if(POWER_KEY == 0)			//PressLong	or PressShort
 			{
 				POWER_FLAG = ~POWER_FLAG;
@@ -216,7 +245,7 @@ void GPIO01_IRQHandler(void)
     }
 }
 
-
+#if 0
 
 /**
  * @brief       Port2/Port3/Port4 IRQ
@@ -346,5 +375,6 @@ void EINT0_IRQHandler(void)
 			Encoder_Task();
 		}
 }
+#endif
 
 
