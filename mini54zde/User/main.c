@@ -82,7 +82,7 @@ void SYS_Init(void)
 
     /* Update System Core Clock */
     /* User can use SystemCoreClockUpdate() to calculate PllClock, SystemCoreClock and CycylesPerUs automatically. */
-    SystemCoreClockUpdate();
+    SystemCoreClockUpdate();//选择系统时钟源
 
 }
 
@@ -118,13 +118,24 @@ int32_t main(void)
 	POWER_OFF = 1;
 	BT_POWER = 1;
 	ST_BY = 1;
-	I2C_SW_Open(20000);	
+	I2C_SW_Open(500000);	
 //	I2C_SW_Send( slave_addr,TAS_5754_REG0,35);
 //	CLK_SysTickDelay(1000);
 //	ST_BY = 0;
 //	Sys_power_on();
 	_RST = 1;
 	CLK_SysTickDelay(50000);
+//	while(1)
+//	{
+//	I2C_SW_CLK = 1;
+//    CLK_SysTickDelay(1000);
+//	I2C_SW_CLK = 0;
+//    CLK_SysTickDelay(1000);	
+//	I2C_SW_CLK = 1;
+//    CLK_SysTickDelay(100);
+//	I2C_SW_CLK = 0;
+//    CLK_SysTickDelay(100);
+//	}
 	PA_5754_Init(slave_addr);
 //	CLK_SysTickDelay(1000);
 //	Sys_power_off();
@@ -135,16 +146,17 @@ int32_t main(void)
 		if( POWER_FLAG & POWER )
 		{
 			Sys_power_on();
-//			_RST = 1;
 			CLK_SysTickDelay(5000);
 			TIMER_Close(TIMER1);
 			PA_5754_Init(slave_addr);
+			CLK_SysTickDelay(5000);			
+			_RST = 1;
 			timer1_init();
 //			Power_Meter_Control();
 		}
 		else if( (~POWER_FLAG) & POWER_OFF )
 		{
-//			_RST = 0;
+			_RST = 0;
 			Sys_power_off();			
 		}
 		Channel_select( Channel );

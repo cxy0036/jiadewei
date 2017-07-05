@@ -13,8 +13,8 @@
 #include "i2c_software_gpio.h"
 
 /* SDA = GP2.3, CLK = GP2.2 */
-#define I2C_SW_SDA     P23
-#define I2C_SW_CLK     P22
+//#define I2C_SW_SDA     P23
+//#define I2C_SW_CLK     P22
 
 uint32_t u32_I2C_SW_Delay;
 

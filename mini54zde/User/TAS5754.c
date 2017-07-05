@@ -8950,31 +8950,31 @@ const uint8_t IIC_REG_5754[][2] = {
 void PA_5754_Init(uint8_t Adds)
 {
     uint8_t buf[2];
-    uint8_t index;
+    uint32_t index;
 
-    for(index = 0;  index<(sizeof(_IIC_REG_5754)/(sizeof(uint8_t)*2)); index++)
-    {
-        switch(_IIC_REG_5754[index][0])
-        {
-            case 0xFF:
-                CLK_SysTickDelay(_IIC_REG_5754[index][1] * 1000);
-                break;
-            default:
-                buf[0] = _IIC_REG_5754[index][0];
-                buf[1] = _IIC_REG_5754[index][1];
-                IICsetReg(Adds,buf);
-                break;
-        }
-    }
-//	for(index = 0;  index<4401; index++)
-//	{
-//		buf[0] = IIC_REG_5754[index][0];
-//		buf[1] = IIC_REG_5754[index][1];
-////		buf[0] = registers[index].command;
-////		buf[1] = registers[index].param;
-//		IICsetReg(Adds,buf);	
-////		CLK_SysTickDelay(1000);	
-//	}
+//    for(index = 0;  index<(sizeof(_IIC_REG_5754)/(sizeof(uint8_t)*2)); index++)
+//    {
+//        switch(_IIC_REG_5754[index][0])
+//        {
+//            case 0xFF:
+//                CLK_SysTickDelay(_IIC_REG_5754[index][1] * 1000);
+//                break;
+//            default:
+//                buf[0] = _IIC_REG_5754[index][0];
+//                buf[1] = _IIC_REG_5754[index][1];
+//                IICsetReg(Adds,buf);
+//                break;
+//        }
+//    }
+	for(index = 0;  index<4401; index++)
+	{
+		buf[0] = IIC_REG_5754[index][0];
+		buf[1] = IIC_REG_5754[index][1];
+//		buf[0] = registers[index].command;
+//		buf[1] = registers[index].param;
+		IICsetReg(Adds,buf);	
+//		CLK_SysTickDelay(1000);	
+	}
 }
 
 

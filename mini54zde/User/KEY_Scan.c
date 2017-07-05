@@ -33,6 +33,10 @@ uint8_t Channel[1] = {0x00};
 
 void Sys_power_on( void )
 {
+//	ST_BY = 1;
+//	CLK_SysTickDelay(1000);
+//	ST_BY = 0;
+//	CLK_SysTickDelay(1000);
 	ST_BY = 1;
 	CLK_SysTickDelay(200000);	
 	POWER = 0;

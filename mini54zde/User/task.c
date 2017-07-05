@@ -16,6 +16,7 @@ irstatus_t irwork=IDLE;
 uint8_t disp_flag=0,disp=0;
 uint8_t KEY_data = 0;
 uint8_t d=0;
+uint8_t	power_change=0;
 
 /************************************************************
  *@init file
@@ -106,26 +107,27 @@ void TMR1_IRQHandler(void)
 //	VOL_ROTOB = ~VOL_ROTOB;
 	if(POWER_KEY)
 	{
-		if(key_count > 0x1000)				//key which long press
-		{
-			POWER_FLAG = ~POWER_FLAG;
-			POWER = 1;
-			POWER_OFF = 1;
-			Channel[0] = d;			
-		}
-		else if(key_count > 0x100)			//key which short press
+		if(key_count > 0x100)			//key which short press
 		{
 			d++;
 			if(d >= 0x04 )d = 0;
 			Channel[0] = d;	
 //			VOL_ROTOA = ~VOL_ROTOA;
 		}
+		power_change = 0;
 		key_count = 0;
 		key_status = 1;
 	}
 	else
 	{
-//		if(key_count == 0)VOL_ROTOA = ~VOL_ROTOA;
+		if((key_count > 0x1000)&&(power_change ==0))
+		{
+			power_change = 1;
+			POWER_FLAG = ~POWER_FLAG;
+			POWER = 1;
+			POWER_OFF = 1;
+			Channel[0] = d;	
+		}
 		key_count++;
 		if(key_count > 0xffff)key_count = 0xffff;
 		key_status = 0;
