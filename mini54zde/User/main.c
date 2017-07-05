@@ -137,9 +137,9 @@ int32_t main(void)
 			Sys_power_on();
 //			_RST = 1;
 			CLK_SysTickDelay(5000);
-//			TIMER_Close(TIMER1);
-//			PA_5754_Init(slave_addr);
-//			timer1_init();
+			TIMER_Close(TIMER1);
+			PA_5754_Init(slave_addr);
+			timer1_init();
 //			Power_Meter_Control();
 		}
 		else if( (~POWER_FLAG) & POWER_OFF )
