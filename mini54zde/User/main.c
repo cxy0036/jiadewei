@@ -123,8 +123,8 @@ int32_t main(void)
 //	CLK_SysTickDelay(1000);
 //	ST_BY = 0;
 //	Sys_power_on();
-	_RST = 1;
-	CLK_SysTickDelay(50000);
+//	_RST = 1;
+//	CLK_SysTickDelay(50000);
 //	while(1)
 //	{
 //	I2C_SW_CLK = 1;
@@ -136,7 +136,7 @@ int32_t main(void)
 //	I2C_SW_CLK = 0;
 //    CLK_SysTickDelay(100);
 //	}
-	PA_5754_Init(slave_addr);
+//	PA_5754_Init(slave_addr);
 //	CLK_SysTickDelay(1000);
 //	Sys_power_off();
 	timer1_init();
