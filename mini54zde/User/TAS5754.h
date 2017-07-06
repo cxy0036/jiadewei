@@ -15,8 +15,8 @@
 	#define TAS5754_EXT extern
 #endif
 	
-TAS5754_EXT uint8_t _TAS_5754_REG0[][2];
-TAS5754_EXT const uint8_t TAS_5754_REG0[][2];
+//TAS5754_EXT uint8_t _TAS_5754_REG0[][2];
+TAS5754_EXT uint8_t TAS_5754_REG0[][2];
 TAS5754_EXT	const uint8_t IIC_REG_5754[][2];
 
 #define slave_addr	0x98
