@@ -9129,16 +9129,26 @@ void Amplifier_Power_OFF(void)
 #if 1
 void Amplifier_VOL_A(void)
 {
-	I2C_SW_Get(slave_addr,TAS_5754_REG0[61],2);
-	TAS_5754_REG0[61][1] = TAS_5754_REG0[61][1] + 1;
+	I2C_SW_Get(slave_addr,TAS_5754_REG0[0],2);
+	I2C_SW_Get(slave_addr,TAS_5754_REG0[61],1);
+	I2C_SW_Get(slave_addr,TAS_5754_REG0[62],1);
+	TAS_5754_REG0[61][1] = TAS_5754_REG0[61][1] - 1;
+	TAS_5754_REG0[62][1] = TAS_5754_REG0[62][1] - 1;
+	I2C_SW_Send(slave_addr,TAS_5754_REG0[0],2);
 	I2C_SW_Send(slave_addr,TAS_5754_REG0[61],2);
+	I2C_SW_Send(slave_addr,TAS_5754_REG0[62],2);
 }
 
 void Amplifier_VOL_B(void)
 {
-	I2C_SW_Get(slave_addr,TAS_5754_REG0[61],2);
-	TAS_5754_REG0[61][1] = TAS_5754_REG0[61][1] - 1;
+	I2C_SW_Get(slave_addr,TAS_5754_REG0[0],2);
+	I2C_SW_Get(slave_addr,TAS_5754_REG0[61],1);
+	I2C_SW_Get(slave_addr,TAS_5754_REG0[62],1);
+	TAS_5754_REG0[61][1] = TAS_5754_REG0[61][1] + 1;
+	TAS_5754_REG0[62][1] = TAS_5754_REG0[62][1] + 1;
+	I2C_SW_Send(slave_addr,TAS_5754_REG0[0],2);
 	I2C_SW_Send(slave_addr,TAS_5754_REG0[61],2);
+	I2C_SW_Send(slave_addr,TAS_5754_REG0[62],2);
 }
 
 void Amplifier_TREBLE_A(void)

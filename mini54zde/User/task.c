@@ -58,10 +58,10 @@ void GPIO_Init( void )
 	
 	GPIO_SetMode(P0, BIT4, GPIO_PMD_QUASI);	//VOL_ROTOA
 	GPIO_SetMode(P0, BIT5, GPIO_PMD_QUASI);	//VOL_ROTOB
-//	GPIO_SetMode(P0, BIT6, GPIO_PMD_QUASI);	//TREBLE_ROTOA
-//	GPIO_SetMode(P0, BIT7, GPIO_PMD_QUASI);	//TREBLE_ROTOB
-//	GPIO_SetMode(P2, BIT6, GPIO_PMD_QUASI);	//SUB_ROTOA
-//	GPIO_SetMode(P2, BIT5, GPIO_PMD_QUASI);	//SUB_ROTOB
+	GPIO_SetMode(P0, BIT6, GPIO_PMD_QUASI);	//TREBLE_ROTOA
+	GPIO_SetMode(P0, BIT7, GPIO_PMD_QUASI);	//TREBLE_ROTOB
+	GPIO_SetMode(P2, BIT6, GPIO_PMD_QUASI);	//SUB_ROTOA
+	GPIO_SetMode(P2, BIT5, GPIO_PMD_QUASI);	//SUB_ROTOB
 	
 	GPIO_SetMode(P3, BIT6, GPIO_PMD_OUTPUT);//ST_BY 
 	
@@ -69,8 +69,12 @@ void GPIO_Init( void )
 //    GPIO_SetMode(P2, BIT2, GPIO_PMD_OPEN_DRAIN);
 //	GPIO_SetMode(P2, BIT3, GPIO_PMD_OPEN_DRAIN);
 
-//    GPIO_EnableInt(P1, 4, GPIO_INT_FALLING);//GPIO_INT_LOW);//
-//    NVIC_EnableIRQ(GPIO01_IRQn);
+//    GPIO_EnableInt(P1, 4, GPIO_INT_FALLING);//GPIO_INT_LOW);
+	GPIO_EnableInt(P0, 4, GPIO_INT_FALLING);
+	GPIO_EnableInt(P0, 5, GPIO_INT_FALLING);
+	GPIO_EnableInt(P0, 6, GPIO_INT_FALLING);
+	GPIO_EnableInt(P0, 7, GPIO_INT_FALLING);
+    NVIC_EnableIRQ(GPIO01_IRQn);
 //	GPIO_EnableInt(P3, 0, GPIO_INT_RISING);
 //    GPIO_EnableInt(P3, 0, GPIO_INT_FALLING);
 //	GPIO_EnableInt(P3, 1, GPIO_INT_FALLING);
@@ -79,7 +83,9 @@ void GPIO_Init( void )
 //	NVIC_EnableIRQ(EINT0_IRQn);
 //	GPIO_EnableInt(P3, 4, GPIO_INT_FALLING);
 //	GPIO_EnableInt(P3, 5, GPIO_INT_FALLING);
-//    NVIC_EnableIRQ(GPIO234_IRQn);
+	GPIO_EnableInt(P2, 5, GPIO_INT_FALLING);
+	GPIO_EnableInt(P2, 6, GPIO_INT_FALLING);
+    NVIC_EnableIRQ(GPIO234_IRQn);
 //	GPIO_EnableInt(P5, 4, GPIO_INT_BOTH_EDGE);
 //	NVIC_EnableIRQ(GPIO5_IRQn);
 	
@@ -149,6 +155,7 @@ void TMR1_IRQHandler(void)
 void GPIO01_IRQHandler(void)
 {
 	 uint8_t irdata;
+	#if 0
     /* To check if P1.4 interrupt occurred */
     if (P1->ISRC & BIT4) 
 	{
@@ -175,6 +182,47 @@ void GPIO01_IRQHandler(void)
 			}
 		}
     } 
+	#endif
+	if(P0->ISRC & BIT4)
+	{
+		P0->ISRC = BIT4;
+		CLK_SysTickDelay(1000);
+		if( VOL_A )
+		{
+			Encoder_vol_flag = 1;
+			Encoder_Task();
+		}		
+	}
+	else if(P0->ISRC & BIT5)
+	{
+		P0->ISRC = BIT5;
+		CLK_SysTickDelay(1000);
+		if( VOL_B )
+		{
+			Encoder_vol_flag = 0;
+			Encoder_Task();
+		}		
+	}
+	else if(P0->ISRC & BIT6)
+	{
+		P0->ISRC = BIT6;
+		CLK_SysTickDelay(1000);
+		if( TREBLE_A )
+		{
+			Encoder_treble_flag = 1;
+			Encoder_Task();
+		}		
+	}
+	else if(P0->ISRC & BIT7)
+	{
+		P0->ISRC = BIT7;
+		CLK_SysTickDelay(1000);
+		if( TREBLE_B )
+		{
+			Encoder_treble_flag = 0;
+			Encoder_Task();
+		}		
+	}	
 	else if(P1->ISRC & BIT0)
 	{
 //		d++;
@@ -261,24 +309,24 @@ void GPIO01_IRQHandler(void)
 void GPIO234_IRQHandler(void)
 {
     /* To check if P3.0 interrupt occurred */
-    if (P3->ISRC & BIT0) 
+    if (P2->ISRC & BIT5) 
 	{
-        P3->ISRC = BIT0;
+        P2->ISRC = BIT5;
 		CLK_SysTickDelay(1000);
-		if( VOL_A )
+		if( SUB_B )
 		{
-			Encoder_vol_flag = 1;
+			Encoder_sub_flag = 1;
 			Encoder_Task();
 		}
 
     } 
-	else if(P3->ISRC & BIT1)
+	else if(P2->ISRC & BIT6)
 	{
-		P3->ISRC = BIT1;
+		P2->ISRC = BIT6;
 		CLK_SysTickDelay(1000);
-		if( TREBLE_A )
+		if( SUB_A )
 		{
-			Encoder_treble_flag = 1;
+			Encoder_sub_flag = 0;
 			Encoder_Task();
 		}
 	}
@@ -293,26 +341,26 @@ void GPIO234_IRQHandler(void)
 //			Encoder_Task();
 //		}
 //	}
-	else if(P3->ISRC & BIT4)
-	{
-		P3->ISRC = BIT4;
-		CLK_SysTickDelay(1000);
-		if( SUB_A )
-		{
-			Encoder_sub_flag = 1;
-			Encoder_Task();
-		}
-	}
-	else if(P3->ISRC & BIT5)
-	{
-		P3->ISRC = BIT5;
-		CLK_SysTickDelay(1000);
-		if( SUB_B )
-		{
-			Encoder_sub_flag = 0;
-			Encoder_Task();
-		}
-	}
+//	else if(P3->ISRC & BIT4)
+//	{
+//		P3->ISRC = BIT4;
+//		CLK_SysTickDelay(1000);
+//		if( SUB_A )
+//		{
+//			Encoder_sub_flag = 1;
+//			Encoder_Task();
+//		}
+//	}
+//	else if(P3->ISRC & BIT5)
+//	{
+//		P3->ISRC = BIT5;
+//		CLK_SysTickDelay(1000);
+//		if( SUB_B )
+//		{
+//			Encoder_sub_flag = 0;
+//			Encoder_Task();
+//		}
+//	}
 	else 
 	{
         /* Un-expected interrupt. Just clear all PORT2, PORT3 and PORT4 interrupts */

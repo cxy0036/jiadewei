@@ -9,7 +9,7 @@ void Encoder_Task(void)
 	if( VOL_A & Encoder_vol_flag )
 	{
 		Encoder_vol_flag = 0;
-		if(TAS_5754_REG0[61][1] == 0xff)
+		if(TAS_5754_REG0[61][1] == 0x00)
 		{
 			;
 //			if(P12 == 0){P12 = P12;}
@@ -31,7 +31,7 @@ void Encoder_Task(void)
 	else if( VOL_B && Encoder_vol_flag == 0 )
 	{
 		Encoder_vol_flag = 1;
-		if(TAS_5754_REG0[61][1] == 0x00)
+		if(TAS_5754_REG0[61][1] == 0xff)
 		{
 			;
 		}
