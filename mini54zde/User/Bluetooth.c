@@ -3,10 +3,11 @@
 
 void Bluetooth_Test_Task(void)
 {
-	if( SYS_power_flag )
-	{
-		BT_POWER = 1;
-	}
+	;
+//	if( SYS_power_flag )
+//	{
+//		BT_POWER = 1;
+//	}
 }
 
 

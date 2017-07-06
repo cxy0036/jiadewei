@@ -62,7 +62,8 @@ void Sys_power_off( void )
 //	PWM_Switching();
 //	PWM_MASK();
 //	Driver_Control();
-//	CLK_SysTickDelay(20000);	
+//	CLK_SysTickDelay(20000);
+	BT_POWER = 0;
 	ST_BY = 0;
 	SYS_power_flag = 0;
 	LED_R = 1;LED_B = 1;LED_G = 1;
@@ -88,6 +89,7 @@ void Channel_select( uint8_t* Channel )
 			_4052_B = 0;
 			if( SYS_power_flag )
 			{
+				BT_POWER = 1;
 //				Power_Meter_Detect();
 				LED_R = 1;LED_B = 0;LED_G = 1;		
 			}
@@ -98,6 +100,7 @@ void Channel_select( uint8_t* Channel )
 			_4052_B = 1;
 			if( SYS_power_flag )
 			{
+				BT_POWER = 0;
 //				Power_Meter_Detect();
 				LED_R = 1;LED_B = 1;LED_G = 0;		
 			}

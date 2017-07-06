@@ -33,10 +33,10 @@ void GPIO_Init( void )
 //    P1->OFFD |= (1 << 5) << GPIO_OFFD_OFFD_Pos;
 	
 	/* Init P2.2 P2.3 P2.4 and P3.6 to be output mode */
-//	GPIO_SetMode(P0, BIT0, GPIO_PMD_OUTPUT);//BT_REV
-//	GPIO_SetMode(P0, BIT1, GPIO_PMD_OUTPUT);//BT_FWD
-//	GPIO_SetMode(P1, BIT0, GPIO_PMD_OUTPUT);//BT_POWER
-//	GPIO_SetMode(P5, BIT4, GPIO_PMD_OUTPUT);//BT_DET
+	GPIO_SetMode(P0, BIT0, GPIO_PMD_OUTPUT);//BT_REV
+	GPIO_SetMode(P0, BIT1, GPIO_PMD_OUTPUT);//BT_FWD
+	GPIO_SetMode(P1, BIT0, GPIO_PMD_OUTPUT);//BT_POWER
+	GPIO_SetMode(P5, BIT4, GPIO_PMD_OUTPUT);//BT_DET
 //	
 //	GPIO_SetMode(P3, BIT0, GPIO_PMD_QUASI);	//IR
 	
@@ -94,7 +94,8 @@ void GPIO_Init( void )
 	_4052_A = 0;
 	_4052_B = 0;
 	_RST = 0;
-
+	BT_REV = 0;
+	BT_FWD = 0;
 }
 
 //void _RST_8230( void )

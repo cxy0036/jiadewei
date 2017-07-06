@@ -41,7 +41,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "i2c_software_gpio.h"
 #include "KEY_Scan.h"
 //#include "Headset.h"
-//#include "Bluetooth.h"
+#include "Bluetooth.h"
 //#include "Encoder.h"
 //#include "ir.h"
 #include "tas5754.h"
@@ -161,7 +161,7 @@ int32_t main(void)
 		}
 		Channel_select( Channel );
 //		Headset_Test_Task();
-//		Bluetooth_Test_Task();
+		Bluetooth_Test_Task();
 //		IR_test_task();
 //		if(SYS_power_flag && ledcount>50000 )
 //		{

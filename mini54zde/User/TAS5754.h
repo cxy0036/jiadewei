@@ -15,11 +15,15 @@
 	#define TAS5754_EXT extern
 #endif
 	
-//TAS5754_EXT uint8_t _TAS_5754_REG0[][2];
+TAS5754_EXT uint8_t TAS_5754_vol[][2];
+//TAS5754_EXT uint8_t TAS_5754_Treble[][2];
+//TAS5754_EXT uint8_t TAS_5754_Bass[][2];	
 TAS5754_EXT uint8_t TAS_5754_REG0[][2];
 TAS5754_EXT	const uint8_t IIC_REG_5754[][2];
+	
 
 #define slave_addr	0x98
+	
 	
 void PA_5754_Init(uint8_t Adds);
 void IICsetReg(uint8_t Adds,uint8_t* buff);
