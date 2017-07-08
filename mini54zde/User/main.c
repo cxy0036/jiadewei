@@ -112,7 +112,7 @@ static void SetupHardware(void)
 int32_t main(void)
 {	
 	SetupHardware();
-	
+//	tas_5758_init();
 	POWER_FLAG = 0;
 	POWER = 1;
 	POWER_OFF = 1;
