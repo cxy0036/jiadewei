@@ -9,15 +9,15 @@ void Encoder_Task(void)
 	if( VOL_A & Encoder_vol_flag )
 	{
 		Encoder_vol_flag = 0;
-		if(TAS_5754_vol[1][1] == 0x00)
-		{
-			;
+//		if(TAS_5754_vol[1][1] == 0x00)
+//		{
+//			;
 //			if(P12 == 0){P12 = P12;}
 //			if(P13 == 0){P13 = P13;}
 //			if(P14 == 0){P14 = P14;}
-		}		
-		else
-		{
+//		}		
+//		else
+//		{
 			Amplifier_VOL_A();
 //			NTP_8230[5] += 1;
 //			I2C_SW_Send(0x54,NTP_8230+4,2);	
@@ -25,18 +25,18 @@ void Encoder_Task(void)
 //			if(P12 == 0){P12 = ~P12;CLK_SysTickDelay(40000);P12 = ~P12;}
 //			if(P13 == 0){P13 = ~P13;CLK_SysTickDelay(40000);P13 = ~P13;}
 //			if(P14 == 0){P14 = ~P14;CLK_SysTickDelay(40000);P14 = ~P14;}
-		}
+//		}
 
 	}
 	else if( VOL_B && Encoder_vol_flag == 0 )
 	{
 		Encoder_vol_flag = 1;
-		if(TAS_5754_vol[1][1] == 0xff)
-		{
-			;
-		}
-		else
-		{
+//		if(TAS_5754_vol[1][1] == 0xff)
+//		{
+//			;
+//		}
+//		else
+//		{
 			Amplifier_VOL_B();
 //			NTP_8230[5] -= 1;
 //			I2C_SW_Send(0x54,NTP_8230+4,2);
@@ -44,7 +44,7 @@ void Encoder_Task(void)
 //			if(P12 == 0){P12 = ~P12;CLK_SysTickDelay(40000);P12 = ~P12;}
 //			if(P13 == 0){P13 = ~P13;CLK_SysTickDelay(40000);P13 = ~P13;}
 //			if(P14 == 0){P14 = ~P14;CLK_SysTickDelay(40000);P14 = ~P14;}			
-		}
+//		}
 				
 	}
 	/*************	treble	*******************/

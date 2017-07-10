@@ -67,5 +67,20 @@ typedef struct Bass
 }Bass;
 
 void tas_5758_tone_init(void);
+void Amplifier_Power_ON(void);
+void Amplifier_Power_OFF(void);
+void Amplifier_VOL_A(void);
+void Amplifier_VOL_B(void);
+void treble_adjust(void);
+void Amplifier_TREBLE_A(void);
+void Amplifier_TREBLE_B(void);
+void bass_adjust(void);
+void Amplifier_BASS_A(void);
+void Amplifier_BASS_B(void);
+void Amplifier_DELAY_A(void);
+void Amplifier_DELAY_B(void);	
+void Amplifier_BALANCE_A(void);
+void Amplifier_BALANCE_B(void);	
+void Amplifier_Auto_Mute(void);	
 	
 #endif

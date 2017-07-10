@@ -187,38 +187,6 @@
         <Bp>
           <Number>3</Number>
           <Type>0</Type>
-          <LineNumber>21</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>1462</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>.\User\Encoder.c</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression></Expression>
-        </Bp>
-        <Bp>
-          <Number>4</Number>
-          <Type>0</Type>
-          <LineNumber>40</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>1506</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>.\User\Encoder.c</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression></Expression>
-        </Bp>
-        <Bp>
-          <Number>5</Number>
-          <Type>0</Type>
           <LineNumber>5256</LineNumber>
           <EnabledFlag>1</EnabledFlag>
           <Address>606</Address>
@@ -233,7 +201,7 @@
           <Expression></Expression>
         </Bp>
         <Bp>
-          <Number>6</Number>
+          <Number>4</Number>
           <Type>0</Type>
           <LineNumber>5234</LineNumber>
           <EnabledFlag>1</EnabledFlag>
@@ -249,7 +217,7 @@
           <Expression></Expression>
         </Bp>
         <Bp>
-          <Number>7</Number>
+          <Number>5</Number>
           <Type>0</Type>
           <LineNumber>5247</LineNumber>
           <EnabledFlag>1</EnabledFlag>
@@ -265,7 +233,7 @@
           <Expression></Expression>
         </Bp>
         <Bp>
-          <Number>8</Number>
+          <Number>6</Number>
           <Type>0</Type>
           <LineNumber>5257</LineNumber>
           <EnabledFlag>1</EnabledFlag>
@@ -281,7 +249,7 @@
           <Expression></Expression>
         </Bp>
         <Bp>
-          <Number>9</Number>
+          <Number>7</Number>
           <Type>0</Type>
           <LineNumber>5305</LineNumber>
           <EnabledFlag>1</EnabledFlag>
@@ -297,7 +265,7 @@
           <Expression></Expression>
         </Bp>
         <Bp>
-          <Number>10</Number>
+          <Number>8</Number>
           <Type>0</Type>
           <LineNumber>5237</LineNumber>
           <EnabledFlag>1</EnabledFlag>
@@ -313,7 +281,7 @@
           <Expression></Expression>
         </Bp>
         <Bp>
-          <Number>11</Number>
+          <Number>9</Number>
           <Type>0</Type>
           <LineNumber>5238</LineNumber>
           <EnabledFlag>1</EnabledFlag>
@@ -329,7 +297,7 @@
           <Expression></Expression>
         </Bp>
         <Bp>
-          <Number>12</Number>
+          <Number>10</Number>
           <Type>0</Type>
           <LineNumber>5250</LineNumber>
           <EnabledFlag>1</EnabledFlag>
@@ -345,7 +313,7 @@
           <Expression></Expression>
         </Bp>
         <Bp>
-          <Number>13</Number>
+          <Number>11</Number>
           <Type>0</Type>
           <LineNumber>5251</LineNumber>
           <EnabledFlag>1</EnabledFlag>
@@ -361,7 +329,7 @@
           <Expression></Expression>
         </Bp>
         <Bp>
-          <Number>14</Number>
+          <Number>12</Number>
           <Type>0</Type>
           <LineNumber>5261</LineNumber>
           <EnabledFlag>1</EnabledFlag>
