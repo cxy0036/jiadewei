@@ -43,7 +43,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //#include "Headset.h"
 #include "Bluetooth.h"
 //#include "Encoder.h"
-//#include "ir.h"
+#include "ir.h"
 #include "tas5754.h"
 
 
@@ -99,7 +99,7 @@ static void SetupHardware(void)
 	GPIO_Init();
 	
 	/* Init IR mode */
-//	IR_init();
+	IR_init();
 	
 	/* Lock protected registers */
 	SYS_LockReg();
@@ -152,7 +152,7 @@ int32_t main(void)
 		Channel_select( Channel );
 //		Headset_Test_Task();
 		Bluetooth_Test_Task();
-//		IR_test_task();
+		IR_test_task();
 //		if(SYS_power_flag && ledcount>50000 )
 //		{
 //			ledcount = 0;

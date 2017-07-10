@@ -5008,7 +5008,7 @@ void treble_adjust(void)
 			p[1] = Treble_TAS[0].page1_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 		
-			p[0] = Treble_TAS[0].reg1_t.reg_value;
+			p[0] = Treble_TAS[0].reg1_t.reg_value | 0x80;
 			for(int i=0;i<8;i++)p[i+1] = Treble_TAS[0].reg1_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,9);
 		
@@ -5016,7 +5016,7 @@ void treble_adjust(void)
 			p[1] = Treble_TAS[0].page2_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 			
-			p[0] = Treble_TAS[0].reg2_t.reg_value;
+			p[0] = Treble_TAS[0].reg2_t.reg_value | 0x80;
 			for(int i=0;i<12;i++)p[i+1] = Treble_TAS[0].reg2_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,13);
  
@@ -5032,7 +5032,7 @@ void treble_adjust(void)
 			p[1] = Treble_TAS[0].page4_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 
-			p[0] = Treble_TAS[0].reg4_t.reg_value;
+			p[0] = Treble_TAS[0].reg4_t.reg_value | 0x80;
 			for(int i=0;i<8;i++)p[i+1] = Treble_TAS[0].reg4_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,9);
 
@@ -5040,7 +5040,7 @@ void treble_adjust(void)
 			p[1] = Treble_TAS[0].page5_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 
-			p[0] = Treble_TAS[0].reg5_t.reg_value;
+			p[0] = Treble_TAS[0].reg5_t.reg_value | 0x80;
 			for(int i=0;i<12;i++)p[i+1] = Treble_TAS[0].reg5_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,13);
 
@@ -5053,7 +5053,7 @@ void treble_adjust(void)
 			p[1] = Treble_TAS[1].page1_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 		
-			p[0] = Treble_TAS[1].reg1_t.reg_value;
+			p[0] = Treble_TAS[1].reg1_t.reg_value | 0x80;
 			for(int i=0;i<8;i++)p[i+1] = Treble_TAS[1].reg1_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,9);
 		
@@ -5061,7 +5061,7 @@ void treble_adjust(void)
 			p[1] = Treble_TAS[1].page2_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 			
-			p[0] = Treble_TAS[1].reg2_t.reg_value;
+			p[0] = Treble_TAS[1].reg2_t.reg_value | 0x80;
 			for(int i=0;i<12;i++)p[i+1] = Treble_TAS[1].reg2_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,13);
  
@@ -5077,7 +5077,7 @@ void treble_adjust(void)
 			p[1] = Treble_TAS[1].page4_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 
-			p[0] = Treble_TAS[1].reg4_t.reg_value;
+			p[0] = Treble_TAS[1].reg4_t.reg_value | 0x80;
 			for(int i=0;i<8;i++)p[i+1] = Treble_TAS[1].reg4_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,9);
 
@@ -5085,7 +5085,7 @@ void treble_adjust(void)
 			p[1] = Treble_TAS[1].page5_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 
-			p[0] = Treble_TAS[1].reg5_t.reg_value;
+			p[0] = Treble_TAS[1].reg5_t.reg_value | 0x80;
 			for(int i=0;i<12;i++)p[i+1] = Treble_TAS[1].reg5_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,13);
 
@@ -5098,7 +5098,7 @@ void treble_adjust(void)
 			p[1] = Treble_TAS[2].page1_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 		
-			p[0] = Treble_TAS[2].reg1_t.reg_value;
+			p[0] = Treble_TAS[2].reg1_t.reg_value | 0x80;
 			for(int i=0;i<8;i++)p[i+1] = Treble_TAS[2].reg1_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,9);
 		
@@ -5106,7 +5106,7 @@ void treble_adjust(void)
 			p[1] = Treble_TAS[2].page2_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 			
-			p[0] = Treble_TAS[2].reg2_t.reg_value;
+			p[0] = Treble_TAS[2].reg2_t.reg_value | 0x80;
 			for(int i=0;i<12;i++)p[i+1] = Treble_TAS[2].reg2_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,13);
  
@@ -5122,7 +5122,7 @@ void treble_adjust(void)
 			p[1] = Treble_TAS[2].page4_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 
-			p[0] = Treble_TAS[2].reg4_t.reg_value;
+			p[0] = Treble_TAS[2].reg4_t.reg_value | 0x80;
 			for(int i=0;i<8;i++)p[i+1] = Treble_TAS[2].reg4_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,9);
 
@@ -5130,7 +5130,7 @@ void treble_adjust(void)
 			p[1] = Treble_TAS[2].page5_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 
-			p[0] = Treble_TAS[2].reg5_t.reg_value;
+			p[0] = Treble_TAS[2].reg5_t.reg_value | 0x80;
 			for(int i=0;i<12;i++)p[i+1] = Treble_TAS[2].reg5_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,13);
 
@@ -5143,7 +5143,7 @@ void treble_adjust(void)
 			p[1] = Treble_TAS[3].page1_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 		
-			p[0] = Treble_TAS[3].reg1_t.reg_value;
+			p[0] = Treble_TAS[3].reg1_t.reg_value | 0x80;
 			for(int i=0;i<8;i++)p[i+1] = Treble_TAS[3].reg1_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,9);
 		
@@ -5151,7 +5151,7 @@ void treble_adjust(void)
 			p[1] = Treble_TAS[3].page2_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 			
-			p[0] = Treble_TAS[3].reg2_t.reg_value;
+			p[0] = Treble_TAS[3].reg2_t.reg_value | 0x80;
 			for(int i=0;i<12;i++)p[i+1] = Treble_TAS[3].reg2_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,13);
  
@@ -5167,7 +5167,7 @@ void treble_adjust(void)
 			p[1] = Treble_TAS[3].page4_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 
-			p[0] = Treble_TAS[3].reg4_t.reg_value;
+			p[0] = Treble_TAS[3].reg4_t.reg_value | 0x80;
 			for(int i=0;i<8;i++)p[i+1] = Treble_TAS[3].reg4_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,9);
 
@@ -5175,7 +5175,7 @@ void treble_adjust(void)
 			p[1] = Treble_TAS[3].page5_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 
-			p[0] = Treble_TAS[3].reg5_t.reg_value;
+			p[0] = Treble_TAS[3].reg5_t.reg_value | 0x80;
 			for(int i=0;i<12;i++)p[i+1] = Treble_TAS[3].reg5_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,13);
 
@@ -5188,7 +5188,7 @@ void treble_adjust(void)
 			p[1] = Treble_TAS[4].page1_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 		
-			p[0] = Treble_TAS[4].reg1_t.reg_value;
+			p[0] = Treble_TAS[4].reg1_t.reg_value | 0x80;
 			for(int i=0;i<8;i++)p[i+1] = Treble_TAS[4].reg1_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,9);
 		
@@ -5196,7 +5196,7 @@ void treble_adjust(void)
 			p[1] = Treble_TAS[4].page2_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 			
-			p[0] = Treble_TAS[4].reg2_t.reg_value;
+			p[0] = Treble_TAS[4].reg2_t.reg_value | 0x80;
 			for(int i=0;i<12;i++)p[i+1] = Treble_TAS[4].reg2_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,13);
  
@@ -5212,7 +5212,7 @@ void treble_adjust(void)
 			p[1] = Treble_TAS[4].page4_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 
-			p[0] = Treble_TAS[4].reg4_t.reg_value;
+			p[0] = Treble_TAS[4].reg4_t.reg_value | 0x80;
 			for(int i=0;i<8;i++)p[i+1] = Treble_TAS[4].reg4_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,9);
 
@@ -5220,7 +5220,7 @@ void treble_adjust(void)
 			p[1] = Treble_TAS[4].page5_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 
-			p[0] = Treble_TAS[4].reg5_t.reg_value;
+			p[0] = Treble_TAS[4].reg5_t.reg_value | 0x80;
 			for(int i=0;i<12;i++)p[i+1] = Treble_TAS[4].reg5_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,13);
 
@@ -5233,7 +5233,7 @@ void treble_adjust(void)
 			p[1] = Treble_TAS[5].page1_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 		
-			p[0] = Treble_TAS[5].reg1_t.reg_value;
+			p[0] = Treble_TAS[5].reg1_t.reg_value | 0x80;
 			for(int i=0;i<8;i++)p[i+1] = Treble_TAS[5].reg1_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,9);
 		
@@ -5241,7 +5241,7 @@ void treble_adjust(void)
 			p[1] = Treble_TAS[5].page2_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 			
-			p[0] = Treble_TAS[5].reg2_t.reg_value;
+			p[0] = Treble_TAS[5].reg2_t.reg_value | 0x80;
 			for(int i=0;i<12;i++)p[i+1] = Treble_TAS[5].reg2_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,13);
  
@@ -5257,7 +5257,7 @@ void treble_adjust(void)
 			p[1] = Treble_TAS[5].page4_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 
-			p[0] = Treble_TAS[5].reg4_t.reg_value;
+			p[0] = Treble_TAS[5].reg4_t.reg_value | 0x80;
 			for(int i=0;i<8;i++)p[i+1] = Treble_TAS[5].reg4_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,9);
 
@@ -5265,7 +5265,7 @@ void treble_adjust(void)
 			p[1] = Treble_TAS[5].page5_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 
-			p[0] = Treble_TAS[5].reg5_t.reg_value;
+			p[0] = Treble_TAS[5].reg5_t.reg_value | 0x80;
 			for(int i=0;i<12;i++)p[i+1] = Treble_TAS[5].reg5_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,13);
 
@@ -5278,7 +5278,7 @@ void treble_adjust(void)
 			p[1] = Treble_TAS[6].page1_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 		
-			p[0] = Treble_TAS[6].reg1_t.reg_value;
+			p[0] = Treble_TAS[6].reg1_t.reg_value | 0x80;
 			for(int i=0;i<8;i++)p[i+1] = Treble_TAS[6].reg1_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,9);
 		
@@ -5286,7 +5286,7 @@ void treble_adjust(void)
 			p[1] = Treble_TAS[6].page2_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 			
-			p[0] = Treble_TAS[6].reg2_t.reg_value;
+			p[0] = Treble_TAS[6].reg2_t.reg_value | 0x80;
 			for(int i=0;i<12;i++)p[i+1] = Treble_TAS[6].reg2_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,13);
  
@@ -5302,7 +5302,7 @@ void treble_adjust(void)
 			p[1] = Treble_TAS[6].page4_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 
-			p[0] = Treble_TAS[6].reg4_t.reg_value;
+			p[0] = Treble_TAS[6].reg4_t.reg_value | 0x80;
 			for(int i=0;i<8;i++)p[i+1] = Treble_TAS[6].reg4_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,9);
 
@@ -5310,7 +5310,7 @@ void treble_adjust(void)
 			p[1] = Treble_TAS[6].page5_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 
-			p[0] = Treble_TAS[6].reg5_t.reg_value;
+			p[0] = Treble_TAS[6].reg5_t.reg_value | 0x80;
 			for(int i=0;i<12;i++)p[i+1] = Treble_TAS[6].reg5_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,13);
 
@@ -5323,7 +5323,7 @@ void treble_adjust(void)
 			p[1] = Treble_TAS[7].page1_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 		
-			p[0] = Treble_TAS[7].reg1_t.reg_value;
+			p[0] = Treble_TAS[7].reg1_t.reg_value | 0x80;
 			for(int i=0;i<8;i++)p[i+1] = Treble_TAS[7].reg1_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,9);
 		
@@ -5331,7 +5331,7 @@ void treble_adjust(void)
 			p[1] = Treble_TAS[7].page2_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 			
-			p[0] = Treble_TAS[7].reg2_t.reg_value;
+			p[0] = Treble_TAS[7].reg2_t.reg_value | 0x80;
 			for(int i=0;i<12;i++)p[i+1] = Treble_TAS[7].reg2_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,13);
  
@@ -5347,7 +5347,7 @@ void treble_adjust(void)
 			p[1] = Treble_TAS[7].page4_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 
-			p[0] = Treble_TAS[7].reg4_t.reg_value;
+			p[0] = Treble_TAS[7].reg4_t.reg_value | 0x80;
 			for(int i=0;i<8;i++)p[i+1] = Treble_TAS[7].reg4_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,9);
 
@@ -5355,7 +5355,7 @@ void treble_adjust(void)
 			p[1] = Treble_TAS[7].page5_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 
-			p[0] = Treble_TAS[7].reg5_t.reg_value;
+			p[0] = Treble_TAS[7].reg5_t.reg_value | 0x80;
 			for(int i=0;i<12;i++)p[i+1] = Treble_TAS[7].reg5_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,13);
 
@@ -5368,7 +5368,7 @@ void treble_adjust(void)
 			p[1] = Treble_TAS[8].page1_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 		
-			p[0] = Treble_TAS[8].reg1_t.reg_value;
+			p[0] = Treble_TAS[8].reg1_t.reg_value | 0x80;
 			for(int i=0;i<8;i++)p[i+1] = Treble_TAS[8].reg1_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,9);
 		
@@ -5376,7 +5376,7 @@ void treble_adjust(void)
 			p[1] = Treble_TAS[8].page2_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 			
-			p[0] = Treble_TAS[8].reg2_t.reg_value;
+			p[0] = Treble_TAS[8].reg2_t.reg_value | 0x80;
 			for(int i=0;i<12;i++)p[i+1] = Treble_TAS[8].reg2_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,13);
  
@@ -5392,7 +5392,7 @@ void treble_adjust(void)
 			p[1] = Treble_TAS[8].page4_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 
-			p[0] = Treble_TAS[8].reg4_t.reg_value;
+			p[0] = Treble_TAS[8].reg4_t.reg_value | 0x80;
 			for(int i=0;i<8;i++)p[i+1] = Treble_TAS[8].reg4_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,9);
 
@@ -5400,7 +5400,7 @@ void treble_adjust(void)
 			p[1] = Treble_TAS[8].page5_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 
-			p[0] = Treble_TAS[8].reg5_t.reg_value;
+			p[0] = Treble_TAS[8].reg5_t.reg_value | 0x80;
 			for(int i=0;i<12;i++)p[i+1] = Treble_TAS[8].reg5_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,13);
 
@@ -5413,7 +5413,7 @@ void treble_adjust(void)
 			p[1] = Treble_TAS[9].page1_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 		
-			p[0] = Treble_TAS[9].reg1_t.reg_value;
+			p[0] = Treble_TAS[9].reg1_t.reg_value | 0x80;
 			for(int i=0;i<8;i++)p[i+1] = Treble_TAS[9].reg1_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,9);
 		
@@ -5421,7 +5421,7 @@ void treble_adjust(void)
 			p[1] = Treble_TAS[9].page2_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 			
-			p[0] = Treble_TAS[9].reg2_t.reg_value;
+			p[0] = Treble_TAS[9].reg2_t.reg_value | 0x80;
 			for(int i=0;i<12;i++)p[i+1] = Treble_TAS[9].reg2_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,13);
  
@@ -5437,7 +5437,7 @@ void treble_adjust(void)
 			p[1] = Treble_TAS[9].page4_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 
-			p[0] = Treble_TAS[9].reg4_t.reg_value;
+			p[0] = Treble_TAS[9].reg4_t.reg_value | 0x80;
 			for(int i=0;i<8;i++)p[i+1] = Treble_TAS[9].reg4_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,9);
 
@@ -5445,7 +5445,7 @@ void treble_adjust(void)
 			p[1] = Treble_TAS[9].page5_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 
-			p[0] = Treble_TAS[9].reg5_t.reg_value;
+			p[0] = Treble_TAS[9].reg5_t.reg_value | 0x80;
 			for(int i=0;i<12;i++)p[i+1] = Treble_TAS[9].reg5_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,13);
 
@@ -5458,7 +5458,7 @@ void treble_adjust(void)
 			p[1] = Treble_TAS[10].page1_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 		
-			p[0] = Treble_TAS[10].reg1_t.reg_value;
+			p[0] = Treble_TAS[10].reg1_t.reg_value | 0x80;
 			for(int i=0;i<8;i++)p[i+1] = Treble_TAS[10].reg1_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,9);
 		
@@ -5466,7 +5466,7 @@ void treble_adjust(void)
 			p[1] = Treble_TAS[10].page2_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 			
-			p[0] = Treble_TAS[10].reg2_t.reg_value;
+			p[0] = Treble_TAS[10].reg2_t.reg_value | 0x80;
 			for(int i=0;i<12;i++)p[i+1] = Treble_TAS[10].reg2_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,13);
  
@@ -5482,7 +5482,7 @@ void treble_adjust(void)
 			p[1] = Treble_TAS[10].page4_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 
-			p[0] = Treble_TAS[10].reg4_t.reg_value;
+			p[0] = Treble_TAS[10].reg4_t.reg_value | 0x80;
 			for(int i=0;i<8;i++)p[i+1] = Treble_TAS[10].reg4_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,9);
 
@@ -5490,7 +5490,7 @@ void treble_adjust(void)
 			p[1] = Treble_TAS[10].page5_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 
-			p[0] = Treble_TAS[10].reg5_t.reg_value;
+			p[0] = Treble_TAS[10].reg5_t.reg_value | 0x80;
 			for(int i=0;i<12;i++)p[i+1] = Treble_TAS[10].reg5_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,13);
 
@@ -5503,7 +5503,7 @@ void treble_adjust(void)
 			p[1] = Treble_TAS[11].page1_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 		
-			p[0] = Treble_TAS[11].reg1_t.reg_value;
+			p[0] = Treble_TAS[11].reg1_t.reg_value | 0x80;
 			for(int i=0;i<8;i++)p[i+1] = Treble_TAS[11].reg1_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,9);
 		
@@ -5511,7 +5511,7 @@ void treble_adjust(void)
 			p[1] = Treble_TAS[11].page2_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 			
-			p[0] = Treble_TAS[11].reg2_t.reg_value;
+			p[0] = Treble_TAS[11].reg2_t.reg_value | 0x80;
 			for(int i=0;i<12;i++)p[i+1] = Treble_TAS[11].reg2_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,13);
  
@@ -5527,7 +5527,7 @@ void treble_adjust(void)
 			p[1] = Treble_TAS[11].page4_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 
-			p[0] = Treble_TAS[11].reg4_t.reg_value;
+			p[0] = Treble_TAS[11].reg4_t.reg_value | 0x80;
 			for(int i=0;i<8;i++)p[i+1] = Treble_TAS[11].reg4_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,9);
 
@@ -5535,7 +5535,7 @@ void treble_adjust(void)
 			p[1] = Treble_TAS[11].page5_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 
-			p[0] = Treble_TAS[11].reg5_t.reg_value;
+			p[0] = Treble_TAS[11].reg5_t.reg_value | 0x80;
 			for(int i=0;i<12;i++)p[i+1] = Treble_TAS[11].reg5_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,13);
 
@@ -5548,7 +5548,7 @@ void treble_adjust(void)
 			p[1] = Treble_TAS[12].page1_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 		
-			p[0] = Treble_TAS[12].reg1_t.reg_value;
+			p[0] = Treble_TAS[12].reg1_t.reg_value | 0x80;
 			for(int i=0;i<8;i++)p[i+1] = Treble_TAS[12].reg1_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,9);
 		
@@ -5556,7 +5556,7 @@ void treble_adjust(void)
 			p[1] = Treble_TAS[12].page2_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 			
-			p[0] = Treble_TAS[12].reg2_t.reg_value;
+			p[0] = Treble_TAS[12].reg2_t.reg_value | 0x80;
 			for(int i=0;i<12;i++)p[i+1] = Treble_TAS[12].reg2_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,13);
  
@@ -5572,7 +5572,7 @@ void treble_adjust(void)
 			p[1] = Treble_TAS[12].page4_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 
-			p[0] = Treble_TAS[12].reg4_t.reg_value;
+			p[0] = Treble_TAS[12].reg4_t.reg_value | 0x80;
 			for(int i=0;i<8;i++)p[i+1] = Treble_TAS[12].reg4_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,9);
 
@@ -5580,7 +5580,7 @@ void treble_adjust(void)
 			p[1] = Treble_TAS[12].page5_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 
-			p[0] = Treble_TAS[12].reg5_t.reg_value;
+			p[0] = Treble_TAS[12].reg5_t.reg_value | 0x80;
 			for(int i=0;i<12;i++)p[i+1] = Treble_TAS[12].reg5_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,13);
 
@@ -5593,7 +5593,7 @@ void treble_adjust(void)
 			p[1] = Treble_TAS[13].page1_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 		
-			p[0] = Treble_TAS[13].reg1_t.reg_value;
+			p[0] = Treble_TAS[13].reg1_t.reg_value | 0x80;
 			for(int i=0;i<8;i++)p[i+1] = Treble_TAS[13].reg1_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,9);
 		
@@ -5601,7 +5601,7 @@ void treble_adjust(void)
 			p[1] = Treble_TAS[13].page2_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 			
-			p[0] = Treble_TAS[13].reg2_t.reg_value;
+			p[0] = Treble_TAS[13].reg2_t.reg_value | 0x80;
 			for(int i=0;i<12;i++)p[i+1] = Treble_TAS[13].reg2_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,13);
  
@@ -5617,7 +5617,7 @@ void treble_adjust(void)
 			p[1] = Treble_TAS[13].page4_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 
-			p[0] = Treble_TAS[13].reg4_t.reg_value;
+			p[0] = Treble_TAS[13].reg4_t.reg_value | 0x80;
 			for(int i=0;i<8;i++)p[i+1] = Treble_TAS[13].reg4_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,9);
 
@@ -5625,7 +5625,7 @@ void treble_adjust(void)
 			p[1] = Treble_TAS[13].page5_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 
-			p[0] = Treble_TAS[13].reg5_t.reg_value;
+			p[0] = Treble_TAS[13].reg5_t.reg_value | 0x80;
 			for(int i=0;i<12;i++)p[i+1] = Treble_TAS[13].reg5_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,13);
 
@@ -5638,7 +5638,7 @@ void treble_adjust(void)
 			p[1] = Treble_TAS[14].page1_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 		
-			p[0] = Treble_TAS[14].reg1_t.reg_value;
+			p[0] = Treble_TAS[14].reg1_t.reg_value | 0x80;
 			for(int i=0;i<8;i++)p[i+1] = Treble_TAS[14].reg1_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,9);
 		
@@ -5646,7 +5646,7 @@ void treble_adjust(void)
 			p[1] = Treble_TAS[14].page2_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 			
-			p[0] = Treble_TAS[14].reg2_t.reg_value;
+			p[0] = Treble_TAS[14].reg2_t.reg_value | 0x80;
 			for(int i=0;i<12;i++)p[i+1] = Treble_TAS[14].reg2_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,13);
  
@@ -5662,7 +5662,7 @@ void treble_adjust(void)
 			p[1] = Treble_TAS[14].page4_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 
-			p[0] = Treble_TAS[14].reg4_t.reg_value;
+			p[0] = Treble_TAS[14].reg4_t.reg_value | 0x80;
 			for(int i=0;i<8;i++)p[i+1] = Treble_TAS[14].reg4_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,9);
 
@@ -5670,7 +5670,7 @@ void treble_adjust(void)
 			p[1] = Treble_TAS[14].page5_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 
-			p[0] = Treble_TAS[14].reg5_t.reg_value;
+			p[0] = Treble_TAS[14].reg5_t.reg_value | 0x80;
 			for(int i=0;i<12;i++)p[i+1] = Treble_TAS[14].reg5_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,13);
 
@@ -5683,7 +5683,7 @@ void treble_adjust(void)
 			p[1] = Treble_TAS[15].page1_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 		
-			p[0] = Treble_TAS[15].reg1_t.reg_value;
+			p[0] = Treble_TAS[15].reg1_t.reg_value | 0x80;
 			for(int i=0;i<8;i++)p[i+1] = Treble_TAS[15].reg1_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,9);
 		
@@ -5691,7 +5691,7 @@ void treble_adjust(void)
 			p[1] = Treble_TAS[15].page2_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 			
-			p[0] = Treble_TAS[15].reg2_t.reg_value;
+			p[0] = Treble_TAS[15].reg2_t.reg_value | 0x80;
 			for(int i=0;i<12;i++)p[i+1] = Treble_TAS[15].reg2_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,13);
  
@@ -5707,7 +5707,7 @@ void treble_adjust(void)
 			p[1] = Treble_TAS[15].page4_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 
-			p[0] = Treble_TAS[15].reg4_t.reg_value;
+			p[0] = Treble_TAS[15].reg4_t.reg_value | 0x80;
 			for(int i=0;i<8;i++)p[i+1] = Treble_TAS[15].reg4_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,9);
 
@@ -5715,7 +5715,7 @@ void treble_adjust(void)
 			p[1] = Treble_TAS[15].page5_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 
-			p[0] = Treble_TAS[15].reg5_t.reg_value;
+			p[0] = Treble_TAS[15].reg5_t.reg_value | 0x80;
 			for(int i=0;i<12;i++)p[i+1] = Treble_TAS[15].reg5_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,13);
 
@@ -5728,7 +5728,7 @@ void treble_adjust(void)
 			p[1] = Treble_TAS[16].page1_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 		
-			p[0] = Treble_TAS[16].reg1_t.reg_value;
+			p[0] = Treble_TAS[16].reg1_t.reg_value | 0x80;
 			for(int i=0;i<8;i++)p[i+1] = Treble_TAS[16].reg1_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,9);
 		
@@ -5736,7 +5736,7 @@ void treble_adjust(void)
 			p[1] = Treble_TAS[16].page2_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 			
-			p[0] = Treble_TAS[16].reg2_t.reg_value;
+			p[0] = Treble_TAS[16].reg2_t.reg_value | 0x80;
 			for(int i=0;i<12;i++)p[i+1] = Treble_TAS[16].reg2_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,13);
  
@@ -5752,7 +5752,7 @@ void treble_adjust(void)
 			p[1] = Treble_TAS[16].page4_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 
-			p[0] = Treble_TAS[16].reg4_t.reg_value;
+			p[0] = Treble_TAS[16].reg4_t.reg_value | 0x80;
 			for(int i=0;i<8;i++)p[i+1] = Treble_TAS[16].reg4_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,9);
 
@@ -5760,7 +5760,7 @@ void treble_adjust(void)
 			p[1] = Treble_TAS[16].page5_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 
-			p[0] = Treble_TAS[16].reg5_t.reg_value;
+			p[0] = Treble_TAS[16].reg5_t.reg_value | 0x80;
 			for(int i=0;i<12;i++)p[i+1] = Treble_TAS[16].reg5_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,13);
 
@@ -5799,7 +5799,7 @@ void bass_adjust(void)
 			p[1] = Bass_TAS[0].page1_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 		
-			p[0] = Bass_TAS[0].reg1_t.reg_value;
+			p[0] = Bass_TAS[0].reg1_t.reg_value | 0x80;
 			for(int i=0;i<8;i++)p[i+1] = Bass_TAS[0].reg1_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,9);
 		
@@ -5807,7 +5807,7 @@ void bass_adjust(void)
 			p[1] = Bass_TAS[0].page2_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 			
-			p[0] = Bass_TAS[0].reg2_t.reg_value;
+			p[0] = Bass_TAS[0].reg2_t.reg_value | 0x80;
 			for(int i=0;i<12;i++)p[i+1] = Bass_TAS[0].reg2_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,13);
  
@@ -5823,7 +5823,7 @@ void bass_adjust(void)
 			p[1] = Bass_TAS[0].page4_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 
-			p[0] = Bass_TAS[0].reg4_t.reg_value;
+			p[0] = Bass_TAS[0].reg4_t.reg_value | 0x80;
 			for(int i=0;i<8;i++)p[i+1] = Bass_TAS[0].reg4_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,9);
 
@@ -5831,7 +5831,7 @@ void bass_adjust(void)
 			p[1] = Bass_TAS[0].page5_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 
-			p[0] = Bass_TAS[0].reg5_t.reg_value;
+			p[0] = Bass_TAS[0].reg5_t.reg_value | 0x80;
 			for(int i=0;i<12;i++)p[i+1] = Bass_TAS[0].reg5_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,13);
 
@@ -5844,7 +5844,7 @@ void bass_adjust(void)
 			p[1] = Bass_TAS[1].page1_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 		
-			p[0] = Bass_TAS[1].reg1_t.reg_value;
+			p[0] = Bass_TAS[1].reg1_t.reg_value | 0x80;
 			for(int i=0;i<8;i++)p[i+1] = Bass_TAS[1].reg1_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,9);
 		
@@ -5852,7 +5852,7 @@ void bass_adjust(void)
 			p[1] = Bass_TAS[1].page2_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 			
-			p[0] = Bass_TAS[1].reg2_t.reg_value;
+			p[0] = Bass_TAS[1].reg2_t.reg_value | 0x80;
 			for(int i=0;i<12;i++)p[i+1] = Bass_TAS[1].reg2_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,13);
  
@@ -5868,7 +5868,7 @@ void bass_adjust(void)
 			p[1] = Bass_TAS[1].page4_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 
-			p[0] = Bass_TAS[1].reg4_t.reg_value;
+			p[0] = Bass_TAS[1].reg4_t.reg_value | 0x80;
 			for(int i=0;i<8;i++)p[i+1] = Bass_TAS[1].reg4_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,9);
 
@@ -5876,7 +5876,7 @@ void bass_adjust(void)
 			p[1] = Bass_TAS[1].page5_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 
-			p[0] = Bass_TAS[1].reg5_t.reg_value;
+			p[0] = Bass_TAS[1].reg5_t.reg_value | 0x80;
 			for(int i=0;i<12;i++)p[i+1] = Bass_TAS[1].reg5_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,13);
 
@@ -5889,7 +5889,7 @@ void bass_adjust(void)
 			p[1] = Bass_TAS[2].page1_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 		
-			p[0] = Bass_TAS[2].reg1_t.reg_value;
+			p[0] = Bass_TAS[2].reg1_t.reg_value | 0x80;
 			for(int i=0;i<8;i++)p[i+1] = Bass_TAS[2].reg1_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,9);
 		
@@ -5897,7 +5897,7 @@ void bass_adjust(void)
 			p[1] = Bass_TAS[2].page2_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 			
-			p[0] = Bass_TAS[2].reg2_t.reg_value;
+			p[0] = Bass_TAS[2].reg2_t.reg_value | 0x80;
 			for(int i=0;i<12;i++)p[i+1] = Bass_TAS[2].reg2_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,13);
  
@@ -5913,7 +5913,7 @@ void bass_adjust(void)
 			p[1] = Bass_TAS[2].page4_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 
-			p[0] = Bass_TAS[2].reg4_t.reg_value;
+			p[0] = Bass_TAS[2].reg4_t.reg_value | 0x80;
 			for(int i=0;i<8;i++)p[i+1] = Bass_TAS[2].reg4_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,9);
 
@@ -5921,7 +5921,7 @@ void bass_adjust(void)
 			p[1] = Bass_TAS[2].page5_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 
-			p[0] = Bass_TAS[2].reg5_t.reg_value;
+			p[0] = Bass_TAS[2].reg5_t.reg_value | 0x80;
 			for(int i=0;i<12;i++)p[i+1] = Bass_TAS[2].reg5_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,13);
 
@@ -5934,7 +5934,7 @@ void bass_adjust(void)
 			p[1] = Bass_TAS[3].page1_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 		
-			p[0] = Bass_TAS[3].reg1_t.reg_value;
+			p[0] = Bass_TAS[3].reg1_t.reg_value | 0x80;
 			for(int i=0;i<8;i++)p[i+1] = Bass_TAS[3].reg1_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,9);
 		
@@ -5942,7 +5942,7 @@ void bass_adjust(void)
 			p[1] = Bass_TAS[3].page2_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 			
-			p[0] = Bass_TAS[3].reg2_t.reg_value;
+			p[0] = Bass_TAS[3].reg2_t.reg_value | 0x80;
 			for(int i=0;i<12;i++)p[i+1] = Bass_TAS[3].reg2_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,13);
  
@@ -5958,7 +5958,7 @@ void bass_adjust(void)
 			p[1] = Bass_TAS[3].page4_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 
-			p[0] = Bass_TAS[3].reg4_t.reg_value;
+			p[0] = Bass_TAS[3].reg4_t.reg_value | 0x80;
 			for(int i=0;i<8;i++)p[i+1] = Bass_TAS[3].reg4_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,9);
 
@@ -5966,7 +5966,7 @@ void bass_adjust(void)
 			p[1] = Bass_TAS[3].page5_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 
-			p[0] = Bass_TAS[3].reg5_t.reg_value;
+			p[0] = Bass_TAS[3].reg5_t.reg_value | 0x80;
 			for(int i=0;i<12;i++)p[i+1] = Bass_TAS[3].reg5_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,13);
 
@@ -5979,7 +5979,7 @@ void bass_adjust(void)
 			p[1] = Bass_TAS[4].page1_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 		
-			p[0] = Bass_TAS[4].reg1_t.reg_value;
+			p[0] = Bass_TAS[4].reg1_t.reg_value | 0x80;
 			for(int i=0;i<8;i++)p[i+1] = Bass_TAS[4].reg1_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,9);
 		
@@ -5987,7 +5987,7 @@ void bass_adjust(void)
 			p[1] = Bass_TAS[4].page2_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 			
-			p[0] = Bass_TAS[4].reg2_t.reg_value;
+			p[0] = Bass_TAS[4].reg2_t.reg_value | 0x80;
 			for(int i=0;i<12;i++)p[i+1] = Bass_TAS[4].reg2_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,13);
  
@@ -6003,7 +6003,7 @@ void bass_adjust(void)
 			p[1] = Bass_TAS[4].page4_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 
-			p[0] = Bass_TAS[4].reg4_t.reg_value;
+			p[0] = Bass_TAS[4].reg4_t.reg_value | 0x80;
 			for(int i=0;i<8;i++)p[i+1] = Bass_TAS[4].reg4_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,9);
 
@@ -6011,7 +6011,7 @@ void bass_adjust(void)
 			p[1] = Bass_TAS[4].page5_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 
-			p[0] = Bass_TAS[4].reg5_t.reg_value;
+			p[0] = Bass_TAS[4].reg5_t.reg_value | 0x80;
 			for(int i=0;i<12;i++)p[i+1] = Bass_TAS[4].reg5_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,13);
 
@@ -6024,7 +6024,7 @@ void bass_adjust(void)
 			p[1] = Bass_TAS[5].page1_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 		
-			p[0] = Bass_TAS[5].reg1_t.reg_value;
+			p[0] = Bass_TAS[5].reg1_t.reg_value | 0x80;
 			for(int i=0;i<8;i++)p[i+1] = Bass_TAS[5].reg1_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,9);
 		
@@ -6032,7 +6032,7 @@ void bass_adjust(void)
 			p[1] = Bass_TAS[5].page2_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 			
-			p[0] = Bass_TAS[5].reg2_t.reg_value;
+			p[0] = Bass_TAS[5].reg2_t.reg_value | 0x80;
 			for(int i=0;i<12;i++)p[i+1] = Bass_TAS[5].reg2_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,13);
  
@@ -6048,7 +6048,7 @@ void bass_adjust(void)
 			p[1] = Bass_TAS[5].page4_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 
-			p[0] = Bass_TAS[5].reg4_t.reg_value;
+			p[0] = Bass_TAS[5].reg4_t.reg_value | 0x80;
 			for(int i=0;i<8;i++)p[i+1] = Bass_TAS[5].reg4_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,9);
 
@@ -6056,7 +6056,7 @@ void bass_adjust(void)
 			p[1] = Bass_TAS[5].page5_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 
-			p[0] = Bass_TAS[5].reg5_t.reg_value;
+			p[0] = Bass_TAS[5].reg5_t.reg_value | 0x80;
 			for(int i=0;i<12;i++)p[i+1] = Bass_TAS[5].reg5_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,13);
 
@@ -6069,7 +6069,7 @@ void bass_adjust(void)
 			p[1] = Bass_TAS[6].page1_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 		
-			p[0] = Bass_TAS[6].reg1_t.reg_value;
+			p[0] = Bass_TAS[6].reg1_t.reg_value | 0x80;
 			for(int i=0;i<8;i++)p[i+1] = Bass_TAS[6].reg1_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,9);
 		
@@ -6077,7 +6077,7 @@ void bass_adjust(void)
 			p[1] = Bass_TAS[6].page2_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 			
-			p[0] = Bass_TAS[6].reg2_t.reg_value;
+			p[0] = Bass_TAS[6].reg2_t.reg_value | 0x80;
 			for(int i=0;i<12;i++)p[i+1] = Bass_TAS[6].reg2_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,13);
  
@@ -6093,7 +6093,7 @@ void bass_adjust(void)
 			p[1] = Bass_TAS[6].page4_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 
-			p[0] = Bass_TAS[6].reg4_t.reg_value;
+			p[0] = Bass_TAS[6].reg4_t.reg_value | 0x80;
 			for(int i=0;i<8;i++)p[i+1] = Bass_TAS[6].reg4_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,9);
 
@@ -6101,7 +6101,7 @@ void bass_adjust(void)
 			p[1] = Bass_TAS[6].page5_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 
-			p[0] = Bass_TAS[6].reg5_t.reg_value;
+			p[0] = Bass_TAS[6].reg5_t.reg_value | 0x80;
 			for(int i=0;i<12;i++)p[i+1] = Bass_TAS[6].reg5_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,13);
 
@@ -6114,7 +6114,7 @@ void bass_adjust(void)
 			p[1] = Bass_TAS[7].page1_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 		
-			p[0] = Bass_TAS[7].reg1_t.reg_value;
+			p[0] = Bass_TAS[7].reg1_t.reg_value | 0x80;
 			for(int i=0;i<8;i++)p[i+1] = Bass_TAS[7].reg1_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,9);
 		
@@ -6122,7 +6122,7 @@ void bass_adjust(void)
 			p[1] = Bass_TAS[7].page2_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 			
-			p[0] = Bass_TAS[7].reg2_t.reg_value;
+			p[0] = Bass_TAS[7].reg2_t.reg_value | 0x80;
 			for(int i=0;i<12;i++)p[i+1] = Bass_TAS[7].reg2_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,13);
  
@@ -6138,7 +6138,7 @@ void bass_adjust(void)
 			p[1] = Bass_TAS[7].page4_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 
-			p[0] = Bass_TAS[7].reg4_t.reg_value;
+			p[0] = Bass_TAS[7].reg4_t.reg_value | 0x80;
 			for(int i=0;i<8;i++)p[i+1] = Bass_TAS[7].reg4_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,9);
 
@@ -6146,7 +6146,7 @@ void bass_adjust(void)
 			p[1] = Bass_TAS[7].page5_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 
-			p[0] = Bass_TAS[7].reg5_t.reg_value;
+			p[0] = Bass_TAS[7].reg5_t.reg_value | 0x80;
 			for(int i=0;i<12;i++)p[i+1] = Bass_TAS[7].reg5_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,13);
 
@@ -6159,7 +6159,7 @@ void bass_adjust(void)
 			p[1] = Bass_TAS[8].page1_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 		
-			p[0] = Bass_TAS[8].reg1_t.reg_value;
+			p[0] = Bass_TAS[8].reg1_t.reg_value | 0x80;
 			for(int i=0;i<8;i++)p[i+1] = Bass_TAS[8].reg1_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,9);
 		
@@ -6167,7 +6167,7 @@ void bass_adjust(void)
 			p[1] = Bass_TAS[8].page2_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 			
-			p[0] = Bass_TAS[8].reg2_t.reg_value;
+			p[0] = Bass_TAS[8].reg2_t.reg_value | 0x80;
 			for(int i=0;i<12;i++)p[i+1] = Bass_TAS[8].reg2_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,13);
  
@@ -6183,7 +6183,7 @@ void bass_adjust(void)
 			p[1] = Bass_TAS[8].page4_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 
-			p[0] = Bass_TAS[8].reg4_t.reg_value;
+			p[0] = Bass_TAS[8].reg4_t.reg_value | 0x80;
 			for(int i=0;i<8;i++)p[i+1] = Bass_TAS[8].reg4_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,9);
 
@@ -6191,7 +6191,7 @@ void bass_adjust(void)
 			p[1] = Bass_TAS[8].page5_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 
-			p[0] = Bass_TAS[8].reg5_t.reg_value;
+			p[0] = Bass_TAS[8].reg5_t.reg_value | 0x80;
 			for(int i=0;i<12;i++)p[i+1] = Bass_TAS[8].reg5_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,13);
 
@@ -6204,7 +6204,7 @@ void bass_adjust(void)
 			p[1] = Bass_TAS[9].page1_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 		
-			p[0] = Bass_TAS[9].reg1_t.reg_value;
+			p[0] = Bass_TAS[9].reg1_t.reg_value | 0x80;
 			for(int i=0;i<8;i++)p[i+1] = Bass_TAS[9].reg1_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,9);
 		
@@ -6212,7 +6212,7 @@ void bass_adjust(void)
 			p[1] = Bass_TAS[9].page2_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 			
-			p[0] = Bass_TAS[9].reg2_t.reg_value;
+			p[0] = Bass_TAS[9].reg2_t.reg_value | 0x80;
 			for(int i=0;i<12;i++)p[i+1] = Bass_TAS[9].reg2_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,13);
  
@@ -6228,7 +6228,7 @@ void bass_adjust(void)
 			p[1] = Bass_TAS[9].page4_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 
-			p[0] = Bass_TAS[9].reg4_t.reg_value;
+			p[0] = Bass_TAS[9].reg4_t.reg_value | 0x80;
 			for(int i=0;i<8;i++)p[i+1] = Bass_TAS[9].reg4_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,9);
 
@@ -6236,7 +6236,7 @@ void bass_adjust(void)
 			p[1] = Bass_TAS[9].page5_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 
-			p[0] = Bass_TAS[9].reg5_t.reg_value;
+			p[0] = Bass_TAS[9].reg5_t.reg_value | 0x80;
 			for(int i=0;i<12;i++)p[i+1] = Bass_TAS[9].reg5_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,13);
 
@@ -6249,7 +6249,7 @@ void bass_adjust(void)
 			p[1] = Bass_TAS[10].page1_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 		
-			p[0] = Bass_TAS[10].reg1_t.reg_value;
+			p[0] = Bass_TAS[10].reg1_t.reg_value | 0x80;
 			for(int i=0;i<8;i++)p[i+1] = Bass_TAS[10].reg1_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,9);
 		
@@ -6257,7 +6257,7 @@ void bass_adjust(void)
 			p[1] = Bass_TAS[10].page2_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 			
-			p[0] = Bass_TAS[10].reg2_t.reg_value;
+			p[0] = Bass_TAS[10].reg2_t.reg_value | 0x80;
 			for(int i=0;i<12;i++)p[i+1] = Bass_TAS[10].reg2_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,13);
  
@@ -6273,7 +6273,7 @@ void bass_adjust(void)
 			p[1] = Bass_TAS[10].page4_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 
-			p[0] = Bass_TAS[10].reg4_t.reg_value;
+			p[0] = Bass_TAS[10].reg4_t.reg_value | 0x80;
 			for(int i=0;i<8;i++)p[i+1] = Bass_TAS[10].reg4_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,9);
 
@@ -6281,7 +6281,7 @@ void bass_adjust(void)
 			p[1] = Bass_TAS[10].page5_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 
-			p[0] = Bass_TAS[10].reg5_t.reg_value;
+			p[0] = Bass_TAS[10].reg5_t.reg_value | 0x80;
 			for(int i=0;i<12;i++)p[i+1] = Bass_TAS[10].reg5_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,13);
 
@@ -6294,7 +6294,7 @@ void bass_adjust(void)
 			p[1] = Bass_TAS[11].page1_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 		
-			p[0] = Bass_TAS[11].reg1_t.reg_value;
+			p[0] = Bass_TAS[11].reg1_t.reg_value | 0x80;
 			for(int i=0;i<8;i++)p[i+1] = Bass_TAS[11].reg1_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,9);
 		
@@ -6302,7 +6302,7 @@ void bass_adjust(void)
 			p[1] = Bass_TAS[11].page2_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 			
-			p[0] = Bass_TAS[11].reg2_t.reg_value;
+			p[0] = Bass_TAS[11].reg2_t.reg_value | 0x80;
 			for(int i=0;i<12;i++)p[i+1] = Bass_TAS[11].reg2_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,13);
  
@@ -6318,7 +6318,7 @@ void bass_adjust(void)
 			p[1] = Bass_TAS[11].page4_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 
-			p[0] = Bass_TAS[11].reg4_t.reg_value;
+			p[0] = Bass_TAS[11].reg4_t.reg_value | 0x80;
 			for(int i=0;i<8;i++)p[i+1] = Bass_TAS[11].reg4_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,9);
 
@@ -6326,7 +6326,7 @@ void bass_adjust(void)
 			p[1] = Bass_TAS[11].page5_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 
-			p[0] = Bass_TAS[11].reg5_t.reg_value;
+			p[0] = Bass_TAS[11].reg5_t.reg_value | 0x80;
 			for(int i=0;i<12;i++)p[i+1] = Bass_TAS[11].reg5_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,13);
 
@@ -6339,7 +6339,7 @@ void bass_adjust(void)
 			p[1] = Bass_TAS[12].page1_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 		
-			p[0] = Bass_TAS[12].reg1_t.reg_value;
+			p[0] = Bass_TAS[12].reg1_t.reg_value | 0x80;
 			for(int i=0;i<8;i++)p[i+1] = Bass_TAS[12].reg1_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,9);
 		
@@ -6347,7 +6347,7 @@ void bass_adjust(void)
 			p[1] = Bass_TAS[12].page2_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 			
-			p[0] = Bass_TAS[12].reg2_t.reg_value;
+			p[0] = Bass_TAS[12].reg2_t.reg_value | 0x80;
 			for(int i=0;i<12;i++)p[i+1] = Bass_TAS[12].reg2_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,13);
  
@@ -6363,7 +6363,7 @@ void bass_adjust(void)
 			p[1] = Bass_TAS[12].page4_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 
-			p[0] = Bass_TAS[12].reg4_t.reg_value;
+			p[0] = Bass_TAS[12].reg4_t.reg_value | 0x80;
 			for(int i=0;i<8;i++)p[i+1] = Bass_TAS[12].reg4_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,9);
 
@@ -6371,7 +6371,7 @@ void bass_adjust(void)
 			p[1] = Bass_TAS[12].page5_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 
-			p[0] = Bass_TAS[12].reg5_t.reg_value;
+			p[0] = Bass_TAS[12].reg5_t.reg_value | 0x80;
 			for(int i=0;i<12;i++)p[i+1] = Bass_TAS[12].reg5_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,13);
 
@@ -6384,7 +6384,7 @@ void bass_adjust(void)
 			p[1] = Bass_TAS[13].page1_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 		
-			p[0] = Bass_TAS[13].reg1_t.reg_value;
+			p[0] = Bass_TAS[13].reg1_t.reg_value | 0x80;
 			for(int i=0;i<8;i++)p[i+1] = Bass_TAS[13].reg1_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,9);
 		
@@ -6392,7 +6392,7 @@ void bass_adjust(void)
 			p[1] = Bass_TAS[13].page2_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 			
-			p[0] = Bass_TAS[13].reg2_t.reg_value;
+			p[0] = Bass_TAS[13].reg2_t.reg_value | 0x80;
 			for(int i=0;i<12;i++)p[i+1] = Bass_TAS[13].reg2_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,13);
  
@@ -6408,7 +6408,7 @@ void bass_adjust(void)
 			p[1] = Bass_TAS[13].page4_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 
-			p[0] = Bass_TAS[13].reg4_t.reg_value;
+			p[0] = Bass_TAS[13].reg4_t.reg_value | 0x80;
 			for(int i=0;i<8;i++)p[i+1] = Bass_TAS[13].reg4_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,9);
 
@@ -6416,7 +6416,7 @@ void bass_adjust(void)
 			p[1] = Bass_TAS[13].page5_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 
-			p[0] = Bass_TAS[13].reg5_t.reg_value;
+			p[0] = Bass_TAS[13].reg5_t.reg_value | 0x80;
 			for(int i=0;i<12;i++)p[i+1] = Bass_TAS[13].reg5_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,13);
 
@@ -6429,7 +6429,7 @@ void bass_adjust(void)
 			p[1] = Bass_TAS[14].page1_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 		
-			p[0] = Bass_TAS[14].reg1_t.reg_value;
+			p[0] = Bass_TAS[14].reg1_t.reg_value | 0x80;
 			for(int i=0;i<8;i++)p[i+1] = Bass_TAS[14].reg1_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,9);
 		
@@ -6437,7 +6437,7 @@ void bass_adjust(void)
 			p[1] = Bass_TAS[14].page2_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 			
-			p[0] = Bass_TAS[14].reg2_t.reg_value;
+			p[0] = Bass_TAS[14].reg2_t.reg_value | 0x80;
 			for(int i=0;i<12;i++)p[i+1] = Bass_TAS[14].reg2_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,13);
  
@@ -6453,7 +6453,7 @@ void bass_adjust(void)
 			p[1] = Bass_TAS[14].page4_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 
-			p[0] = Bass_TAS[14].reg4_t.reg_value;
+			p[0] = Bass_TAS[14].reg4_t.reg_value | 0x80;
 			for(int i=0;i<8;i++)p[i+1] = Bass_TAS[14].reg4_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,9);
 
@@ -6461,7 +6461,7 @@ void bass_adjust(void)
 			p[1] = Bass_TAS[14].page5_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 
-			p[0] = Bass_TAS[14].reg5_t.reg_value;
+			p[0] = Bass_TAS[14].reg5_t.reg_value | 0x80;
 			for(int i=0;i<12;i++)p[i+1] = Bass_TAS[14].reg5_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,13);
 
@@ -6474,7 +6474,7 @@ void bass_adjust(void)
 			p[1] = Bass_TAS[15].page1_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 		
-			p[0] = Bass_TAS[15].reg1_t.reg_value;
+			p[0] = Bass_TAS[15].reg1_t.reg_value | 0x80;
 			for(int i=0;i<8;i++)p[i+1] = Bass_TAS[15].reg1_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,9);
 		
@@ -6482,7 +6482,7 @@ void bass_adjust(void)
 			p[1] = Bass_TAS[15].page2_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 			
-			p[0] = Bass_TAS[15].reg2_t.reg_value;
+			p[0] = Bass_TAS[15].reg2_t.reg_value | 0x80;
 			for(int i=0;i<12;i++)p[i+1] = Bass_TAS[15].reg2_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,13);
  
@@ -6498,7 +6498,7 @@ void bass_adjust(void)
 			p[1] = Bass_TAS[15].page4_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 
-			p[0] = Bass_TAS[15].reg4_t.reg_value;
+			p[0] = Bass_TAS[15].reg4_t.reg_value | 0x80;
 			for(int i=0;i<8;i++)p[i+1] = Bass_TAS[15].reg4_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,9);
 
@@ -6506,7 +6506,7 @@ void bass_adjust(void)
 			p[1] = Bass_TAS[15].page5_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 
-			p[0] = Bass_TAS[15].reg5_t.reg_value;
+			p[0] = Bass_TAS[15].reg5_t.reg_value | 0x80;
 			for(int i=0;i<12;i++)p[i+1] = Bass_TAS[15].reg5_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,13);
 
@@ -6519,7 +6519,7 @@ void bass_adjust(void)
 			p[1] = Bass_TAS[16].page1_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 		
-			p[0] = Bass_TAS[16].reg1_t.reg_value;
+			p[0] = Bass_TAS[16].reg1_t.reg_value | 0x80;
 			for(int i=0;i<8;i++)p[i+1] = Bass_TAS[16].reg1_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,9);
 		
@@ -6527,7 +6527,7 @@ void bass_adjust(void)
 			p[1] = Bass_TAS[16].page2_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 			
-			p[0] = Bass_TAS[16].reg2_t.reg_value;
+			p[0] = Bass_TAS[16].reg2_t.reg_value | 0x80;
 			for(int i=0;i<12;i++)p[i+1] = Bass_TAS[16].reg2_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,13);
  
@@ -6543,7 +6543,7 @@ void bass_adjust(void)
 			p[1] = Bass_TAS[16].page4_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 
-			p[0] = Bass_TAS[16].reg4_t.reg_value;
+			p[0] = Bass_TAS[16].reg4_t.reg_value | 0x80;
 			for(int i=0;i<8;i++)p[i+1] = Bass_TAS[16].reg4_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,9);
 
@@ -6551,7 +6551,7 @@ void bass_adjust(void)
 			p[1] = Bass_TAS[16].page5_T.page_value;
 			I2C_SW_Send(slave_addr,p,2);
 
-			p[0] = Bass_TAS[16].reg5_t.reg_value;
+			p[0] = Bass_TAS[16].reg5_t.reg_value | 0x80;
 			for(int i=0;i<12;i++)p[i+1] = Bass_TAS[16].reg5_t.reg_data[i];
 			I2C_SW_Send(slave_addr,p,13);
 

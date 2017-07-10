@@ -117,19 +117,17 @@ void TMR0_IRQHandler(void)
 // The Timer1 default IRQ, declared in startup_Mini51.s.
 void TMR1_IRQHandler(void)
 {
-//	VOL_ROTOB = ~VOL_ROTOB;
 	if(POWER_KEY)
 	{
 		if(key_count > 0x1000)
 		{
-			;
+			Channel[0] = d;
 		}
 		else if(key_count > 0x100)			//key which short press
 		{
 			d++;
 			if(d >= 0x04 )d = 0;
 			Channel[0] = d;	
-//			VOL_ROTOA = ~VOL_ROTOA;
 		}
 		power_change = 0;
 		key_count = 0;
@@ -137,7 +135,7 @@ void TMR1_IRQHandler(void)
 	}
 	else
 	{
-		if((key_count > 0x1000)&&(power_change ==0))
+		if((key_count > 0x2000)&&(power_change ==0))
 		{
 			power_change = 1;
 			POWER_FLAG = ~POWER_FLAG;
@@ -150,7 +148,7 @@ void TMR1_IRQHandler(void)
 		key_status = 0;
 	}
 //        irticks++;ledcount++;//Power_Meter++;
-//        TIMER_ClearIntFlag(TIMER1);
+        TIMER_ClearIntFlag(TIMER1);
 }
 
 
@@ -241,7 +239,6 @@ void GPIO01_IRQHandler(void)
     }
 }
 
-#if 0
 
 /**
  * @brief       Port2/Port3/Port4 IRQ
@@ -339,7 +336,7 @@ void GPIO234_IRQHandler(void)
 			break;
         }  
 		irticks=0; 
-		P1->ISRC = BIT0;
+		P3->ISRC = BIT0;
 	}
 	else 
 	{
@@ -351,6 +348,7 @@ void GPIO234_IRQHandler(void)
 }
 
 
+#if 0
 
 /**
  * @brief       Port5 IRQ
