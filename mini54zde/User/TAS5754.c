@@ -4523,6 +4523,7 @@ uint8_t Vol_TAS[][2] =
 	{62,0},
 	{63,0}
 };
+#if 0
 Treble	Treble_TAS[17] =
 {
 	{0x00,0x2f,
@@ -4937,10 +4938,27 @@ Bass	Bass_TAS[17] =
 		0x08,0x7e,0x39,0x83,0x00,0x7f,0x7b,0xcb,0x00,0x81,0x00,0x5c,0x00  ,
 		0x00,0x00}	
 };
+#endif
 //void tas_5758_tone_init(void)
 //{
 //	;
 //}
+
+void TAS_5754_Init(uint8_t Adds)
+{
+    uint8_t buf[2];
+    uint32_t index;
+
+	for(index = 0;  index<4401; index++)
+	{
+		buf[0] = IIC_REG_5754[index][0];
+		buf[1] = IIC_REG_5754[index][1];
+		I2C_SW_Send(Adds,buf,2);	
+	}
+	I2C_SW_Get(slave_addr,Vol_TAS[0],1);
+	I2C_SW_Get(slave_addr,Vol_TAS[1],1);
+	I2C_SW_Get(slave_addr,Vol_TAS[2],1);
+}
 
 void Amplifier_VOL_A(void)
 {
@@ -4950,9 +4968,9 @@ void Amplifier_VOL_A(void)
 		}		
 		else
 		{
-			I2C_SW_Get(slave_addr,Vol_TAS[0],1);
-			I2C_SW_Get(slave_addr,Vol_TAS[1],1);
-			I2C_SW_Get(slave_addr,Vol_TAS[2],1);
+//			I2C_SW_Get(slave_addr,Vol_TAS[0],1);
+//			I2C_SW_Get(slave_addr,Vol_TAS[1],1);
+//			I2C_SW_Get(slave_addr,Vol_TAS[2],1);
 			Vol_TAS[1][1] = Vol_TAS[1][1] - 1;
 			Vol_TAS[2][1] = Vol_TAS[2][1] - 1;
 			I2C_SW_Send(slave_addr,Vol_TAS[0],2);
@@ -4969,9 +4987,9 @@ void Amplifier_VOL_B(void)
 	}
 	else
 	{
-		I2C_SW_Get(slave_addr,Vol_TAS[0],1);
-		I2C_SW_Get(slave_addr,Vol_TAS[1],1);
-		I2C_SW_Get(slave_addr,Vol_TAS[2],1);
+//		I2C_SW_Get(slave_addr,Vol_TAS[0],1);
+//		I2C_SW_Get(slave_addr,Vol_TAS[1],1);
+//		I2C_SW_Get(slave_addr,Vol_TAS[2],1);
 		Vol_TAS[1][1] = Vol_TAS[1][1] + 1;
 		Vol_TAS[2][1] = Vol_TAS[2][1] + 1;
 		I2C_SW_Send(slave_addr,Vol_TAS[0],2);
@@ -4980,7 +4998,7 @@ void Amplifier_VOL_B(void)
 	}
 }
 
-
+#if 0
 void treble_adjust(void)
 {
 	uint8_t p[13];
@@ -6573,4 +6591,5 @@ void Amplifier_Auto_Mute(void)
 {
 	;
 }
+#endif
 

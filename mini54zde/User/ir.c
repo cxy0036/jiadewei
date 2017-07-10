@@ -16,17 +16,17 @@ void IR_init(void)
     GPIO_EnableInt(P3, 0, GPIO_INT_FALLING);
     NVIC_EnableIRQ(GPIO234_IRQn);
 	// Enable IP clock
-    CLK_EnableModuleClock(TMR1_MODULE);        
+    CLK_EnableModuleClock(TMR0_MODULE);        
     // Select Timer 1 clock source from internal 22.1184MHz RC clock.
-    CLK_SetModuleClock(TMR1_MODULE,CLK_CLKSEL1_TMR1_S_IRC22M,1);
+    CLK_SetModuleClock(TMR0_MODULE,CLK_CLKSEL1_TMR0_S_IRC22M,1);
     // configure timer to operate in specified mode.
-    TIMER_Open(TIMER1, TIMER_PERIODIC_MODE, 7812);        //7.8125K = 0.128MS = 128US
+    TIMER_Open(TIMER0, TIMER_PERIODIC_MODE, 7812);        //7.8125K = 0.128MS = 128US
     // start Timer counting
-    TIMER_Start(TIMER1);
+    TIMER_Start(TIMER0);
     // enable the Timer time-out interrupt function.
-    TIMER_EnableInt(TIMER1);
+    TIMER_EnableInt(TIMER0);
     // Enable timer interrupt
-    NVIC_EnableIRQ(TMR1_IRQn);
+    NVIC_EnableIRQ(TMR0_IRQn);
 }
 
 void IR_test_task(void)
@@ -36,72 +36,83 @@ void IR_test_task(void)
 					switch(KEY_data)
 					{
 						case 0x01:							//BASS+
-//							SUB_A_TASK();
+//							Amplifier_BASS_A();
 							disp_flag=0;
 						break;
 							
 						case 0x02:							//BASS-
-//							SUB_B_TASK();
+//							Amplifier_BASS_B();
 							disp_flag=0;
 						break;
 						
 						case 0x03:							//TREBLE+
-//							TREBLE_A_TASK();
+//							Amplifier_TREBLE_A();
 							disp_flag=0;
 						break;
 						
 						case 0x04:							//TREBLE-
-//							TREBLE_B_TASK();
+//							Amplifier_TREBLE_B();
 							disp_flag=0;
 						break;
 						
 						case 0x0a:							//LINE IN
-							P12 = 0;P13 = 1;P14 = 1;
+//							P12 = 0;P13 = 1;P14 = 1;
 							disp_flag=0;
 						break;
 						
 						case 0x0b:							//AUX IN
-							P12 = 0;P13 = 1;P14 = 0;
+							_4052_A = 0;_4052_B = 1;
+							BT_POWER = 0;
+							LED_R = 1;LED_B = 1;LED_G = 0;		
 							disp_flag=0;
 						break;
 												
 						case 0x0c:							//BLUETOOTH
-							P12 = 0;P13 = 0;P14 = 1;
+							if(disp_flag>1)
+							{
+								BT_patch();
+							}
+							else
+							{
+								BT_Play_Pause();
+							}
 							disp_flag=0;
 						break;
 
 						case 0x0d:							//OPTICAL
-							P12 = 0;P13 = 0;P14 = 0;
+//							P12 = 0;P13 = 0;P14 = 0;
 							disp_flag=0;
 						break;
 						
 						case 0x0E:							//COAXIAL
-							P12 = 0;P13 = 0;P14 = 0;
+//							P12 = 0;P13 = 0;P14 = 0;
 							disp_flag=0;
 						break;
 
 						case 0x12:							//VOL+
-//							VOL_A_TASK();
+							Amplifier_VOL_A();
 							disp_flag=0;
 						break;
 
 						case 0x13:							//VOL-
-//							VOL_B_TASK();
+							Amplifier_VOL_B();
 							disp_flag=0;
 						break;
 
 						case 0x14:							//ON-OFF
 //							POWER_TASK();
+							POWER_KEY = ~POWER_KEY;
 							disp_flag=0;
 						break;
 
 						case 0x15:							//MUTE
-							P12 = 0;P13 = 0;P14 = 1;
+//							Amplifier_Auto_Mute();
+//							P12 = 0;P13 = 0;P14 = 1;
 							disp_flag=0;
 						break;
 
 						case 0x18:							//HDMI
-							P12 = 0;P13 = 0;P14 = 1;
+//							P12 = 0;P13 = 0;P14 = 1;
 							disp_flag=0;
 						break;
 

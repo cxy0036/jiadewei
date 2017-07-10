@@ -41,7 +41,7 @@ TASK_EXT	uint32_t ledcount;
 #define _SDA				P23
 #define _SCL				P22
 
-#define EP_DET  			P15
+#define AUDIO_DET  			P15
 
 #define ST_BY   			P36
 
@@ -68,6 +68,7 @@ TASK_EXT	uint32_t ledcount;
 void GPIO_Init( void );
 //void Channel_select( uint8_t Channel );
 void _RST_8230( void );
+void TMR0_IRQHandler(void);
 void TMR1_IRQHandler(void);
 void GPIO01_IRQHandler(void);
 void GPIO234_IRQHandler(void);

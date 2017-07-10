@@ -125,17 +125,7 @@ int32_t main(void)
 //	Sys_power_on();
 //	_RST = 1;
 //	CLK_SysTickDelay(50000);
-//	while(1)
-//	{
-//	I2C_SW_CLK = 1;
-//    CLK_SysTickDelay(1000);
-//	I2C_SW_CLK = 0;
-//    CLK_SysTickDelay(1000);	
-//	I2C_SW_CLK = 1;
-//    CLK_SysTickDelay(100);
-//	I2C_SW_CLK = 0;
-//    CLK_SysTickDelay(100);
-//	}
+
 //	PA_5754_Init(slave_addr);
 //	CLK_SysTickDelay(1000);
 //	Sys_power_off();
@@ -148,7 +138,7 @@ int32_t main(void)
 			Sys_power_on();
 			CLK_SysTickDelay(5000);
 			TIMER_Close(TIMER1);
-			PA_5754_Init(slave_addr);
+			TAS_5754_Init(slave_addr);
 			CLK_SysTickDelay(5000);			
 			_RST = 1;
 			timer1_init();

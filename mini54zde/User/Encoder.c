@@ -54,7 +54,7 @@ void Encoder_Task(void)
 //		I2C_SW_Send(0x54,NTP_8230+14,2);
 //		I2C_SW_Send(0xa0,NTP_8230+14,2);
 		Encoder_treble_flag = 0;
-		Amplifier_TREBLE_A();
+//		Amplifier_TREBLE_A();
 //		if(P12 == 0){P12 = ~P12;CLK_SysTickDelay(40000);P12 = ~P12;}
 //		if(P13 == 0){P13 = ~P13;CLK_SysTickDelay(40000);P13 = ~P13;}
 //		if(P14 == 0){P14 = ~P14;CLK_SysTickDelay(40000);P14 = ~P14;}
@@ -65,7 +65,7 @@ void Encoder_Task(void)
 //		I2C_SW_Send(0x54,NTP_8230+14,2);
 //		I2C_SW_Send(0xa0,NTP_8230+14,2);
 		Encoder_treble_flag = 1;
-		Amplifier_TREBLE_B();
+//		Amplifier_TREBLE_B();
 //		if(P12 == 0){P12 = ~P12;CLK_SysTickDelay(40000);P12 = ~P12;}
 //		if(P13 == 0){P13 = ~P13;CLK_SysTickDelay(40000);P13 = ~P13;}
 //		if(P14 == 0){P14 = ~P14;CLK_SysTickDelay(40000);P14 = ~P14;}
@@ -77,7 +77,7 @@ void Encoder_Task(void)
 //		I2C_SW_Send(0x54,NTP_8230+20,2);
 //		I2C_SW_Send(0xa0,NTP_8230+20,2);
 		Encoder_sub_flag = 0;
-		Amplifier_BASS_A();
+//		Amplifier_BASS_A();
 //		if(P12 == 0){P12 = ~P12;CLK_SysTickDelay(40000);P12 = ~P12;}
 //		if(P13 == 0){P13 = ~P13;CLK_SysTickDelay(40000);P13 = ~P13;}
 //		if(P14 == 0){P14 = ~P14;CLK_SysTickDelay(40000);P14 = ~P14;}
@@ -88,7 +88,7 @@ void Encoder_Task(void)
 //		I2C_SW_Send(0x54,NTP_8230+20,2);
 //		I2C_SW_Send(0xa0,NTP_8230+20,2);
 		Encoder_sub_flag = 1;
-		Amplifier_BASS_B();
+//		Amplifier_BASS_B();
 //		if(P12 == 0){P12 = ~P12;CLK_SysTickDelay(40000);P12 = ~P12;}
 //		if(P13 == 0){P13 = ~P13;CLK_SysTickDelay(40000);P13 = ~P13;}
 //		if(P14 == 0){P14 = ~P14;CLK_SysTickDelay(40000);P14 = ~P14;}

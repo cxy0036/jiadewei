@@ -15,7 +15,7 @@ void Headset_Test_Task( void )
 {
 //	uint8_t xStatus;
 	
-	if(EP_DET & Headset_flag)//打开耳机
+	if(AUDIO_DET & Headset_flag)//打开耳机关闭功放
 	{
 		;
 //			_RST_8230();
@@ -23,7 +23,7 @@ void Headset_Test_Task( void )
 //			I2C_SW_Send( 0x54,NTP_8230,350);
 //			Headset_flag = 0;
 	}
-	else if( ( EP_DET== 0 ) && ( Headset_flag == 0 ) )//关闭耳机
+	else if( ( AUDIO_DET== 0 ) && ( Headset_flag == 0 ) )//关闭耳机打开功放
 	{
 		;
 //			_RST_8230();

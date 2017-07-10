@@ -39,6 +39,7 @@ void GPIO_Init( void )
 	GPIO_SetMode(P5, BIT4, GPIO_PMD_OUTPUT);//BT_DET
 //	
 //	GPIO_SetMode(P3, BIT0, GPIO_PMD_QUASI);	//IR
+	GPIO_SetMode(P1, BIT5, GPIO_PMD_QUASI);//AUDIO_DET
 	
 	GPIO_SetMode(P3, BIT2, GPIO_PMD_OUTPUT);//LED_B
 	GPIO_SetMode(P3, BIT1, GPIO_PMD_OUTPUT);//LED_G
@@ -107,14 +108,23 @@ void GPIO_Init( void )
 //	_RST = 1;
 //}
 
-
+// The Timer1 default IRQ, declared in startup_Mini51.s.
+void TMR0_IRQHandler(void)
+{
+        irticks++;ledcount++;
+        TIMER_ClearIntFlag(TIMER0);
+}
 // The Timer1 default IRQ, declared in startup_Mini51.s.
 void TMR1_IRQHandler(void)
 {
 //	VOL_ROTOB = ~VOL_ROTOB;
 	if(POWER_KEY)
 	{
-		if(key_count > 0x100)			//key which short press
+		if(key_count > 0x1000)
+		{
+			;
+		}
+		else if(key_count > 0x100)			//key which short press
 		{
 			d++;
 			if(d >= 0x04 )d = 0;
@@ -139,8 +149,8 @@ void TMR1_IRQHandler(void)
 		if(key_count > 0xffff)key_count = 0xffff;
 		key_status = 0;
 	}
-        irticks++;ledcount++;//Power_Meter++;
-        TIMER_ClearIntFlag(TIMER1);
+//        irticks++;ledcount++;//Power_Meter++;
+//        TIMER_ClearIntFlag(TIMER1);
 }
 
 
@@ -155,7 +165,6 @@ void TMR1_IRQHandler(void)
  */
 void GPIO01_IRQHandler(void)
 {
-	 uint8_t irdata;
 	#if 0
     /* To check if P1.4 interrupt occurred */
     if (P1->ISRC & BIT4) 
@@ -224,70 +233,6 @@ void GPIO01_IRQHandler(void)
 			Encoder_Task();
 		}		
 	}	
-	else if(P1->ISRC & BIT0)
-	{
-//		d++;
-		        switch(irwork)
-                {
-                        case IDLE: 
-							irwork=HEAD;
-                        break;
-						
-                        case HEAD: 
-							irwork=(irticks>((TIME_INFRARED_HEAD_US+TIME_INFRARED_REPEAT_US)/2)/TIME_INTERRUPT_PERIOD_US)?DATA:IDLE;
-							if( irwork == DATA)			//BOOT_code
-							{
-								ir.data = 0;
-								ircount = 0;
-								disp_flag = 0;
-							}
-                            else// if( disp_flag == 1)	//REPEAT_code
-							{
-								disp++;
-								disp_flag = 1;
-							}								
-                        break;
-						
-
-                        case DATA: 
-							irdata=(irticks>((TIME_INFRARED_ZERO_US+TIME_INFRARED_ONE_US )/2)/TIME_INTERRUPT_PERIOD_US)?1:0;
-								if( ircount < 8 )
-								{
-									ir.address0 >>= 1;
-									ir.address0 |= ( irdata << 7 );
-									disp_flag = 0;
-								}
-								else if( ircount < 16 )
-								{
-									ir.address1 >>= 1;
-									ir.address1 |= ( irdata << 7 );
-									disp_flag = 0;
-								}
-								else if( ircount < 24 )
-								{
-									ir.data0 >>= 1;
-									ir.data0 |= ( irdata << 7 );
-									disp_flag = 0;
-								}
-								else if( ircount < 32 )
-								{
-									ir.data1 >>= 1;
-									ir.data1 |= ( irdata << 7 );
-									disp_flag = 0;
-								}
-								ircount++;
-								if( ircount >= 32 )	
-								{
-									irwork = IDLE;
-									disp_flag=1;
-									disp = 0;
-									KEY_data = ir.data0;
-								}
-						break;
-                }  
-		irticks=0; 
-		P1->ISRC = BIT0;
-	}
 	else 
 	{
         /* Un-expected interrupt. Just clear all PORT0, PORT1 interrupts */
@@ -309,6 +254,7 @@ void GPIO01_IRQHandler(void)
  */
 void GPIO234_IRQHandler(void)
 {
+	uint8_t irdata;
     /* To check if P3.0 interrupt occurred */
     if (P2->ISRC & BIT5) 
 	{
@@ -331,37 +277,70 @@ void GPIO234_IRQHandler(void)
 			Encoder_Task();
 		}
 	}
-//	else if(P3->ISRC & BIT2)
-//	{
-//		P3->ISRC = BIT2;
-//		CLK_SysTickDelay(1000);
-//		if( TREBLE_B )
-//		{
-//						m++;
-//			Encoder_treble_flag = 0;
-//			Encoder_Task();
-//		}
-//	}
-//	else if(P3->ISRC & BIT4)
-//	{
-//		P3->ISRC = BIT4;
-//		CLK_SysTickDelay(1000);
-//		if( SUB_A )
-//		{
-//			Encoder_sub_flag = 1;
-//			Encoder_Task();
-//		}
-//	}
-//	else if(P3->ISRC & BIT5)
-//	{
-//		P3->ISRC = BIT5;
-//		CLK_SysTickDelay(1000);
-//		if( SUB_B )
-//		{
-//			Encoder_sub_flag = 0;
-//			Encoder_Task();
-//		}
-//	}
+	else if(P3->ISRC & BIT0)
+	{
+//		d++;
+		switch(irwork)
+        {
+			case IDLE: 
+				irwork=HEAD;
+            break;
+						
+            case HEAD: 
+				irwork=(irticks>((TIME_INFRARED_HEAD_US+TIME_INFRARED_REPEAT_US)/2)/TIME_INTERRUPT_PERIOD_US)?DATA:IDLE;
+				if( irwork == DATA)			//BOOT_code
+				{
+					ir.data = 0;
+					ircount = 0;
+					disp_flag = 0;
+				}
+                else// if( disp_flag == 1)	//REPEAT_code
+				{
+					disp++;
+					disp_flag = 1;
+				}								
+             break;
+						
+
+             case DATA: 
+					irdata=(irticks>((TIME_INFRARED_ZERO_US+TIME_INFRARED_ONE_US )/2)/TIME_INTERRUPT_PERIOD_US)?1:0;
+					if( ircount < 8 )
+					{
+						ir.address0 >>= 1;
+						ir.address0 |= ( irdata << 7 );
+						disp_flag = 0;
+					}
+					else if( ircount < 16 )
+					{
+						ir.address1 >>= 1;
+						ir.address1 |= ( irdata << 7 );
+						disp_flag = 0;
+					}
+					else if( ircount < 24 )
+					{
+						ir.data0 >>= 1;
+						ir.data0 |= ( irdata << 7 );
+						disp_flag = 0;
+					}
+					else if( ircount < 32 )
+					{
+						ir.data1 >>= 1;
+						ir.data1 |= ( irdata << 7 );
+						disp_flag = 0;
+					}
+					ircount++;
+					if( ircount >= 32 )	
+					{
+						irwork = IDLE;
+						disp_flag=1;
+						disp = 0;
+						KEY_data = ir.data0;
+					}
+			break;
+        }  
+		irticks=0; 
+		P1->ISRC = BIT0;
+	}
 	else 
 	{
         /* Un-expected interrupt. Just clear all PORT2, PORT3 and PORT4 interrupts */

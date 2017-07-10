@@ -66,7 +66,7 @@ typedef struct Bass
 	page	page0_T;
 }Bass;
 
-void tas_5758_tone_init(void);
+void TAS_5754_Init(uint8_t Adds);
 void Amplifier_Power_ON(void);
 void Amplifier_Power_OFF(void);
 void Amplifier_VOL_A(void);
