@@ -20,21 +20,27 @@ void Bluetooth_Test_Task(void)
 
 void BT_patch(void)
 {
-	BT_REV = 0;	BT_FWD = 0;
-	CLK_SysTickDelay(1000);
-	BT_REV = 1;	BT_FWD = 1;
-	CLK_SysTickDelay(3000*1000);
-	BT_REV = 0;	BT_FWD = 0;
-	CLK_SysTickDelay(1000);
+	if(BT_Flag)
+	{
+		BT_REV = 0;	BT_FWD = 0;
+		CLK_SysTickDelay(1000);
+		BT_REV = 1;	BT_FWD = 1;
+		CLK_SysTickDelay(3000*1000);
+		BT_REV = 0;	BT_FWD = 0;
+		CLK_SysTickDelay(1000);
+	}
 }
 void BT_Play_Pause(void)
 {
-	BT_REV = 0;	BT_FWD = 0;
-	CLK_SysTickDelay(1000);
-	BT_REV = 1;	BT_FWD = 1;
-	CLK_SysTickDelay(300*1000);
-	BT_REV = 0;	BT_FWD = 0;
-	CLK_SysTickDelay(1000);
+	if(BT_Flag)
+	{
+		BT_REV = 0;	BT_FWD = 0;
+		CLK_SysTickDelay(1000);
+		BT_REV = 1;	BT_FWD = 1;
+		CLK_SysTickDelay(300*1000);
+		BT_REV = 0;	BT_FWD = 0;
+		CLK_SysTickDelay(1000);
+	}
 }
 void BT_REV_TASK(void)
 {

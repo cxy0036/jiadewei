@@ -36,27 +36,33 @@ void IR_test_task(void)
 					switch(KEY_data)
 					{
 						case 0x01:							//BASS+
-//							Amplifier_BASS_A();
+							Amplifier_BASS_A();
 							disp_flag=0;
 						break;
 							
 						case 0x02:							//BASS-
-//							Amplifier_BASS_B();
+							Amplifier_BASS_B();
 							disp_flag=0;
 						break;
 						
 						case 0x03:							//TREBLE+
-//							Amplifier_TREBLE_A();
+							Amplifier_TREBLE_A();
 							disp_flag=0;
 						break;
 						
 						case 0x04:							//TREBLE-
-//							Amplifier_TREBLE_B();
+							Amplifier_TREBLE_B();
 							disp_flag=0;
 						break;
 						
-						case 0x0a:							//LINE IN
+						case 0x0a:							//ÔÝÊ±BLUETOOTHÌæ´úLINE IN
 //							P12 = 0;P13 = 1;P14 = 1;
+							_4052_A = 1;_4052_B = 0;
+							if( SYS_power_flag )
+							{
+								BT_POWER = 1;
+							}	
+							LED_R = 1;LED_B = 0;LED_G = 1;
 							disp_flag=0;
 						break;
 						
@@ -68,6 +74,7 @@ void IR_test_task(void)
 						break;
 												
 						case 0x0c:							//BLUETOOTH
+//							_4052_A = 1;_4052_B = 0;
 							if(disp_flag>1)
 							{
 								BT_patch();
@@ -106,7 +113,7 @@ void IR_test_task(void)
 						break;
 
 						case 0x15:							//MUTE
-//							Amplifier_Auto_Mute();
+							Amplifier_Auto_Mute();
 //							P12 = 0;P13 = 0;P14 = 1;
 							disp_flag=0;
 						break;
@@ -115,7 +122,6 @@ void IR_test_task(void)
 //							P12 = 0;P13 = 0;P14 = 1;
 							disp_flag=0;
 						break;
-
 					}
 				}
 }
