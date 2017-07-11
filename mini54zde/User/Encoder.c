@@ -22,9 +22,9 @@ void Encoder_Task(void)
 //			NTP_8230[5] += 1;
 //			I2C_SW_Send(0x54,NTP_8230+4,2);	
 //			I2C_SW_Send(0xa0,NTP_8230+4,2);
-//			if(P12 == 0){P12 = ~P12;CLK_SysTickDelay(40000);P12 = ~P12;}
-//			if(P13 == 0){P13 = ~P13;CLK_SysTickDelay(40000);P13 = ~P13;}
-//			if(P14 == 0){P14 = ~P14;CLK_SysTickDelay(40000);P14 = ~P14;}
+			if(LED_R == 0){LED_R = ~LED_R;CLK_SysTickDelay(40000);LED_R = ~LED_R;}
+			if(LED_G == 0){LED_G = ~LED_G;CLK_SysTickDelay(40000);LED_G = ~LED_G;}
+			if(LED_B == 0){LED_B = ~LED_B;CLK_SysTickDelay(40000);LED_B = ~LED_B;}
 //		}
 
 	}
@@ -41,9 +41,9 @@ void Encoder_Task(void)
 //			NTP_8230[5] -= 1;
 //			I2C_SW_Send(0x54,NTP_8230+4,2);
 //			I2C_SW_Send(0xa0,NTP_8230+4,2);
-//			if(P12 == 0){P12 = ~P12;CLK_SysTickDelay(40000);P12 = ~P12;}
-//			if(P13 == 0){P13 = ~P13;CLK_SysTickDelay(40000);P13 = ~P13;}
-//			if(P14 == 0){P14 = ~P14;CLK_SysTickDelay(40000);P14 = ~P14;}			
+			if(LED_R == 0){LED_R = ~LED_R;CLK_SysTickDelay(40000);LED_R = ~LED_R;}
+			if(LED_G == 0){LED_G = ~LED_G;CLK_SysTickDelay(40000);LED_G = ~LED_G;}
+			if(LED_B == 0){LED_B = ~LED_B;CLK_SysTickDelay(40000);LED_B = ~LED_B;}			
 //		}
 				
 	}
@@ -55,9 +55,9 @@ void Encoder_Task(void)
 //		I2C_SW_Send(0xa0,NTP_8230+14,2);
 		Encoder_treble_flag = 0;
 		Amplifier_TREBLE_A();
-//		if(P12 == 0){P12 = ~P12;CLK_SysTickDelay(40000);P12 = ~P12;}
-//		if(P13 == 0){P13 = ~P13;CLK_SysTickDelay(40000);P13 = ~P13;}
-//		if(P14 == 0){P14 = ~P14;CLK_SysTickDelay(40000);P14 = ~P14;}
+			if(LED_R == 0){LED_R = ~LED_R;CLK_SysTickDelay(40000);LED_R = ~LED_R;}
+			if(LED_G == 0){LED_G = ~LED_G;CLK_SysTickDelay(40000);LED_G = ~LED_G;}
+			if(LED_B == 0){LED_B = ~LED_B;CLK_SysTickDelay(40000);LED_B = ~LED_B;}
 	}
 	else if  ( TREBLE_B && Encoder_treble_flag == 0 )
 	{
@@ -66,9 +66,9 @@ void Encoder_Task(void)
 //		I2C_SW_Send(0xa0,NTP_8230+14,2);
 		Encoder_treble_flag = 1;
 		Amplifier_TREBLE_B();
-//		if(P12 == 0){P12 = ~P12;CLK_SysTickDelay(40000);P12 = ~P12;}
-//		if(P13 == 0){P13 = ~P13;CLK_SysTickDelay(40000);P13 = ~P13;}
-//		if(P14 == 0){P14 = ~P14;CLK_SysTickDelay(40000);P14 = ~P14;}
+			if(LED_R == 0){LED_R = ~LED_R;CLK_SysTickDelay(40000);LED_R = ~LED_R;}
+			if(LED_G == 0){LED_G = ~LED_G;CLK_SysTickDelay(40000);LED_G = ~LED_G;}
+			if(LED_B == 0){LED_B = ~LED_B;CLK_SysTickDelay(40000);LED_B = ~LED_B;}
 	}
 	/*************	sub	*******************/
 	else if  ( SUB_A && Encoder_sub_flag )
@@ -78,9 +78,9 @@ void Encoder_Task(void)
 //		I2C_SW_Send(0xa0,NTP_8230+20,2);
 		Encoder_sub_flag = 0;
 		Amplifier_BASS_A();
-//		if(P12 == 0){P12 = ~P12;CLK_SysTickDelay(40000);P12 = ~P12;}
-//		if(P13 == 0){P13 = ~P13;CLK_SysTickDelay(40000);P13 = ~P13;}
-//		if(P14 == 0){P14 = ~P14;CLK_SysTickDelay(40000);P14 = ~P14;}
+			if(LED_R == 0){LED_R = ~LED_R;CLK_SysTickDelay(40000);LED_R = ~LED_R;}
+			if(LED_G == 0){LED_G = ~LED_G;CLK_SysTickDelay(40000);LED_G = ~LED_G;}
+			if(LED_B == 0){LED_B = ~LED_B;CLK_SysTickDelay(40000);LED_B = ~LED_B;}
 	}
 	else if  ( SUB_B && Encoder_sub_flag == 0 )
 	{
@@ -89,9 +89,9 @@ void Encoder_Task(void)
 //		I2C_SW_Send(0xa0,NTP_8230+20,2);
 		Encoder_sub_flag = 1;
 		Amplifier_BASS_B();
-//		if(P12 == 0){P12 = ~P12;CLK_SysTickDelay(40000);P12 = ~P12;}
-//		if(P13 == 0){P13 = ~P13;CLK_SysTickDelay(40000);P13 = ~P13;}
-//		if(P14 == 0){P14 = ~P14;CLK_SysTickDelay(40000);P14 = ~P14;}
+			if(LED_R == 0){LED_R = ~LED_R;CLK_SysTickDelay(40000);LED_R = ~LED_R;}
+			if(LED_G == 0){LED_G = ~LED_G;CLK_SysTickDelay(40000);LED_G = ~LED_G;}
+			if(LED_B == 0){LED_B = ~LED_B;CLK_SysTickDelay(40000);LED_B = ~LED_B;}
 	}
 }
 
