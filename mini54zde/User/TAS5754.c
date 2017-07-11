@@ -4519,8 +4519,8 @@ const uint8_t IIC_REG_5754[4401][2] = {
 uint8_t Vol_TAS[][2] =
 {
 	{0,0},
-	{61,0xad},
-	{62,0x60},
+	{61,0},
+	{62,0},
 	{63,0}
 };
 
@@ -4938,10 +4938,31 @@ const Bass	Bass_TAS[17] =
 		0x08,0x7e,0x39,0x83,0x00,0x7f,0x7b,0xcb,0x00,0x81,0x00,0x5c,0x00  ,
 		0x00,0x00}	
 };
-//void tas_5758_tone_init(void)
-//{
-//	;
-//}
+
+uint8_t p[255][2];
+void test_24c02(void)
+{
+	uint8_t i;
+	/* Programming EEPROM */
+    for(i=0; i<255; i++)
+	{
+		p[i][0] = i;
+		p[i][1] = i;
+        I2C_SW_Send(_24c02_addr,p[i],2);
+	}
+    /* Verify */
+    for(i=0; i<255; i++) 
+	{
+		p[i][0] = 0;
+		p[i][1] = 0;		
+		I2C_SW_Get(_24c02_addr,p[i],2);
+//        if(p[i][1] != i) 
+//		{
+//			LED_R = 0;LED_B = 0;LED_G = 0;
+//            break;
+//        }
+    }
+}
 
 void TAS_5754_Init(uint8_t Adds)
 {
@@ -4954,17 +4975,9 @@ void TAS_5754_Init(uint8_t Adds)
 		buf[1] = IIC_REG_5754[index][1];
 		I2C_SW_Send(Adds,buf,2);	
 	}
-//	I2C_SW_Send(_24C02_addr,Vol_TAS[1],2);
-//	I2C_SW_Send(_24C02_addr,Vol_TAS[2],2);
-//	I2C_SW_Get(slave_addr,Vol_TAS[0],1);
-//	I2C_SW_Get(slave_addr,Vol_TAS[1],1);
-//	I2C_SW_Get(slave_addr,Vol_TAS[2],1);
-//	I2C_SW_Get(slave_addr,Vol_TAS[3],1);
-//	I2C_SW_Get(_24C02_addr,Vol_TAS[1],1);
-//	I2C_SW_Get(_24C02_addr,Vol_TAS[2],1);
-//	I2C_SW_Send(slave_addr,Vol_TAS[0],2);
-//	I2C_SW_Send(slave_addr,Vol_TAS[1],2);
-//	I2C_SW_Send(slave_addr,Vol_TAS[2],2);
+	I2C_SW_Get(slave_addr,Vol_TAS[0],1);
+	I2C_SW_Get(slave_addr,Vol_TAS[1],1);
+	I2C_SW_Get(slave_addr,Vol_TAS[2],1);
 }
 
 void Amplifier_VOL_A(void)
@@ -4983,8 +4996,6 @@ void Amplifier_VOL_A(void)
 			I2C_SW_Send(slave_addr,Vol_TAS[0],2);
 			I2C_SW_Send(slave_addr,Vol_TAS[1],2);
 			I2C_SW_Send(slave_addr,Vol_TAS[2],2);
-			I2C_SW_Send(_24C02_addr,Vol_TAS[1],2);
-			I2C_SW_Send(_24C02_addr,Vol_TAS[2],2);
 		}
 }
 
@@ -5004,8 +5015,6 @@ void Amplifier_VOL_B(void)
 		I2C_SW_Send(slave_addr,Vol_TAS[0],2);
 		I2C_SW_Send(slave_addr,Vol_TAS[1],2);
 		I2C_SW_Send(slave_addr,Vol_TAS[2],2);
-		I2C_SW_Send(_24C02_addr,Vol_TAS[1],2);
-		I2C_SW_Send(_24C02_addr,Vol_TAS[2],2);
 	}
 }
 
