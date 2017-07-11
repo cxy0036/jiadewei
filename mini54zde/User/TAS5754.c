@@ -4519,8 +4519,8 @@ const uint8_t IIC_REG_5754[4401][2] = {
 uint8_t Vol_TAS[][2] =
 {
 	{0,0},
-	{61,0},
-	{62,0},
+	{61,0xad},
+	{62,0x60},
 	{63,0}
 };
 
@@ -4954,9 +4954,17 @@ void TAS_5754_Init(uint8_t Adds)
 		buf[1] = IIC_REG_5754[index][1];
 		I2C_SW_Send(Adds,buf,2);	
 	}
-	I2C_SW_Get(slave_addr,Vol_TAS[0],1);
-	I2C_SW_Get(slave_addr,Vol_TAS[1],1);
-	I2C_SW_Get(slave_addr,Vol_TAS[2],1);
+//	I2C_SW_Send(_24C02_addr,Vol_TAS[1],2);
+//	I2C_SW_Send(_24C02_addr,Vol_TAS[2],2);
+//	I2C_SW_Get(slave_addr,Vol_TAS[0],1);
+//	I2C_SW_Get(slave_addr,Vol_TAS[1],1);
+//	I2C_SW_Get(slave_addr,Vol_TAS[2],1);
+//	I2C_SW_Get(slave_addr,Vol_TAS[3],1);
+//	I2C_SW_Get(_24C02_addr,Vol_TAS[1],1);
+//	I2C_SW_Get(_24C02_addr,Vol_TAS[2],1);
+//	I2C_SW_Send(slave_addr,Vol_TAS[0],2);
+//	I2C_SW_Send(slave_addr,Vol_TAS[1],2);
+//	I2C_SW_Send(slave_addr,Vol_TAS[2],2);
 }
 
 void Amplifier_VOL_A(void)
@@ -4975,6 +4983,8 @@ void Amplifier_VOL_A(void)
 			I2C_SW_Send(slave_addr,Vol_TAS[0],2);
 			I2C_SW_Send(slave_addr,Vol_TAS[1],2);
 			I2C_SW_Send(slave_addr,Vol_TAS[2],2);
+			I2C_SW_Send(_24C02_addr,Vol_TAS[1],2);
+			I2C_SW_Send(_24C02_addr,Vol_TAS[2],2);
 		}
 }
 
@@ -4994,6 +5004,8 @@ void Amplifier_VOL_B(void)
 		I2C_SW_Send(slave_addr,Vol_TAS[0],2);
 		I2C_SW_Send(slave_addr,Vol_TAS[1],2);
 		I2C_SW_Send(slave_addr,Vol_TAS[2],2);
+		I2C_SW_Send(_24C02_addr,Vol_TAS[1],2);
+		I2C_SW_Send(_24C02_addr,Vol_TAS[2],2);
 	}
 }
 

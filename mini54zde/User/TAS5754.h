@@ -8,6 +8,7 @@
 #include "i2c_software_gpio.h"
 
 #define slave_addr	0x98
+#define _24C02_addr	0xa0
 
 
 #ifdef TAS5754_GLOBALS
@@ -15,7 +16,13 @@
 #else
 	#define TAS5754_EXT extern
 #endif
-
+	
+typedef struct _24C02_reg
+{
+	uint8_t reg;
+	uint8_t value;
+}_24C02_reg;
+	
 typedef struct page
 {
 	uint8_t cmd;
@@ -66,6 +73,7 @@ typedef struct Bass
 	page	page0_T;
 }Bass;
 
+void iic_24c02(void);
 void TAS_5754_Init(uint8_t Adds);
 void Amplifier_Power_ON(void);
 void Amplifier_Power_OFF(void);
