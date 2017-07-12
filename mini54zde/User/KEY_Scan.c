@@ -25,9 +25,9 @@
 #define KEY_STATE_CONTINUE	4	//Á¬°´×´Ì¬
 #define KEY_STATE_RELEASE	5	//ÊÍ·Å×´Ì¬
 
-char n = 0,m = 0,k=0,j=0,flag = 0;
+//char n = 0,m = 0,k=0,j=0,flag = 0;
 uint8_t	SYS_power_flag = 0;
-uint32_t key_count = 0;
+uint16_t key_count = 0;
 uint8_t Channel[1] = {0x00};
 //	static uint8_t s_u8LastKey = KEY_NULL,BOTH_EDGE_ROTOB = 1,BOTH_EDGE_ROTOA = 1;
 

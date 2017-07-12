@@ -118,7 +118,7 @@ int32_t main(void)
 	POWER_OFF = 1;
 	BT_POWER = 1;
 	ST_BY = 1;
-	I2C_SW_Open(500000);	
+	I2C_SW_Open(400000);	
 //	I2C_SW_Send( slave_addr,TAS_5754_REG0,35);
 //	CLK_SysTickDelay(1000);
 //	ST_BY = 0;
@@ -141,8 +141,8 @@ int32_t main(void)
 			TAS_5754_Init(slave_addr);
 			CLK_SysTickDelay(5000);			
 			_RST = 1;
+//			test_24c02();
 			timer1_init();
-//			Power_Meter_Control();
 		}
 		else if( (~POWER_FLAG) & POWER_OFF )
 		{
@@ -153,7 +153,8 @@ int32_t main(void)
 //		Headset_Test_Task();
 		Bluetooth_Test_Task();
 		IR_test_task();
-		test_24c02();
+//		IR_init();
+		
 //		if(SYS_power_flag && ledcount>50000 )
 //		{
 //			ledcount = 0;
@@ -171,8 +172,8 @@ void timer1_init(void)
 {
 	CLK_EnableModuleClock(TMR1_MODULE);        
     // Select Timer 1 clock source from internal 22.1184MHz RC clock.
-//    CLK_SetModuleClock(TMR1_MODULE,CLK_CLKSEL1_TMR1_S_IRC22M,1);
-	CLK_SetModuleClock(TMR1_MODULE,CLK_CLKSEL1_TMR1_S_XTAL,1);
+    CLK_SetModuleClock(TMR1_MODULE,CLK_CLKSEL1_TMR1_S_IRC22M,1);
+//	CLK_SetModuleClock(TMR1_MODULE,CLK_CLKSEL1_TMR1_S_XTAL,1);
     // configure timer to operate in specified mode.
     TIMER_Open(TIMER1, TIMER_PERIODIC_MODE, 7812);        //7.8125K = 0.128MS = 128US
     // start Timer counting

@@ -1,7 +1,7 @@
 #define Bluetooth_GLOBALS
 #include "Bluetooth.h"
 
-uint32_t	BT_Flag = 0;
+uint8_t	BT_Flag = 0;
 
 void Bluetooth_Test_Task(void)
 {

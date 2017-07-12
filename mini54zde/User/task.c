@@ -131,7 +131,7 @@ void TMR1_IRQHandler(void)
 		}
 		power_change = 0;
 		key_count = 0;
-		key_status = 1;
+//		key_status = 1;
 	}
 	else
 	{
@@ -144,10 +144,10 @@ void TMR1_IRQHandler(void)
 			Channel[0] = d;	
 		}
 		key_count++;
-		if(key_count > 0xffff)key_count = 0xffff;
-		key_status = 0;
+		if(key_count > 0xfff0)key_count = 0xfff0;
+//		key_status = 0;
 	}
-//        irticks++;ledcount++;//Power_Meter++;
+        irticks++;ledcount++;//Power_Meter++;
         TIMER_ClearIntFlag(TIMER1);
 }
 

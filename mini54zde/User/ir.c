@@ -16,22 +16,21 @@ void IR_init(void)
     GPIO_EnableInt(P3, 0, GPIO_INT_FALLING);
     NVIC_EnableIRQ(GPIO234_IRQn);
 	// Enable IP clock
-    CLK_EnableModuleClock(TMR0_MODULE);        
-    // Select Timer 1 clock source from internal 22.1184MHz RC clock.
-    CLK_SetModuleClock(TMR0_MODULE,CLK_CLKSEL1_TMR0_S_IRC22M,1);
-    // configure timer to operate in specified mode.
-    TIMER_Open(TIMER0, TIMER_PERIODIC_MODE, 7812);        //7.8125K = 0.128MS = 128US
-    // start Timer counting
-    TIMER_Start(TIMER0);
-    // enable the Timer time-out interrupt function.
-    TIMER_EnableInt(TIMER0);
-    // Enable timer interrupt
-    NVIC_EnableIRQ(TMR0_IRQn);
+//    CLK_EnableModuleClock(TMR0_MODULE);        
+//    // Select Timer 1 clock source from internal 22.1184MHz RC clock.
+//    CLK_SetModuleClock(TMR0_MODULE,CLK_CLKSEL1_TMR0_S_IRC22M,1);
+//    // configure timer to operate in specified mode.
+//    TIMER_Open(TIMER0, TIMER_PERIODIC_MODE, 7812);        //7.8125K = 0.128MS = 128US
+//    // start Timer counting
+//    TIMER_Start(TIMER0);
+//    // enable the Timer time-out interrupt function.
+//    TIMER_EnableInt(TIMER0);
+//    // Enable timer interrupt
+//    NVIC_EnableIRQ(TMR0_IRQn);
 }
 
 void IR_test_task(void)
 {
-
 				if(disp_flag)
                 {
 					switch(KEY_data)
@@ -81,7 +80,6 @@ void IR_test_task(void)
 						break;
 						
 						case 0x0a:							//ÔÝÊ±BLUETOOTHÌæ´úLINE IN
-//							P12 = 0;P13 = 1;P14 = 1;
 							if( SYS_power_flag )
 							{
 								_4052_A = 1;_4052_B = 0;
@@ -121,12 +119,10 @@ void IR_test_task(void)
 						break;
 
 						case 0x0d:							//OPTICAL
-//							P12 = 0;P13 = 0;P14 = 0;
 							disp_flag=0;
 						break;
 						
 						case 0x0E:							//COAXIAL
-//							P12 = 0;P13 = 0;P14 = 0;
 							disp_flag=0;
 						break;
 
@@ -153,8 +149,6 @@ void IR_test_task(void)
 						break;
 
 						case 0x14:							//ON-OFF
-//							POWER_TASK();
-//							POWER_KEY = ~POWER_KEY;
 							POWER_KEY = 0;
 							CLK_SysTickDelay(25*1000*1000);
 							POWER_KEY = 1;
@@ -165,13 +159,11 @@ void IR_test_task(void)
 							if( SYS_power_flag )
 							{
 								Amplifier_Auto_Mute();
-//							P12 = 0;P13 = 0;P14 = 1;
 							}
 							disp_flag=0;
 						break;
 
 						case 0x18:							//HDMI
-//							P12 = 0;P13 = 0;P14 = 1;
 							disp_flag=0;
 						break;
 						default:

@@ -39,6 +39,11 @@ typedef struct reg
 	uint8_t reg_value;
 	uint8_t reg_data;
 }reg;
+//typedef struct Vol
+//{
+//	page	page0_V;
+//	reg		reg_v[3];
+//}Vol;
 typedef struct Treble
 {
 	page	page1_T;
@@ -72,6 +77,7 @@ void test_24c02(void);
 void TAS_5754_Init(uint8_t Adds);
 void Amplifier_Power_ON(void);
 void Amplifier_Power_OFF(void);
+void vol_adjust(void);
 void Amplifier_VOL_A(void);
 void Amplifier_VOL_B(void);
 void treble_adjust(void);

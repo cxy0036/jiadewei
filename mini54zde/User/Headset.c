@@ -2,7 +2,7 @@
 #define Headset_GLOBALS
 #include "Headset.h"
 
-extern 	uint8_t NTP_8230[];
+//extern 	uint8_t NTP_8230[];
 uint8_t	Headset_flag = 1;
 
 /************************************************************

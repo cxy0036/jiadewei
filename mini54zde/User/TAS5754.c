@@ -3,6 +3,7 @@
 
 uint8_t treble_level = 0;
 uint8_t bass_level = 0;
+uint8_t vol_level = 0;
 
 const uint8_t IIC_REG_5754[4401][2] = {
 //// Dump of TAS5754/6M for DirectI2CTab->RegisterDump
@@ -4523,7 +4524,40 @@ uint8_t Vol_TAS[][2] =
 	{62,0},
 	{63,0}
 };
-
+//const Vol	Vol_TAS[31] =
+//{
+//	{0,0,61,255,62,255,63,34},
+//	{0,0,61,202,62,202,63,34},
+//	{0,0,61,162,62,162,63,34},
+//	{0,0,61,132,62,132,63,34},
+//	{0,0,61,112,62,112,63,34},
+//	{0,0,61,102,62,102,63,34},
+//	{0,0,61,96,62,96,63,34},
+//	{0,0,61,90,62,90,63,34},
+//	{0,0,61,84,62,84,63,34},
+//	{0,0,61,78,62,78,63,34},
+//	{0,0,61,72,62,72,63,34},
+//	{0,0,61,68,62,68,63,34},
+//	{0,0,61,64,62,64,63,34},
+//	{0,0,61,60,62,60,63,34},
+//	{0,0,61,56,62,56,63,34},
+//	{0,0,61,52,62,52,63,34},
+//	{0,0,61,50,62,50,63,34},
+//	{0,0,61,48,62,48,63,34},
+//	{0,0,61,46,62,46,63,34},
+//	{0,0,61,44,62,44,63,34},
+//	{0,0,61,42,62,42,63,34},
+//	{0,0,61,40,62,40,63,34},
+//	{0,0,61,38,62,38,63,34},
+//	{0,0,61,36,62,36,63,34},
+//	{0,0,61,34,62,34,63,34},
+//	{0,0,61,33,62,33,63,34},
+//	{0,0,61,32,62,32,63,34},
+//	{0,0,61,31,62,31,63,34},
+//	{0,0,61,30,62,30,63,34},
+//	{0,0,61,29,62,29,63,34},
+//	{0,0,61,28,62,28,63,34}
+//};
 const Treble	Treble_TAS[17] =
 {
 	{0x00,0x2f,
@@ -4939,29 +4973,38 @@ const Bass	Bass_TAS[17] =
 		0x00,0x00}	
 };
 
-uint8_t p[255][2];
+uint8_t pii[35][2]=
+{
+	{0,0},//{0,255},
+	{0,20},//{0,202},
+	{0,0},//{0,162},
+	{0,0}
+};
 void test_24c02(void)
 {
 	uint8_t i;
 	/* Programming EEPROM */
-    for(i=0; i<255; i++)
+    for(i=0; i<35; i++)
 	{
-		p[i][0] = i;
-		p[i][1] = i;
-        I2C_SW_Send(_24c02_addr,p[i],2);
+		pii[i][0] = i;
+		pii[i][1] = 0;
+//        I2C_SW_Send(_24c02_addr,pii[i-31],2);
+//		CLK_SysTickDelay(2000);
+//		p[i][1] = 0x00;
+		I2C_SW_Get(_24c02_addr,pii[i],1);
 	}
-    /* Verify */
-    for(i=0; i<255; i++) 
-	{
-		p[i][0] = 0;
-		p[i][1] = 0;		
-		I2C_SW_Get(_24c02_addr,p[i],2);
-//        if(p[i][1] != i) 
-//		{
-//			LED_R = 0;LED_B = 0;LED_G = 0;
-//            break;
-//        }
-    }
+	vol_level = pii[32][1];
+//    /* Verify */
+//    for(i=0; i<256; i++) 
+//	{
+//		p[i][0] = i;
+//		p[i][1] = 0x00;		
+//	}
+//	for(i=0; i<256; i++) 
+//	{
+//		I2C_SW_Get(_24c02_addr,p[i],1);
+        
+//    }
 }
 
 void TAS_5754_Init(uint8_t Adds)
@@ -4975,47 +5018,413 @@ void TAS_5754_Init(uint8_t Adds)
 		buf[1] = IIC_REG_5754[index][1];
 		I2C_SW_Send(Adds,buf,2);	
 	}
-	I2C_SW_Get(slave_addr,Vol_TAS[0],1);
-	I2C_SW_Get(slave_addr,Vol_TAS[1],1);
-	I2C_SW_Get(slave_addr,Vol_TAS[2],1);
+	test_24c02();
+	buf[0] = 0;buf[1] = 0;
+	I2C_SW_Send(slave_addr,buf,2);
+	buf[0] = 61;buf[1] = pii[(pii[32][1])][1];	//pii[32]  VOL
+	I2C_SW_Send(slave_addr,buf,2);
+	buf[0] = 62;buf[1] = pii[(pii[32][1])][1];
+	I2C_SW_Send(slave_addr,buf,2);
 }
 
+void vol_adjust(void)
+{
+	uint8_t p[2];
+	p[0] = 0;p[1] = 0;	
+	I2C_SW_Send(slave_addr,p,2);
+	p[0] = 61;p[1] = pii[vol_level][1];	
+	I2C_SW_Send(slave_addr,p,2);
+	p[0] = 62;p[1] = pii[vol_level][1];	
+	I2C_SW_Send(slave_addr,p,2);
+#if 0
+	uint8_t p[4];
+	switch(vol_level)
+	{
+		case	0:
+			p[0] = Vol_TAS[0].page0_V.cmd;
+			p[1] = Vol_TAS[0].page0_V.page_value;
+			I2C_SW_Send(slave_addr,p,2);
+			p[0] = Vol_TAS[0].reg_v[0].reg_value;
+			p[1] = Vol_TAS[0].reg_v[0].reg_data;
+			I2C_SW_Send(slave_addr,p,2);
+			p[0] = Vol_TAS[0].reg_v[1].reg_value;
+			p[1] = Vol_TAS[0].reg_v[1].reg_data;
+			I2C_SW_Send(slave_addr,p,2);			
+			break;
+		
+		case	1:
+			p[0] = Vol_TAS[1].page0_V.cmd;
+			p[1] = Vol_TAS[1].page0_V.page_value;
+			I2C_SW_Send(slave_addr,p,2);
+			p[0] = Vol_TAS[1].reg_v[0].reg_value;
+			p[1] = Vol_TAS[1].reg_v[0].reg_data;
+			I2C_SW_Send(slave_addr,p,2);
+			p[0] = Vol_TAS[1].reg_v[1].reg_value;
+			p[1] = Vol_TAS[1].reg_v[1].reg_data;
+			I2C_SW_Send(slave_addr,p,2);
+			break;
+		case	2:
+			p[0] = Vol_TAS[2].page0_V.cmd;
+			p[1] = Vol_TAS[2].page0_V.page_value;
+			I2C_SW_Send(slave_addr,p,2);
+			p[0] = Vol_TAS[2].reg_v[0].reg_value;
+			p[1] = Vol_TAS[2].reg_v[0].reg_data;
+			I2C_SW_Send(slave_addr,p,2);
+			p[0] = Vol_TAS[2].reg_v[1].reg_value;
+			p[1] = Vol_TAS[2].reg_v[1].reg_data;
+			I2C_SW_Send(slave_addr,p,2);
+			break;
+		case	3:
+			p[0] = Vol_TAS[3].page0_V.cmd;
+			p[1] = Vol_TAS[3].page0_V.page_value;
+			I2C_SW_Send(slave_addr,p,2);
+			p[0] = Vol_TAS[3].reg_v[0].reg_value;
+			p[1] = Vol_TAS[3].reg_v[0].reg_data;
+			I2C_SW_Send(slave_addr,p,2);
+			p[0] = Vol_TAS[3].reg_v[1].reg_value;
+			p[1] = Vol_TAS[3].reg_v[1].reg_data;
+			I2C_SW_Send(slave_addr,p,2);
+			break;
+		case	4:
+			p[0] = Vol_TAS[4].page0_V.cmd;
+			p[1] = Vol_TAS[4].page0_V.page_value;
+			I2C_SW_Send(slave_addr,p,2);
+			p[0] = Vol_TAS[4].reg_v[0].reg_value;
+			p[1] = Vol_TAS[4].reg_v[0].reg_data;
+			I2C_SW_Send(slave_addr,p,2);
+			p[0] = Vol_TAS[4].reg_v[1].reg_value;
+			p[1] = Vol_TAS[4].reg_v[1].reg_data;
+			I2C_SW_Send(slave_addr,p,2);
+			break;
+		case	5:
+			p[0] = Vol_TAS[5].page0_V.cmd;
+			p[1] = Vol_TAS[5].page0_V.page_value;
+			I2C_SW_Send(slave_addr,p,2);
+			p[0] = Vol_TAS[5].reg_v[0].reg_value;
+			p[1] = Vol_TAS[5].reg_v[0].reg_data;
+			I2C_SW_Send(slave_addr,p,2);
+			p[0] = Vol_TAS[5].reg_v[1].reg_value;
+			p[1] = Vol_TAS[5].reg_v[1].reg_data;
+			I2C_SW_Send(slave_addr,p,2);
+			break;
+		case	6:
+			p[0] = Vol_TAS[6].page0_V.cmd;
+			p[1] = Vol_TAS[6].page0_V.page_value;
+			I2C_SW_Send(slave_addr,p,2);
+			p[0] = Vol_TAS[6].reg_v[0].reg_value;
+			p[1] = Vol_TAS[6].reg_v[0].reg_data;
+			I2C_SW_Send(slave_addr,p,2);
+			p[0] = Vol_TAS[6].reg_v[1].reg_value;
+			p[1] = Vol_TAS[6].reg_v[1].reg_data;
+			I2C_SW_Send(slave_addr,p,2);
+			break;
+		case	7:
+			p[0] = Vol_TAS[7].page0_V.cmd;
+			p[1] = Vol_TAS[7].page0_V.page_value;
+			I2C_SW_Send(slave_addr,p,2);
+			p[0] = Vol_TAS[7].reg_v[0].reg_value;
+			p[1] = Vol_TAS[7].reg_v[0].reg_data;
+			I2C_SW_Send(slave_addr,p,2);
+			p[0] = Vol_TAS[7].reg_v[1].reg_value;
+			p[1] = Vol_TAS[7].reg_v[1].reg_data;
+			I2C_SW_Send(slave_addr,p,2);
+			break;
+		case	8:
+			p[0] = Vol_TAS[8].page0_V.cmd;
+			p[1] = Vol_TAS[8].page0_V.page_value;
+			I2C_SW_Send(slave_addr,p,2);
+			p[0] = Vol_TAS[8].reg_v[0].reg_value;
+			p[1] = Vol_TAS[8].reg_v[0].reg_data;
+			I2C_SW_Send(slave_addr,p,2);
+			p[0] = Vol_TAS[8].reg_v[1].reg_value;
+			p[1] = Vol_TAS[8].reg_v[1].reg_data;
+			I2C_SW_Send(slave_addr,p,2);
+			break;
+		case	9:
+			p[0] = Vol_TAS[9].page0_V.cmd;
+			p[1] = Vol_TAS[9].page0_V.page_value;
+			I2C_SW_Send(slave_addr,p,2);
+			p[0] = Vol_TAS[9].reg_v[0].reg_value;
+			p[1] = Vol_TAS[9].reg_v[0].reg_data;
+			I2C_SW_Send(slave_addr,p,2);
+			p[0] = Vol_TAS[9].reg_v[1].reg_value;
+			p[1] = Vol_TAS[9].reg_v[1].reg_data;
+			I2C_SW_Send(slave_addr,p,2);
+			break;
+		case	10:
+			p[0] = Vol_TAS[10].page0_V.cmd;
+			p[1] = Vol_TAS[10].page0_V.page_value;
+			I2C_SW_Send(slave_addr,p,2);
+			p[0] = Vol_TAS[10].reg_v[0].reg_value;
+			p[1] = Vol_TAS[10].reg_v[0].reg_data;
+			I2C_SW_Send(slave_addr,p,2);
+			p[0] = Vol_TAS[10].reg_v[1].reg_value;
+			p[1] = Vol_TAS[10].reg_v[1].reg_data;
+			I2C_SW_Send(slave_addr,p,2);
+			break;
+		case	11:
+			p[0] = Vol_TAS[11].page0_V.cmd;
+			p[1] = Vol_TAS[11].page0_V.page_value;
+			I2C_SW_Send(slave_addr,p,2);
+			p[0] = Vol_TAS[11].reg_v[0].reg_value;
+			p[1] = Vol_TAS[11].reg_v[0].reg_data;
+			I2C_SW_Send(slave_addr,p,2);
+			p[0] = Vol_TAS[11].reg_v[1].reg_value;
+			p[1] = Vol_TAS[11].reg_v[1].reg_data;
+			I2C_SW_Send(slave_addr,p,2);
+			break;
+		case	12:
+			p[0] = Vol_TAS[12].page0_V.cmd;
+			p[1] = Vol_TAS[12].page0_V.page_value;
+			I2C_SW_Send(slave_addr,p,2);
+			p[0] = Vol_TAS[12].reg_v[0].reg_value;
+			p[1] = Vol_TAS[12].reg_v[0].reg_data;
+			I2C_SW_Send(slave_addr,p,2);
+			p[0] = Vol_TAS[12].reg_v[1].reg_value;
+			p[1] = Vol_TAS[12].reg_v[1].reg_data;
+			I2C_SW_Send(slave_addr,p,2);
+			break;
+		case	13:
+			p[0] = Vol_TAS[13].page0_V.cmd;
+			p[1] = Vol_TAS[13].page0_V.page_value;
+			I2C_SW_Send(slave_addr,p,2);
+			p[0] = Vol_TAS[13].reg_v[0].reg_value;
+			p[1] = Vol_TAS[13].reg_v[0].reg_data;
+			I2C_SW_Send(slave_addr,p,2);
+			p[0] = Vol_TAS[13].reg_v[1].reg_value;
+			p[1] = Vol_TAS[13].reg_v[1].reg_data;
+			I2C_SW_Send(slave_addr,p,2);
+			break;
+		case	14:
+			p[0] = Vol_TAS[14].page0_V.cmd;
+			p[1] = Vol_TAS[14].page0_V.page_value;
+			I2C_SW_Send(slave_addr,p,2);
+			p[0] = Vol_TAS[14].reg_v[0].reg_value;
+			p[1] = Vol_TAS[14].reg_v[0].reg_data;
+			I2C_SW_Send(slave_addr,p,2);
+			p[0] = Vol_TAS[14].reg_v[1].reg_value;
+			p[1] = Vol_TAS[14].reg_v[1].reg_data;
+			I2C_SW_Send(slave_addr,p,2);
+			break;
+		case	15:
+			p[0] = Vol_TAS[15].page0_V.cmd;
+			p[1] = Vol_TAS[15].page0_V.page_value;
+			I2C_SW_Send(slave_addr,p,2);
+			p[0] = Vol_TAS[15].reg_v[0].reg_value;
+			p[1] = Vol_TAS[15].reg_v[0].reg_data;
+			I2C_SW_Send(slave_addr,p,2);
+			p[0] = Vol_TAS[15].reg_v[1].reg_value;
+			p[1] = Vol_TAS[15].reg_v[1].reg_data;
+			I2C_SW_Send(slave_addr,p,2);
+			break;
+		case	16:
+			p[0] = Vol_TAS[16].page0_V.cmd;
+			p[1] = Vol_TAS[16].page0_V.page_value;
+			I2C_SW_Send(slave_addr,p,2);
+			p[0] = Vol_TAS[16].reg_v[0].reg_value;
+			p[1] = Vol_TAS[16].reg_v[0].reg_data;
+			I2C_SW_Send(slave_addr,p,2);
+			p[0] = Vol_TAS[16].reg_v[1].reg_value;
+			p[1] = Vol_TAS[16].reg_v[1].reg_data;
+			I2C_SW_Send(slave_addr,p,2);
+			break;
+		case	17:
+			p[0] = Vol_TAS[17].page0_V.cmd;
+			p[1] = Vol_TAS[17].page0_V.page_value;
+			I2C_SW_Send(slave_addr,p,2);
+			p[0] = Vol_TAS[17].reg_v[0].reg_value;
+			p[1] = Vol_TAS[17].reg_v[0].reg_data;
+			I2C_SW_Send(slave_addr,p,2);
+			p[0] = Vol_TAS[17].reg_v[1].reg_value;
+			p[1] = Vol_TAS[17].reg_v[1].reg_data;
+			I2C_SW_Send(slave_addr,p,2);
+			break;
+		case	18:
+			p[0] = Vol_TAS[18].page0_V.cmd;
+			p[1] = Vol_TAS[18].page0_V.page_value;
+			I2C_SW_Send(slave_addr,p,2);
+			p[0] = Vol_TAS[18].reg_v[0].reg_value;
+			p[1] = Vol_TAS[18].reg_v[0].reg_data;
+			I2C_SW_Send(slave_addr,p,2);
+			p[0] = Vol_TAS[18].reg_v[1].reg_value;
+			p[1] = Vol_TAS[18].reg_v[1].reg_data;
+			I2C_SW_Send(slave_addr,p,2);
+			break;
+		case	19:
+			p[0] = Vol_TAS[19].page0_V.cmd;
+			p[1] = Vol_TAS[19].page0_V.page_value;
+			I2C_SW_Send(slave_addr,p,2);
+			p[0] = Vol_TAS[19].reg_v[0].reg_value;
+			p[1] = Vol_TAS[19].reg_v[0].reg_data;
+			I2C_SW_Send(slave_addr,p,2);
+			p[0] = Vol_TAS[19].reg_v[1].reg_value;
+			p[1] = Vol_TAS[19].reg_v[1].reg_data;
+			I2C_SW_Send(slave_addr,p,2);
+			break;
+		case	20:
+			p[0] = Vol_TAS[20].page0_V.cmd;
+			p[1] = Vol_TAS[20].page0_V.page_value;
+			I2C_SW_Send(slave_addr,p,2);
+			p[0] = Vol_TAS[20].reg_v[0].reg_value;
+			p[1] = Vol_TAS[20].reg_v[0].reg_data;
+			I2C_SW_Send(slave_addr,p,2);
+			p[0] = Vol_TAS[20].reg_v[1].reg_value;
+			p[1] = Vol_TAS[20].reg_v[1].reg_data;
+			I2C_SW_Send(slave_addr,p,2);
+			break;
+		case	21:
+			p[0] = Vol_TAS[21].page0_V.cmd;
+			p[1] = Vol_TAS[21].page0_V.page_value;
+			I2C_SW_Send(slave_addr,p,2);
+			p[0] = Vol_TAS[21].reg_v[0].reg_value;
+			p[1] = Vol_TAS[21].reg_v[0].reg_data;
+			I2C_SW_Send(slave_addr,p,2);
+			p[0] = Vol_TAS[21].reg_v[1].reg_value;
+			p[1] = Vol_TAS[21].reg_v[1].reg_data;
+			I2C_SW_Send(slave_addr,p,2);
+			break;
+		case	22:
+			p[0] = Vol_TAS[22].page0_V.cmd;
+			p[1] = Vol_TAS[22].page0_V.page_value;
+			I2C_SW_Send(slave_addr,p,2);
+			p[0] = Vol_TAS[22].reg_v[0].reg_value;
+			p[1] = Vol_TAS[22].reg_v[0].reg_data;
+			I2C_SW_Send(slave_addr,p,2);
+			p[0] = Vol_TAS[22].reg_v[1].reg_value;
+			p[1] = Vol_TAS[22].reg_v[1].reg_data;
+			I2C_SW_Send(slave_addr,p,2);
+			break;
+		case	23:
+			p[0] = Vol_TAS[23].page0_V.cmd;
+			p[1] = Vol_TAS[23].page0_V.page_value;
+			I2C_SW_Send(slave_addr,p,2);
+			p[0] = Vol_TAS[23].reg_v[0].reg_value;
+			p[1] = Vol_TAS[23].reg_v[0].reg_data;
+			I2C_SW_Send(slave_addr,p,2);
+			p[0] = Vol_TAS[23].reg_v[1].reg_value;
+			p[1] = Vol_TAS[23].reg_v[1].reg_data;
+			I2C_SW_Send(slave_addr,p,2);
+			break;
+		case	24:
+			p[0] = Vol_TAS[24].page0_V.cmd;
+			p[1] = Vol_TAS[24].page0_V.page_value;
+			I2C_SW_Send(slave_addr,p,2);
+			p[0] = Vol_TAS[24].reg_v[0].reg_value;
+			p[1] = Vol_TAS[24].reg_v[0].reg_data;
+			I2C_SW_Send(slave_addr,p,2);
+			p[0] = Vol_TAS[24].reg_v[1].reg_value;
+			p[1] = Vol_TAS[24].reg_v[1].reg_data;
+			I2C_SW_Send(slave_addr,p,2);
+			break;
+		case	25:
+			p[0] = Vol_TAS[25].page0_V.cmd;
+			p[1] = Vol_TAS[25].page0_V.page_value;
+			I2C_SW_Send(slave_addr,p,2);
+			p[0] = Vol_TAS[25].reg_v[0].reg_value;
+			p[1] = Vol_TAS[25].reg_v[0].reg_data;
+			I2C_SW_Send(slave_addr,p,2);
+			p[0] = Vol_TAS[25].reg_v[1].reg_value;
+			p[1] = Vol_TAS[25].reg_v[1].reg_data;
+			I2C_SW_Send(slave_addr,p,2);
+			break;
+		case	26:
+			p[0] = Vol_TAS[26].page0_V.cmd;
+			p[1] = Vol_TAS[26].page0_V.page_value;
+			I2C_SW_Send(slave_addr,p,2);
+			p[0] = Vol_TAS[26].reg_v[0].reg_value;
+			p[1] = Vol_TAS[26].reg_v[0].reg_data;
+			I2C_SW_Send(slave_addr,p,2);
+			p[0] = Vol_TAS[26].reg_v[1].reg_value;
+			p[1] = Vol_TAS[26].reg_v[1].reg_data;
+			I2C_SW_Send(slave_addr,p,2);
+			break;
+		case	27:
+			p[0] = Vol_TAS[27].page0_V.cmd;
+			p[1] = Vol_TAS[27].page0_V.page_value;
+			I2C_SW_Send(slave_addr,p,2);
+			p[0] = Vol_TAS[27].reg_v[0].reg_value;
+			p[1] = Vol_TAS[27].reg_v[0].reg_data;
+			I2C_SW_Send(slave_addr,p,2);
+			p[0] = Vol_TAS[27].reg_v[1].reg_value;
+			p[1] = Vol_TAS[27].reg_v[1].reg_data;
+			I2C_SW_Send(slave_addr,p,2);
+			break;
+		case	28:
+			p[0] = Vol_TAS[28].page0_V.cmd;
+			p[1] = Vol_TAS[28].page0_V.page_value;
+			I2C_SW_Send(slave_addr,p,2);
+			p[0] = Vol_TAS[28].reg_v[0].reg_value;
+			p[1] = Vol_TAS[28].reg_v[0].reg_data;
+			I2C_SW_Send(slave_addr,p,2);
+			p[0] = Vol_TAS[28].reg_v[1].reg_value;
+			p[1] = Vol_TAS[28].reg_v[1].reg_data;
+			I2C_SW_Send(slave_addr,p,2);
+			break;
+		case	29:
+			p[0] = Vol_TAS[29].page0_V.cmd;
+			p[1] = Vol_TAS[29].page0_V.page_value;
+			I2C_SW_Send(slave_addr,p,2);
+			p[0] = Vol_TAS[29].reg_v[0].reg_value;
+			p[1] = Vol_TAS[29].reg_v[0].reg_data;
+			I2C_SW_Send(slave_addr,p,2);
+			p[0] = Vol_TAS[29].reg_v[1].reg_value;
+			p[1] = Vol_TAS[29].reg_v[1].reg_data;
+			I2C_SW_Send(slave_addr,p,2);
+			break;
+		case	30:
+			p[0] = Vol_TAS[30].page0_V.cmd;
+			p[1] = Vol_TAS[30].page0_V.page_value;
+			I2C_SW_Send(slave_addr,p,2);
+			p[0] = Vol_TAS[30].reg_v[0].reg_value;
+			p[1] = Vol_TAS[30].reg_v[0].reg_data;
+			I2C_SW_Send(slave_addr,p,2);
+			p[0] = Vol_TAS[30].reg_v[1].reg_value;
+			p[1] = Vol_TAS[30].reg_v[1].reg_data;
+			I2C_SW_Send(slave_addr,p,2);
+			break;
+		default:
+			break;
+	}
+#endif
+}
 void Amplifier_VOL_A(void)
 {
-		if(Vol_TAS[1][1] == 0x00)
-		{
-			;
-		}		
-		else
-		{
-//			I2C_SW_Get(slave_addr,Vol_TAS[0],1);
-//			I2C_SW_Get(slave_addr,Vol_TAS[1],1);
-//			I2C_SW_Get(slave_addr,Vol_TAS[2],1);
-			Vol_TAS[1][1] = Vol_TAS[1][1] - 1;
-			Vol_TAS[2][1] = Vol_TAS[2][1] - 1;
-			I2C_SW_Send(slave_addr,Vol_TAS[0],2);
-			I2C_SW_Send(slave_addr,Vol_TAS[1],2);
-			I2C_SW_Send(slave_addr,Vol_TAS[2],2);
-		}
+	uint8_t p[2];
+	vol_level++;
+	if(vol_level>=30)vol_level = 30;
+	if(vol_level<=0)vol_level = 30;
+	vol_adjust();
+	p[0] = 32;
+	p[1] = vol_level;
+	I2C_SW_Send(_24c02_addr,p,2);
+
 }
 
 void Amplifier_VOL_B(void)
 {
-	if(Vol_TAS[1][1] == 0xff)
-	{
-		;
-	}
-	else
-	{
-//		I2C_SW_Get(slave_addr,Vol_TAS[0],1);
-//		I2C_SW_Get(slave_addr,Vol_TAS[1],1);
-//		I2C_SW_Get(slave_addr,Vol_TAS[2],1);
-		Vol_TAS[1][1] = Vol_TAS[1][1] + 1;
-		Vol_TAS[2][1] = Vol_TAS[2][1] + 1;
-		I2C_SW_Send(slave_addr,Vol_TAS[0],2);
-		I2C_SW_Send(slave_addr,Vol_TAS[1],2);
-		I2C_SW_Send(slave_addr,Vol_TAS[2],2);
-	}
+	uint8_t p[2];
+	vol_level--;
+	if(vol_level>=30)vol_level = 0;
+	if(vol_level<=0)vol_level = 0;
+	vol_adjust();
+	p[0] = 32;
+	p[1] = vol_level;
+	I2C_SW_Send(_24c02_addr,p,2);
+//	if(Vol_TAS[1][1] == 0xff)
+//	{
+//		;
+//	}
+//	else
+//	{
+////		I2C_SW_Get(slave_addr,Vol_TAS[0],1);
+////		I2C_SW_Get(slave_addr,Vol_TAS[1],1);
+////		I2C_SW_Get(slave_addr,Vol_TAS[2],1);
+//		Vol_TAS[1][1] = Vol_TAS[1][1] + 1;
+//		Vol_TAS[2][1] = Vol_TAS[2][1] + 1;
+//		I2C_SW_Send(slave_addr,Vol_TAS[0],2);
+//		I2C_SW_Send(slave_addr,Vol_TAS[1],2);
+//		I2C_SW_Send(slave_addr,Vol_TAS[2],2);
+//	}
 }
 
 

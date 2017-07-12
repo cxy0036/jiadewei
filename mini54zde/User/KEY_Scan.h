@@ -15,8 +15,8 @@
 	
 #define POWER_KEY   		P14
 
-KEY_EXT uint8_t key_status;
-KEY_EXT uint32_t key_count;
+//KEY_EXT uint8_t key_status;
+KEY_EXT uint16_t key_count;
 KEY_EXT uint8_t	POWER;
 KEY_EXT uint8_t	POWER_OFF;	
 KEY_EXT uint8_t	POWER_FLAG;
