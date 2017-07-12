@@ -86,10 +86,10 @@ void Amplifier_TREBLE_B(void);
 void bass_adjust(void);
 void Amplifier_BASS_A(void);
 void Amplifier_BASS_B(void);
-void Amplifier_DELAY_A(void);
-void Amplifier_DELAY_B(void);	
-void Amplifier_BALANCE_A(void);
-void Amplifier_BALANCE_B(void);	
-void Amplifier_Auto_Mute(void);	
+//void Amplifier_DELAY_A(void);
+//void Amplifier_DELAY_B(void);	
+//void Amplifier_BALANCE_A(void);
+//void Amplifier_BALANCE_B(void);	
+//void Amplifier_Auto_Mute(void);	
 	
 #endif

@@ -11,7 +11,8 @@
 typedef enum  {IDLE=1,HEAD,DATA} irstatus_t; 
 typedef union {uint32_t data;struct {uint8_t address0;uint8_t address1;uint8_t data0;uint8_t data1;};}irdata_t;
 irdata_t ir;
-uint32_t irticks=0,ircount=0,ledcount=0;
+uint32_t irticks=0;//,ircount=0;//ledcount=0;
+uint8_t ircount=0;
 irstatus_t irwork=IDLE;
 uint8_t disp_flag=0,disp=0;
 uint8_t KEY_data = 0;
@@ -99,19 +100,11 @@ void GPIO_Init( void )
 	BT_FWD = 0;
 }
 
-//void _RST_8230( void )
-//{
-//	_RST = 1;
-//	TIMER_Delay( TIMER0, 5000 );
-//	_RST = 0;
-//	TIMER_Delay( TIMER0, 5000 );
-//	_RST = 1;
-//}
 
 // The Timer1 default IRQ, declared in startup_Mini51.s.
 void TMR0_IRQHandler(void)
 {
-        irticks++;ledcount++;
+        irticks++;//ledcount++;
         TIMER_ClearIntFlag(TIMER0);
 }
 // The Timer1 default IRQ, declared in startup_Mini51.s.
@@ -147,7 +140,7 @@ void TMR1_IRQHandler(void)
 		if(key_count > 0xfff0)key_count = 0xfff0;
 //		key_status = 0;
 	}
-        irticks++;ledcount++;//Power_Meter++;
+        irticks++;//ledcount++;//Power_Meter++;
         TIMER_ClearIntFlag(TIMER1);
 }
 

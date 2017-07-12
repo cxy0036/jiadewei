@@ -158,7 +158,7 @@ void IR_test_task(void)
 						case 0x15:							//MUTE
 							if( SYS_power_flag )
 							{
-								Amplifier_Auto_Mute();
+								//Amplifier_Auto_Mute();
 							}
 							disp_flag=0;
 						break;

@@ -33,36 +33,16 @@ uint8_t Channel[1] = {0x00};
 
 void Sys_power_on( void )
 {
-//	ST_BY = 1;
-//	CLK_SysTickDelay(1000);
-//	ST_BY = 0;
-//	CLK_SysTickDelay(1000);
+
 	ST_BY = 1;
 	CLK_SysTickDelay(200000);	
 	POWER = 0;
 	SYS_power_flag = 1;
-//	_RST = 1;
-//	BT_DET = 1;
-//	NTP_8230_INIT();
-//	_RST_8230();
-
-	
-//	I2C_SW_Open(50000);
-//	I2C_SW_Send( 0x54,NTP_8230,350);
 	LED_R = 0;LED_B = 0;LED_G = 0;	
 }
 
 void Sys_power_off( void )
 {
-//	Soft_Mute_flag = 1;
-//	Soft_Mute();
-//	BT_DET = 0;
-//	_RST = 0;
-//	PWM_Switching_flag = 1;
-//	PWM_Switching();
-//	PWM_MASK();
-//	Driver_Control();
-//	CLK_SysTickDelay(20000);
 	BT_POWER = 0;
 	ST_BY = 0;
 	SYS_power_flag = 0;

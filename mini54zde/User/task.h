@@ -14,7 +14,7 @@
 	
 TASK_EXT	uint8_t disp_flag;
 TASK_EXT	uint8_t KEY_data;
-TASK_EXT	uint32_t ledcount;
+//TASK_EXT	uint32_t ledcount;
 /**
   * IR Define
   */

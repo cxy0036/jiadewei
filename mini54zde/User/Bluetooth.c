@@ -42,13 +42,13 @@ void BT_Play_Pause(void)
 		CLK_SysTickDelay(1000);
 	}
 }
-void BT_REV_TASK(void)
-{
-	;
-}
-void BT_FWD_TASK(void)
-{
-	;
-}
+//void BT_REV_TASK(void)
+//{
+//	;
+//}
+//void BT_FWD_TASK(void)
+//{
+//	;
+//}
 
 

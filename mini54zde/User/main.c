@@ -112,23 +112,12 @@ static void SetupHardware(void)
 int32_t main(void)
 {	
 	SetupHardware();
-//	tas_5758_init();
 	POWER_FLAG = 0;
 	POWER = 1;
 	POWER_OFF = 1;
 	BT_POWER = 1;
 	ST_BY = 1;
-	I2C_SW_Open(400000);	
-//	I2C_SW_Send( slave_addr,TAS_5754_REG0,35);
-//	CLK_SysTickDelay(1000);
-//	ST_BY = 0;
-//	Sys_power_on();
-//	_RST = 1;
-//	CLK_SysTickDelay(50000);
-
-//	PA_5754_Init(slave_addr);
-//	CLK_SysTickDelay(1000);
-//	Sys_power_off();
+	I2C_SW_Open(500000);	
 	timer1_init();
 	#if 1
 	while(1)

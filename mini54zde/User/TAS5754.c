@@ -4517,13 +4517,7 @@ const uint8_t IIC_REG_5754[4401][2] = {
     { 0x55, 0x07 },
 };
 
-uint8_t Vol_TAS[][2] =
-{
-	{0,0},
-	{61,0},
-	{62,0},
-	{63,0}
-};
+
 //const Vol	Vol_TAS[31] =
 //{
 //	{0,0,61,255,62,255,63,34},
@@ -4994,23 +4988,12 @@ void test_24c02(void)
 		I2C_SW_Get(_24c02_addr,pii[i],1);
 	}
 	vol_level = pii[32][1];
-//    /* Verify */
-//    for(i=0; i<256; i++) 
-//	{
-//		p[i][0] = i;
-//		p[i][1] = 0x00;		
-//	}
-//	for(i=0; i<256; i++) 
-//	{
-//		I2C_SW_Get(_24c02_addr,p[i],1);
-        
-//    }
 }
 
 void TAS_5754_Init(uint8_t Adds)
 {
     uint8_t buf[2];
-    uint32_t index;
+    uint16_t index;
 
 	for(index = 0;  index<4401; index++)
 	{
@@ -5410,21 +5393,6 @@ void Amplifier_VOL_B(void)
 	p[0] = 32;
 	p[1] = vol_level;
 	I2C_SW_Send(_24c02_addr,p,2);
-//	if(Vol_TAS[1][1] == 0xff)
-//	{
-//		;
-//	}
-//	else
-//	{
-////		I2C_SW_Get(slave_addr,Vol_TAS[0],1);
-////		I2C_SW_Get(slave_addr,Vol_TAS[1],1);
-////		I2C_SW_Get(slave_addr,Vol_TAS[2],1);
-//		Vol_TAS[1][1] = Vol_TAS[1][1] + 1;
-//		Vol_TAS[2][1] = Vol_TAS[2][1] + 1;
-//		I2C_SW_Send(slave_addr,Vol_TAS[0],2);
-//		I2C_SW_Send(slave_addr,Vol_TAS[1],2);
-//		I2C_SW_Send(slave_addr,Vol_TAS[2],2);
-//	}
 }
 
 
@@ -7006,18 +6974,18 @@ void Amplifier_BASS_B(void)
 	bass_adjust();
 }
 
-void Amplifier_DELAY_A(void)
-{
-	;
-}
+//void Amplifier_DELAY_A(void)
+//{
+//	;
+//}
 
-void Amplifier_DELAY_B(void)
-{
-	;
-}
+//void Amplifier_DELAY_B(void)
+//{
+//	;
+//}
 
-void Amplifier_Auto_Mute(void)
-{
-	;
-}
+//void Amplifier_Auto_Mute(void)
+//{
+//	;
+//}
 

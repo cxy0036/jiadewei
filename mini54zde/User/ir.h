@@ -18,8 +18,6 @@
 	
 	
 void IR_init(void);
-void GPIO01_IRQHandler(void);
-void TMR1_IRQHandler(void);
 void IR_test_task(void);
 
 #endif
