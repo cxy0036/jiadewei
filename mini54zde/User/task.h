@@ -11,8 +11,10 @@
 #else
 	#define TASK_EXT extern
 #endif
-	
+typedef enum  {IDLE=1,HEAD,DATA} irstatus_t;	
+TASK_EXT	irstatus_t irwork;
 TASK_EXT	uint8_t disp_flag;
+TASK_EXT	uint8_t Channel_flag;
 TASK_EXT	uint8_t KEY_data;
 //TASK_EXT	uint32_t ledcount;
 /**
@@ -66,7 +68,6 @@ TASK_EXT	uint8_t KEY_data;
 #define SUB_ROTOB_6			6
 
 void GPIO_Init( void );
-//void Channel_select( uint8_t Channel );
 void _RST_8230( void );
 void TMR0_IRQHandler(void);
 void TMR1_IRQHandler(void);

@@ -8,15 +8,15 @@
 #define TIME_INFRARED_ZERO_US           1125         //数据“0”的时间：T0=0.565+0.56=1.125ms
 #define TIME_INFRARED_ONE_US            2245         //数据“1”的时间：T1=1.685+0.56=2.245ms
 #define TIME_INFRARED_STOP_US			40560		 //数据结束的时间：TH=40+0.56=40.56ms
-typedef enum  {IDLE=1,HEAD,DATA} irstatus_t; 
+//typedef enum  {IDLE=1,HEAD,DATA} irstatus_t; 
 typedef union {uint32_t data;struct {uint8_t address0;uint8_t address1;uint8_t data0;uint8_t data1;};}irdata_t;
 irdata_t ir;
-uint32_t irticks=0;//,ircount=0;//ledcount=0;
+uint16_t irticks=0;//,ircount=0;//ledcount=0;
 uint8_t ircount=0;
 irstatus_t irwork=IDLE;
 uint8_t disp_flag=0,disp=0;
 uint8_t KEY_data = 0;
-uint8_t d=0;
+//uint8_t d=0;
 uint8_t	power_change=0;
 
 /************************************************************
@@ -114,13 +114,15 @@ void TMR1_IRQHandler(void)
 	{
 		if(key_count > 0x1000)
 		{
-			Channel[0] = d;
+			;
+//			Channel[0] = d;
 		}
 		else if(key_count > 0x100)			//key which short press
 		{
-			d++;
-			if(d >= 0x04 )d = 0;
-			Channel[0] = d;	
+			Channel[0]++;
+			if(Channel[0] >= 0x04 )Channel[0] = 0;
+//			Channel[0] = d;	
+			Channel_flag = 1;
 		}
 		power_change = 0;
 		key_count = 0;
@@ -134,7 +136,7 @@ void TMR1_IRQHandler(void)
 			POWER_FLAG = ~POWER_FLAG;
 			POWER = 1;
 			POWER_OFF = 1;
-			Channel[0] = d;	
+//			Channel[0] = d;	
 		}
 		key_count++;
 		if(key_count > 0xfff0)key_count = 0xfff0;
@@ -287,7 +289,7 @@ void GPIO234_IRQHandler(void)
                 else// if( disp_flag == 1)	//REPEAT_code
 				{
 					disp++;
-					disp_flag = 1;
+					if(disp>2)disp_flag = 1;
 				}								
              break;
 						

@@ -113,6 +113,7 @@ int32_t main(void)
 {	
 	SetupHardware();
 	POWER_FLAG = 0;
+	Channel_flag = 0;
 	POWER = 1;
 	POWER_OFF = 1;
 	BT_POWER = 1;
@@ -138,10 +139,18 @@ int32_t main(void)
 			_RST = 0;
 			Sys_power_off();			
 		}
-		Channel_select( Channel );
+		if(Channel_flag)
+		{
+			Channel_flag = 0;
+			Channel_select( Channel );			
+		}
 //		Headset_Test_Task();
 		Bluetooth_Test_Task();
-		IR_test_task();
+		if(disp_flag)
+		{
+			disp_flag=0;
+			IR_test_task();
+		}
 //		IR_init();
 		
 //		if(SYS_power_flag && ledcount>50000 )

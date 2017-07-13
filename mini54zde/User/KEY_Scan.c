@@ -52,6 +52,8 @@ void Sys_power_off( void )
 
 void Channel_select( uint8_t* Channel )
 {
+	uint8_t p[2];
+	p[0] = 31;
 	switch( *Channel )
 	{
 		case 0:
@@ -62,7 +64,9 @@ void Channel_select( uint8_t* Channel )
 //				Power_Meter_Detect();
 				LED_R = 0;LED_B = 1;LED_G = 1;		
 			}
-			*Channel = 0xff;
+			p[1] = 0;
+			I2C_SW_Send(_24c02_addr,p,2);
+			*Channel = 0x00;
 			break;
 		case 1:
 			_4052_A = 1;
@@ -73,7 +77,9 @@ void Channel_select( uint8_t* Channel )
 //				Power_Meter_Detect();
 				LED_R = 1;LED_B = 0;LED_G = 1;		
 			}
-			*Channel = 0xff;
+			p[1] = 1;
+			I2C_SW_Send(_24c02_addr,p,2);
+			*Channel = 0x01;
 			break;
 		case 2:
 			_4052_A = 0;
@@ -84,7 +90,9 @@ void Channel_select( uint8_t* Channel )
 //				Power_Meter_Detect();
 				LED_R = 1;LED_B = 1;LED_G = 0;		
 			}
-			*Channel = 0xff;
+			p[1] = 2;
+			I2C_SW_Send(_24c02_addr,p,2);
+			*Channel = 0x02;
 			break;
 		case 3:
 			_4052_A = 1;
@@ -94,7 +102,9 @@ void Channel_select( uint8_t* Channel )
 //				Power_Meter_Detect();
 				LED_R = 0;LED_B = 0;LED_G = 0;		
 			}
-			*Channel = 0xff;
+			p[1] = 3;
+			I2C_SW_Send(_24c02_addr,p,2);
+			*Channel = 0x03;
 			break;
 		default:
 			break;

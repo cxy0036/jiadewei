@@ -140,17 +140,17 @@
         <Ww>
           <count>0</count>
           <WinNumber>1</WinNumber>
-          <ItemText>pii</ItemText>
+          <ItemText>Channel</ItemText>
         </Ww>
         <Ww>
           <count>1</count>
           <WinNumber>1</WinNumber>
-          <ItemText>ir</ItemText>
+          <ItemText>irticks</ItemText>
         </Ww>
         <Ww>
           <count>2</count>
           <WinNumber>1</WinNumber>
-          <ItemText>vol_tas</ItemText>
+          <ItemText>n</ItemText>
         </Ww>
         <Ww>
           <count>3</count>
@@ -160,12 +160,17 @@
         <Ww>
           <count>4</count>
           <WinNumber>1</WinNumber>
-          <ItemText>ledcount</ItemText>
+          <ItemText>irwork</ItemText>
         </Ww>
         <Ww>
           <count>5</count>
           <WinNumber>1</WinNumber>
           <ItemText>vol_level</ItemText>
+        </Ww>
+        <Ww>
+          <count>6</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>disp</ItemText>
         </Ww>
       </WatchWindow1>
       <MemoryWindow1>

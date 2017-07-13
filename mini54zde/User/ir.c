@@ -9,6 +9,8 @@
 ******************************************************************************/
 #include "ir.h"
 
+uint8_t n=0;
+
 void IR_init(void)
 {
 	/*  Configure P1.0 as Quasi-bidirection mode and enable interrupt by falling edge trigger */
@@ -31,17 +33,16 @@ void IR_init(void)
 
 void IR_test_task(void)
 {
-				if(disp_flag)
+	uint8_t p[2];
+	p[0] = 31;
+				if(disp_flag == 0)
                 {
 					switch(KEY_data)
 					{
 						case 0x01:							//BASS+
 							if( SYS_power_flag )
 							{
-								Amplifier_BASS_A();
-								if(LED_R == 0){LED_R = ~LED_R;CLK_SysTickDelay(40000);LED_R = ~LED_R;}
-								if(LED_G == 0){LED_G = ~LED_G;CLK_SysTickDelay(40000);LED_G = ~LED_G;}
-								if(LED_B == 0){LED_B = ~LED_B;CLK_SysTickDelay(40000);LED_B = ~LED_B;}								
+								Amplifier_BASS_A();							
 							}
 							disp_flag=0;
 						break;
@@ -49,10 +50,7 @@ void IR_test_task(void)
 						case 0x02:							//BASS-
 							if( SYS_power_flag )
 							{
-								Amplifier_BASS_B();
-								if(LED_R == 0){LED_R = ~LED_R;CLK_SysTickDelay(40000);LED_R = ~LED_R;}
-								if(LED_G == 0){LED_G = ~LED_G;CLK_SysTickDelay(40000);LED_G = ~LED_G;}
-								if(LED_B == 0){LED_B = ~LED_B;CLK_SysTickDelay(40000);LED_B = ~LED_B;}	
+								Amplifier_BASS_B();	
 							}
 							disp_flag=0;
 						break;
@@ -60,10 +58,7 @@ void IR_test_task(void)
 						case 0x03:							//TREBLE+
 							if( SYS_power_flag )
 							{
-								Amplifier_TREBLE_A();
-								if(LED_R == 0){LED_R = ~LED_R;CLK_SysTickDelay(40000);LED_R = ~LED_R;}
-								if(LED_G == 0){LED_G = ~LED_G;CLK_SysTickDelay(40000);LED_G = ~LED_G;}
-								if(LED_B == 0){LED_B = ~LED_B;CLK_SysTickDelay(40000);LED_B = ~LED_B;}						
+								Amplifier_TREBLE_A();						
 							}	
 							disp_flag=0;
 						break;
@@ -71,10 +66,7 @@ void IR_test_task(void)
 						case 0x04:							//TREBLE-
 							if( SYS_power_flag )
 							{
-								Amplifier_TREBLE_B();
-								if(LED_R == 0){LED_R = ~LED_R;CLK_SysTickDelay(40000);LED_R = ~LED_R;}
-								if(LED_G == 0){LED_G = ~LED_G;CLK_SysTickDelay(40000);LED_G = ~LED_G;}
-								if(LED_B == 0){LED_B = ~LED_B;CLK_SysTickDelay(40000);LED_B = ~LED_B;}	
+								Amplifier_TREBLE_B();	
 							}
 							disp_flag=0;
 						break;
@@ -85,7 +77,12 @@ void IR_test_task(void)
 								_4052_A = 1;_4052_B = 0;
 								BT_POWER = 1;
 								LED_R = 1;LED_B = 0;LED_G = 1;
-							}	
+								if(LED_R == 0){LED_R = ~LED_R;CLK_SysTickDelay(40000);LED_R = ~LED_R;}
+								if(LED_G == 0){LED_G = ~LED_G;CLK_SysTickDelay(40000);LED_G = ~LED_G;}
+								if(LED_B == 0){LED_B = ~LED_B;CLK_SysTickDelay(40000);LED_B = ~LED_B;}
+							}
+							p[1] = Channel[0] = 1;
+							I2C_SW_Send(_24c02_addr,p,2);
 							disp_flag=0;
 						break;
 						
@@ -99,12 +96,14 @@ void IR_test_task(void)
 								if(LED_G == 0){LED_G = ~LED_G;CLK_SysTickDelay(40000);LED_G = ~LED_G;}
 								if(LED_B == 0){LED_B = ~LED_B;CLK_SysTickDelay(40000);LED_B = ~LED_B;}
 							}
+							p[1] = Channel[0] = 2;
+							I2C_SW_Send(_24c02_addr,p,2);
 							disp_flag=0;
 						break;
 												
 						case 0x0c:							//BLUETOOTH
 //							_4052_A = 1;_4052_B = 0;
-							if( SYS_power_flag )
+							if(( SYS_power_flag )&&(Channel[0]==1))
 							{
 								if(disp_flag>1)
 								{
@@ -114,6 +113,9 @@ void IR_test_task(void)
 								{
 									BT_Play_Pause();
 								}
+								if(LED_R == 0){LED_R = ~LED_R;CLK_SysTickDelay(40000);LED_R = ~LED_R;}
+								if(LED_G == 0){LED_G = ~LED_G;CLK_SysTickDelay(40000);LED_G = ~LED_G;}
+								if(LED_B == 0){LED_B = ~LED_B;CLK_SysTickDelay(40000);LED_B = ~LED_B;}								
 							}
 							disp_flag=0;
 						break;
@@ -127,25 +129,20 @@ void IR_test_task(void)
 						break;
 
 						case 0x12:							//VOL+
+							disp_flag=0;
 							if( SYS_power_flag )
 							{
-								Amplifier_VOL_A();
-								if(LED_R == 0){LED_R = ~LED_R;CLK_SysTickDelay(40000);LED_R = ~LED_R;}
-								if(LED_G == 0){LED_G = ~LED_G;CLK_SysTickDelay(40000);LED_G = ~LED_G;}
-								if(LED_B == 0){LED_B = ~LED_B;CLK_SysTickDelay(40000);LED_B = ~LED_B;}			
+								Amplifier_VOL_A();			
 							}
-							disp_flag=0;
 						break;
 
 						case 0x13:							//VOL-
+							disp_flag=0;
+							n++;
 							if( SYS_power_flag )
 							{
 								Amplifier_VOL_B();
-								if(LED_R == 0){LED_R = ~LED_R;CLK_SysTickDelay(40000);LED_R = ~LED_R;}
-								if(LED_G == 0){LED_G = ~LED_G;CLK_SysTickDelay(40000);LED_G = ~LED_G;}
-								if(LED_B == 0){LED_B = ~LED_B;CLK_SysTickDelay(40000);LED_B = ~LED_B;}
 							}
-							disp_flag=0;
 						break;
 
 						case 0x14:							//ON-OFF
@@ -167,6 +164,7 @@ void IR_test_task(void)
 							disp_flag=0;
 						break;
 						default:
+							irwork = IDLE;
 							break;
 					}
 				}
