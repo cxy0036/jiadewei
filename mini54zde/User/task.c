@@ -27,10 +27,12 @@ uint8_t	power_change=0;
  */
 void GPIO_Init( void )
 {
-//	/* Set P1.5 to ADC channel 0 input pin */
+	/* Set P1.5 to ADC channel 0 input pin */
 //    SYS->P1_MFP = SYS_MFP_P15_AIN5;//SYS_MFP_P10_AIN1
+//	SYS->P3_MFP = SYS_MFP_P30_AIN6;
 //	SYS->P3_MFP = SYS_MFP_P32_GPIO;
 //	/* Analog pin OFFD to prevent leakage */
+//	P3->OFFD |= (1<<0) << GPIO_OFFD_OFFD_Pos;
 //    P1->OFFD |= (1 << 5) << GPIO_OFFD_OFFD_Pos;
 	
 	/* Init P2.2 P2.3 P2.4 and P3.6 to be output mode */
@@ -110,38 +112,38 @@ void TMR0_IRQHandler(void)
 // The Timer1 default IRQ, declared in startup_Mini51.s.
 void TMR1_IRQHandler(void)
 {
-	if(POWER_KEY)
-	{
-		if(key_count > 0x1000)
-		{
-			;
-//			Channel[0] = d;
-		}
-		else if(key_count > 0x100)			//key which short press
-		{
-			Channel[0]++;
-			if(Channel[0] >= 0x04 )Channel[0] = 0;
-//			Channel[0] = d;	
-			Channel_flag = 1;
-		}
-		power_change = 0;
-		key_count = 0;
-//		key_status = 1;
-	}
-	else
-	{
-		if((key_count > 0x2000)&&(power_change ==0))
-		{
-			power_change = 1;
-			POWER_FLAG = ~POWER_FLAG;
-			POWER = 1;
-			POWER_OFF = 1;
-//			Channel[0] = d;	
-		}
-		key_count++;
-		if(key_count > 0xfff0)key_count = 0xfff0;
-//		key_status = 0;
-	}
+//	if(POWER_KEY)
+//	{
+//		if(key_count > 0x1000)
+//		{
+//			;
+////			Channel[0] = d;
+//		}
+//		else if(key_count > 0x100)			//key which short press
+//		{
+//			Channel[0]++;
+//			if(Channel[0] >= 0x04 )Channel[0] = 0;
+////			Channel[0] = d;	
+//			Channel_flag = 1;
+//		}
+//		power_change = 0;
+//		key_count = 0;
+////		key_status = 1;
+//	}
+//	else
+//	{
+//		if((key_count > 0x2000)&&(power_change ==0))
+//		{
+//			power_change = 1;
+//			POWER_FLAG = ~POWER_FLAG;
+//			POWER = 1;
+//			POWER_OFF = 1;
+////			Channel[0] = d;	
+//		}
+//		key_count++;
+//		if(key_count > 0xfff0)key_count = 0xfff0;
+////		key_status = 0;
+//	}
         irticks++;//ledcount++;//Power_Meter++;
         TIMER_ClearIntFlag(TIMER1);
 }

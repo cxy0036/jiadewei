@@ -11,12 +11,37 @@
 
 uint8_t n=0;
 
+void ADC_IRQHandler(void)
+{
+    uint32_t u32Flag;
+
+    // Get ADC comparator interrupt flag
+    u32Flag = ADC_GET_INT_FLAG(ADC, ADC_ADF_INT);
+
+    // Get ADC convert result
+//    printf("Convert result is %x\n", (uint32_t)ADC_GET_CONVERSION_DATA(ADC, 0));
+	n=(uint32_t)ADC_GET_CONVERSION_DATA(ADC, 0);
+    ADC_CLR_INT_FLAG(ADC, u32Flag);
+}
 void IR_init(void)
 {
+		/* Set P3.0 to ADC channel 6 input pin */
+	SYS->P3_MFP = SYS_MFP_P30_AIN6;
+	/* Analog pin OFFD to prevent leakage */
+	P3->OFFD |= (1<<0) << GPIO_OFFD_OFFD_Pos;	
+	// Enable channel 6
+    ADC_Open(ADC, 0, 0, 0x01 << 6);
+	// Power on ADC
+    ADC_POWER_ON(ADC);
+	// Enable ADC convert complete interrupt
+    ADC_EnableInt(ADC, ADC_ADF_INT);
+    NVIC_EnableIRQ(ADC_IRQn);
+	
 	/*  Configure P1.0 as Quasi-bidirection mode and enable interrupt by falling edge trigger */
-    GPIO_SetMode(P3, BIT0, GPIO_PMD_QUASI);
-    GPIO_EnableInt(P3, 0, GPIO_INT_FALLING);
-    NVIC_EnableIRQ(GPIO234_IRQn);
+//    GPIO_SetMode(P3, BIT0, GPIO_PMD_QUASI);
+//    GPIO_EnableInt(P3, 0, GPIO_INT_FALLING);
+//    NVIC_EnableIRQ(GPIO234_IRQn);
+	
 	// Enable IP clock
 //    CLK_EnableModuleClock(TMR0_MODULE);        
 //    // Select Timer 1 clock source from internal 22.1184MHz RC clock.
@@ -74,12 +99,14 @@ void IR_test_task(void)
 						case 0x0a:							//ÔÝÊ±BLUETOOTHÌæ´úLINE IN
 							if( SYS_power_flag )
 							{
+								_RST = 0;
 								_4052_A = 1;_4052_B = 0;
 								BT_POWER = 1;
 								LED_R = 1;LED_B = 0;LED_G = 1;
 								if(LED_R == 0){LED_R = ~LED_R;CLK_SysTickDelay(40000);LED_R = ~LED_R;}
 								if(LED_G == 0){LED_G = ~LED_G;CLK_SysTickDelay(40000);LED_G = ~LED_G;}
 								if(LED_B == 0){LED_B = ~LED_B;CLK_SysTickDelay(40000);LED_B = ~LED_B;}
+								_RST = 1;
 							}
 							p[1] = Channel[0] = 1;
 							I2C_SW_Send(_24c02_addr,p,2);
@@ -89,12 +116,14 @@ void IR_test_task(void)
 						case 0x0b:							//AUX IN
 							if(SYS_power_flag)
 							{
+								_RST = 0;
 								_4052_A = 0;_4052_B = 1;
 								BT_POWER = 0;
 								LED_R = 1;LED_B = 1;LED_G = 0;		
 								if(LED_R == 0){LED_R = ~LED_R;CLK_SysTickDelay(40000);LED_R = ~LED_R;}
 								if(LED_G == 0){LED_G = ~LED_G;CLK_SysTickDelay(40000);LED_G = ~LED_G;}
 								if(LED_B == 0){LED_B = ~LED_B;CLK_SysTickDelay(40000);LED_B = ~LED_B;}
+								_RST = 1;
 							}
 							p[1] = Channel[0] = 2;
 							I2C_SW_Send(_24c02_addr,p,2);

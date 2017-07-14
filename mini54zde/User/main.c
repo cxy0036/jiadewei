@@ -133,6 +133,7 @@ int32_t main(void)
 			_RST = 1;
 //			test_24c02();
 			timer1_init();
+			Channel_select(Channel);
 		}
 		else if( (~POWER_FLAG) & POWER_OFF )
 		{

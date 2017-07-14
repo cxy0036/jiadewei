@@ -54,6 +54,7 @@ void Channel_select( uint8_t* Channel )
 {
 	uint8_t p[2];
 	p[0] = 31;
+	_RST = 0;
 	switch( *Channel )
 	{
 		case 0:
@@ -109,4 +110,5 @@ void Channel_select( uint8_t* Channel )
 		default:
 			break;
 	}
+	_RST = 1;
 }
