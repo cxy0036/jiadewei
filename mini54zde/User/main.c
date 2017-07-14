@@ -149,7 +149,8 @@ int32_t main(void)
 		if(disp_flag)
 		{
 			disp_flag=0;
-			IR_test_task();
+			irwork = IDLE;
+			if((disp>2)||(disp==0))IR_test_task();
 		}
 //		IR_init();
 		

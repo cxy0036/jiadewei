@@ -289,7 +289,7 @@ void GPIO234_IRQHandler(void)
                 else// if( disp_flag == 1)	//REPEAT_code
 				{
 					disp++;
-					if(disp>2)disp_flag = 1;
+					disp_flag = 1;
 				}								
              break;
 						

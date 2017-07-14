@@ -13,7 +13,7 @@
 #endif
 typedef enum  {IDLE=1,HEAD,DATA} irstatus_t;	
 TASK_EXT	irstatus_t irwork;
-TASK_EXT	uint8_t disp_flag;
+TASK_EXT	uint8_t disp_flag,disp;
 TASK_EXT	uint8_t Channel_flag;
 TASK_EXT	uint8_t KEY_data;
 //TASK_EXT	uint32_t ledcount;
