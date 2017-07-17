@@ -36,7 +36,10 @@ uint8_t ADC_V=0;
 
 //void AUDIO_TEST(void)
 //{
-//	_RST = 0;
+//	if(SYS_power_flag)
+//	{
+//		if(AUDIO_DET)_RST = 0;
+//	}
 //}
 void ADC_init(void)
 {

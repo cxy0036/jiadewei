@@ -11,7 +11,8 @@
 //typedef enum  {IDLE=1,HEAD,DATA} irstatus_t; 
 typedef union {uint32_t data;struct {uint8_t address0;uint8_t address1;uint8_t data0;uint8_t data1;};}irdata_t;
 irdata_t ir;
-uint16_t irticks=0,ledcount=0;//,ircount=0;//ledcount=0;
+uint16_t irticks=0,audio_2=0;//,ircount=0;//ledcount=0;
+uint32_t audio_1=0;
 uint8_t ircount=0;
 irstatus_t irwork=IDLE;
 uint8_t disp_flag=0,disp=0;
@@ -65,7 +66,7 @@ void GPIO_Init( void )
 //    GPIO_SetMode(P2, BIT2, GPIO_PMD_OPEN_DRAIN);
 //	GPIO_SetMode(P2, BIT3, GPIO_PMD_OPEN_DRAIN);
 
-//    GPIO_EnableInt(P1, 4, GPIO_INT_FALLING);//GPIO_INT_LOW);
+//    GPIO_EnableInt(P1, 5, GPIO_INT_BOTH_EDGE);//GPIO_INT_LOW);
 	GPIO_EnableInt(P0, 4, GPIO_INT_FALLING);
 	GPIO_EnableInt(P0, 5, GPIO_INT_FALLING);
 	GPIO_EnableInt(P0, 6, GPIO_INT_FALLING);
@@ -112,17 +113,27 @@ void TMR1_IRQHandler(void)
 		}
 		key_count = 0;
 		power_change = 0;
-		if(!AUDIO_DET)
+		if(AUDIO_DET)
 		{
-			ledcount++;
-			if(ledcount >= 0xfff0)
+			if(audio_2 < 0xff)
+				_RST = 1;
+			audio_2 = 0;
+			audio_1++;
+			if(audio_1 >= 0xfffffff0)
 			{
 				_RST = 0;
 			}
 		}
 		else
 		{
-			ledcount = 0;
+			if(audio_1 < 0xff)
+				_RST = 1;
+			audio_1 = 0;
+			audio_2++;
+			if(audio_2 >= 0xfff0)
+			{
+				_RST = 0;
+			}
 		}
 	}
 	if(ADC_V<0x0f)
