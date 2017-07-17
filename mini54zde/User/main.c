@@ -130,12 +130,13 @@ int32_t main(void)
 //			CLK_SysTickDelay(5000);
 			TIMER_Close(TIMER1);
 			TAS_5754_Init(slave_addr);
-			CLK_SysTickDelay(5000);			
-			_RST = 1;
-//			test_24c02();
+			CLK_SysTickDelay(5000);	
+//			_RST = 1;
+			test_24c02();
 //			timer1_init();
 			IR_init();
 			Channel_select(Channel);
+//			_RST = 1;
 		}
 		else if( (!POWER_FLAG) && (SYS_power_flag == 1) )
 		{

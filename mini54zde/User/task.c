@@ -11,7 +11,7 @@
 //typedef enum  {IDLE=1,HEAD,DATA} irstatus_t; 
 typedef union {uint32_t data;struct {uint8_t address0;uint8_t address1;uint8_t data0;uint8_t data1;};}irdata_t;
 irdata_t ir;
-uint16_t irticks=0;//,ircount=0;//ledcount=0;
+uint16_t irticks=0,ledcount=0;//,ircount=0;//ledcount=0;
 uint8_t ircount=0;
 irstatus_t irwork=IDLE;
 uint8_t disp_flag=0,disp=0;
@@ -86,6 +86,7 @@ void GPIO_Init( void )
 //	NVIC_EnableIRQ(GPIO5_IRQn);
 	
 	/*****init gpio output******/
+	_RST = 0;
 	ST_BY = 0;
 	BT_REV = 0;
 	BT_FWD = 0;
@@ -111,6 +112,18 @@ void TMR1_IRQHandler(void)
 		}
 		key_count = 0;
 		power_change = 0;
+		if(!AUDIO_DET)
+		{
+			ledcount++;
+			if(ledcount >= 0xfff0)
+			{
+				_RST = 0;
+			}
+		}
+		else
+		{
+			ledcount = 0;
+		}
 	}
 	if(ADC_V<0x0f)
 	{
@@ -120,7 +133,6 @@ void TMR1_IRQHandler(void)
 		{
 			power_change = 1;
 			POWER_FLAG = ~POWER_FLAG;
-//			POWER = ~POWER;
 		}
 	}
 	irticks++;//ledcount++;//Power_Meter++;

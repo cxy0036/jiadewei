@@ -150,9 +150,8 @@ void IR_test_task(void)
 						break;
 
 						case 0x14:							//ON-OFF
-							POWER_KEY = 0;
-							CLK_SysTickDelay(25*1000*1000);
-							POWER_KEY = 1;
+							POWER_FLAG = ~POWER_FLAG;
+//							SYS_power_flag = ~SYS_power_flag;
 							disp_flag=0;
 						break;
 

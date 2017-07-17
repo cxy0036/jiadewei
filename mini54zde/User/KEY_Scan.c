@@ -34,6 +34,10 @@ uint8_t Channel[1] = {0x00};
 
 uint8_t ADC_V=0;
 
+//void AUDIO_TEST(void)
+//{
+//	_RST = 0;
+//}
 void ADC_init(void)
 {
 	CLK_EnableModuleClock(ADC_MODULE);
@@ -141,5 +145,6 @@ void Channel_select( uint8_t* Channel )
 		default:
 			break;
 	}
+	CLK_SysTickDelay(9000);
 	_RST = 1;
 }
