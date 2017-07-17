@@ -50,8 +50,8 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define PLLCON_SETTING  CLK_PLLCON_50MHz_HXT
 #define PLL_CLOCK       50000000
 
-void Timer500ms( void *pvParameters );
-void timer1_init(void);
+//void Timer500ms( void *pvParameters );
+//void timer1_init(void);
 
 void SYS_Init(void)
 {
@@ -100,6 +100,8 @@ static void SetupHardware(void)
 	
 	/* Init IR mode */
 	IR_init();
+//	timer1_init();
+	ADC_init();
 	
 	/* Lock protected registers */
 	SYS_LockReg();
@@ -114,28 +116,28 @@ int32_t main(void)
 	SetupHardware();
 	POWER_FLAG = 0;
 	Channel_flag = 0;
-	POWER = 1;
-	POWER_OFF = 1;
-	BT_POWER = 1;
-	ST_BY = 1;
+//	POWER = 1;
+//	POWER_OFF = 1;
+//	BT_POWER = 1;
+//	ST_BY = 1;
 	I2C_SW_Open(500000);	
-	timer1_init();
 	#if 1
 	while(1)
 	{
-		if( POWER_FLAG & POWER )
+		if( POWER_FLAG && (SYS_power_flag == 0) )
 		{
 			Sys_power_on();
-			CLK_SysTickDelay(5000);
+//			CLK_SysTickDelay(5000);
 			TIMER_Close(TIMER1);
 			TAS_5754_Init(slave_addr);
 			CLK_SysTickDelay(5000);			
 			_RST = 1;
 //			test_24c02();
-			timer1_init();
+//			timer1_init();
+			IR_init();
 			Channel_select(Channel);
 		}
-		else if( (~POWER_FLAG) & POWER_OFF )
+		else if( (!POWER_FLAG) && (SYS_power_flag == 1) )
 		{
 			_RST = 0;
 			Sys_power_off();			
@@ -153,6 +155,11 @@ int32_t main(void)
 			irwork = IDLE;
 			if((disp>2)||(disp==0))IR_test_task();
 		}
+		// Trigger ADC conversion if it is idle
+        if(!ADC_IS_BUSY(ADC)) 
+		{
+            ADC_START_CONV(ADC);
+        }
 //		IR_init();
 		
 //		if(SYS_power_flag && ledcount>50000 )
@@ -168,25 +175,25 @@ int32_t main(void)
 	#endif
 }
 
-void timer1_init(void)
-{
-	CLK_EnableModuleClock(TMR1_MODULE);        
-    // Select Timer 1 clock source from internal 22.1184MHz RC clock.
-    CLK_SetModuleClock(TMR1_MODULE,CLK_CLKSEL1_TMR1_S_IRC22M,1);
-//	CLK_SetModuleClock(TMR1_MODULE,CLK_CLKSEL1_TMR1_S_XTAL,1);
-    // configure timer to operate in specified mode.
-    TIMER_Open(TIMER1, TIMER_PERIODIC_MODE, 7812);        //7.8125K = 0.128MS = 128US
-    // start Timer counting
-    TIMER_Start(TIMER1);
-    // enable the Timer time-out interrupt function.
-    TIMER_EnableInt(TIMER1);
-    // Enable timer interrupt
-    NVIC_EnableIRQ(TMR1_IRQn);
-}
+//void timer1_init(void)
+//{
+//	CLK_EnableModuleClock(TMR1_MODULE);        
+//    // Select Timer 1 clock source from internal 22.1184MHz RC clock.
+//    CLK_SetModuleClock(TMR1_MODULE,CLK_CLKSEL1_TMR1_S_IRC22M,1);
+////	CLK_SetModuleClock(TMR1_MODULE,CLK_CLKSEL1_TMR1_S_XTAL,1);
+//    // configure timer to operate in specified mode.
+//    TIMER_Open(TIMER1, TIMER_PERIODIC_MODE, 7812);        //7.8125K = 0.128MS = 128US
+//    // start Timer counting
+//    TIMER_Start(TIMER1);
+//    // enable the Timer time-out interrupt function.
+//    TIMER_EnableInt(TIMER1);
+//    // Enable timer interrupt
+//    NVIC_EnableIRQ(TMR1_IRQn);
+//}
 
-void Timer500ms( void *pvParameters )
-{
-	// 500ms软件定时器. 
-//	Power_Meter_Detect();
-}
+//void Timer500ms( void *pvParameters )
+//{
+//	// 500ms软件定时器. 
+////	Power_Meter_Detect();
+//}
 

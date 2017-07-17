@@ -5,6 +5,7 @@
 #include "Mini51Series.h"
 //#include "Encoder.h"
 #include "KEY_Scan.h"
+#include "ir.h"
 
 #ifdef TASK_GLOBALS
 	#define TASK_EXT 

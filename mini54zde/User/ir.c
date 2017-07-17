@@ -9,51 +9,26 @@
 ******************************************************************************/
 #include "ir.h"
 
-uint8_t n=0;
 
-void ADC_IRQHandler(void)
-{
-    uint32_t u32Flag;
-
-    // Get ADC comparator interrupt flag
-    u32Flag = ADC_GET_INT_FLAG(ADC, ADC_ADF_INT);
-
-    // Get ADC convert result
-//    printf("Convert result is %x\n", (uint32_t)ADC_GET_CONVERSION_DATA(ADC, 0));
-	n=(uint32_t)ADC_GET_CONVERSION_DATA(ADC, 0);
-    ADC_CLR_INT_FLAG(ADC, u32Flag);
-}
 void IR_init(void)
-{
-		/* Set P3.0 to ADC channel 6 input pin */
-	SYS->P3_MFP = SYS_MFP_P30_AIN6;
-	/* Analog pin OFFD to prevent leakage */
-	P3->OFFD |= (1<<0) << GPIO_OFFD_OFFD_Pos;	
-	// Enable channel 6
-    ADC_Open(ADC, 0, 0, 0x01 << 6);
-	// Power on ADC
-    ADC_POWER_ON(ADC);
-	// Enable ADC convert complete interrupt
-    ADC_EnableInt(ADC, ADC_ADF_INT);
-    NVIC_EnableIRQ(ADC_IRQn);
-	
+{	
 	/*  Configure P1.0 as Quasi-bidirection mode and enable interrupt by falling edge trigger */
-//    GPIO_SetMode(P3, BIT0, GPIO_PMD_QUASI);
-//    GPIO_EnableInt(P3, 0, GPIO_INT_FALLING);
-//    NVIC_EnableIRQ(GPIO234_IRQn);
+    GPIO_SetMode(P3, BIT0, GPIO_PMD_QUASI);
+    GPIO_EnableInt(P3, 0, GPIO_INT_FALLING);
+    NVIC_EnableIRQ(GPIO234_IRQn);
 	
 	// Enable IP clock
-//    CLK_EnableModuleClock(TMR0_MODULE);        
-//    // Select Timer 1 clock source from internal 22.1184MHz RC clock.
-//    CLK_SetModuleClock(TMR0_MODULE,CLK_CLKSEL1_TMR0_S_IRC22M,1);
-//    // configure timer to operate in specified mode.
-//    TIMER_Open(TIMER0, TIMER_PERIODIC_MODE, 7812);        //7.8125K = 0.128MS = 128US
-//    // start Timer counting
-//    TIMER_Start(TIMER0);
-//    // enable the Timer time-out interrupt function.
-//    TIMER_EnableInt(TIMER0);
-//    // Enable timer interrupt
-//    NVIC_EnableIRQ(TMR0_IRQn);
+    CLK_EnableModuleClock(TMR1_MODULE);        
+    // Select Timer 1 clock source from internal 22.1184MHz RC clock.
+    CLK_SetModuleClock(TMR1_MODULE,CLK_CLKSEL1_TMR1_S_IRC22M,1);
+    // configure timer to operate in specified mode.
+    TIMER_Open(TIMER1, TIMER_PERIODIC_MODE, 7812);        //7.8125K = 0.128MS = 128US
+    // start Timer counting
+    TIMER_Start(TIMER1);
+    // enable the Timer time-out interrupt function.
+    TIMER_EnableInt(TIMER1);
+    // Enable timer interrupt
+    NVIC_EnableIRQ(TMR1_IRQn);
 }
 
 void IR_test_task(void)
@@ -167,7 +142,7 @@ void IR_test_task(void)
 
 						case 0x13:							//VOL-
 							disp_flag=0;
-							n++;
+//							n++;
 							if( SYS_power_flag )
 							{
 								Amplifier_VOL_B();

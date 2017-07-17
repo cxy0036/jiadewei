@@ -16,7 +16,7 @@
 	#define IR_EXT extern
 #endif
 	
-void ADC_IRQHandler(void);	
+
 void IR_init(void);
 void IR_test_task(void);
 

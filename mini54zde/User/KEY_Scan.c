@@ -31,12 +31,43 @@ uint16_t key_count = 0;
 uint8_t Channel[1] = {0x00};
 //	static uint8_t s_u8LastKey = KEY_NULL,BOTH_EDGE_ROTOB = 1,BOTH_EDGE_ROTOA = 1;
 
+
+uint8_t ADC_V=0;
+
+void ADC_init(void)
+{
+	CLK_EnableModuleClock(ADC_MODULE);
+	CLK_SetModuleClock(ADC_MODULE,CLK_CLKSEL1_ADC_S_XTAL,CLK_CLKDIV_ADC(6));
+		/* Set P3.0 to ADC channel 6 input pin */
+	SYS->P1_MFP = SYS_MFP_P14_AIN4;
+	/* Analog pin OFFD to prevent leakage */
+	P1->OFFD |= (1<<4) << GPIO_OFFD_OFFD_Pos;	
+	// Enable channel 6
+    ADC_Open(ADC, 0, 0, 0x01 << 4);
+	// Power on ADC
+    ADC_POWER_ON(ADC);
+	// Enable ADC convert complete interrupt
+    ADC_EnableInt(ADC, ADC_ADF_INT);
+    NVIC_EnableIRQ(ADC_IRQn);	
+}
+void ADC_IRQHandler(void)
+{
+    uint32_t u32Flag;
+
+    // Get ADC comparator interrupt flag
+    u32Flag = ADC_GET_INT_FLAG(ADC, ADC_ADF_INT);
+
+    // Get ADC convert result
+//    printf("Convert result is %x\n", (uint32_t)ADC_GET_CONVERSION_DATA(ADC, 0));
+	ADC_V = (uint32_t)ADC_GET_CONVERSION_DATA(ADC, 0);
+    ADC_CLR_INT_FLAG(ADC, u32Flag);
+}
 void Sys_power_on( void )
 {
 
 	ST_BY = 1;
 	CLK_SysTickDelay(200000);	
-	POWER = 0;
+//	POWER = 0;
 	SYS_power_flag = 1;
 	LED_R = 0;LED_B = 0;LED_G = 0;	
 }
@@ -47,7 +78,7 @@ void Sys_power_off( void )
 	ST_BY = 0;
 	SYS_power_flag = 0;
 	LED_R = 1;LED_B = 1;LED_G = 1;
-	POWER_OFF = 0;
+//	POWER = 1;
 }
 
 void Channel_select( uint8_t* Channel )
