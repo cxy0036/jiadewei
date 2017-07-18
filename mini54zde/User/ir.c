@@ -85,6 +85,7 @@ void IR_test_task(void)
 							}
 							p[1] = Channel[0] = 1;
 							I2C_SW_Send(_24c02_addr,p,2);
+							CLK_SysTickDelay(9000);
 							disp_flag=0;
 						break;
 						
@@ -102,6 +103,7 @@ void IR_test_task(void)
 							}
 							p[1] = Channel[0] = 2;
 							I2C_SW_Send(_24c02_addr,p,2);
+							CLK_SysTickDelay(9000);
 							disp_flag=0;
 						break;
 												

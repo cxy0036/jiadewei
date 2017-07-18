@@ -35,7 +35,7 @@ void GPIO_Init( void )
 	GPIO_SetMode(P5, BIT4, GPIO_PMD_OUTPUT);//BT_DET
 //	
 //	GPIO_SetMode(P3, BIT0, GPIO_PMD_QUASI);	//IR
-	GPIO_SetMode(P1, BIT5, GPIO_PMD_QUASI);//AUDIO_DET
+	GPIO_SetMode(P1, BIT5, GPIO_PMD_INPUT);//AUDIO_DET
 	
 	GPIO_SetMode(P3, BIT2, GPIO_PMD_OUTPUT);//LED_B
 	GPIO_SetMode(P3, BIT1, GPIO_PMD_OUTPUT);//LED_G
@@ -115,24 +115,28 @@ void TMR1_IRQHandler(void)
 		power_change = 0;
 		if(AUDIO_DET)
 		{
-			if(audio_2 < 0xff)
-				_RST = 1;
+//			if(audio_2 < 0xff)
+//				_RST = 1;
 			audio_2 = 0;
 			audio_1++;
-			if(audio_1 >= 0xfffffff0)
+			if((audio_1 >= 0xfff0)&&(_RST == 1))
 			{
 				_RST = 0;
+				power_change = 1;
+				POWER_FLAG = ~POWER_FLAG;
 			}
 		}
 		else
 		{
-			if(audio_1 < 0xff)
-				_RST = 1;
+//			if(audio_1 < 0xff)
+//				_RST = 1;
 			audio_1 = 0;
 			audio_2++;
-			if(audio_2 >= 0xfff0)
+			if((audio_2 >= 0xfff0)&&(_RST == 1))
 			{
 				_RST = 0;
+				power_change = 1;
+				POWER_FLAG = ~POWER_FLAG;
 			}
 		}
 	}

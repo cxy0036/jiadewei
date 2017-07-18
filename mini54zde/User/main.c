@@ -119,7 +119,7 @@ int32_t main(void)
 //	POWER = 1;
 //	POWER_OFF = 1;
 //	BT_POWER = 1;
-//	ST_BY = 1;
+	ST_BY = 1;
 	I2C_SW_Open(500000);	
 	#if 1
 	while(1)
@@ -136,6 +136,13 @@ int32_t main(void)
 //			timer1_init();
 			IR_init();
 			Channel_select(Channel);
+//			while(1)
+//			{
+//				if(AUDIO_DET ==0)
+//				{
+//					irwork = IDLE;
+//				}
+//			}
 //			_RST = 1;
 		}
 		else if( (!POWER_FLAG) && (SYS_power_flag == 1) )
@@ -161,6 +168,7 @@ int32_t main(void)
 		{
             ADC_START_CONV(ADC);
         }
+		
 //		IR_init();
 		
 //		if(SYS_power_flag && ledcount>50000 )

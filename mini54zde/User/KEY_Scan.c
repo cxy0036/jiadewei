@@ -148,6 +148,6 @@ void Channel_select( uint8_t* Channel )
 		default:
 			break;
 	}
-	CLK_SysTickDelay(9000);
+	CLK_SysTickDelay(10000);
 	_RST = 1;
 }
