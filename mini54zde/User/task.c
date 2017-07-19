@@ -11,13 +11,13 @@
 //typedef enum  {IDLE=1,HEAD,DATA} irstatus_t; 
 typedef union {uint32_t data;struct {uint8_t address0;uint8_t address1;uint8_t data0;uint8_t data1;};}irdata_t;
 irdata_t ir;
-uint16_t irticks=0,audio_2=0;//,ircount=0;//ledcount=0;
-uint32_t audio_1=0;
+uint16_t irticks=0,audio_2=0;//,ircount=0;
+uint32_t audio_1=0,ledcount=0;
 uint8_t ircount=0;
 irstatus_t irwork=IDLE;
 uint8_t disp_flag=0,disp=0;
 uint8_t KEY_data = 0;
-//uint8_t d=0;
+uint8_t d=0;
 uint8_t	power_change=0;
 
 /************************************************************
@@ -108,7 +108,7 @@ void TMR1_IRQHandler(void)
 		if((key_count>0x100)&&(key_count<0x2000))
 		{
 			Channel[0]++;
-			if(Channel[0] >= 0x04 )Channel[0] = 0;
+			if(Channel[0] >= 0x02 )Channel[0] = 0;//2 channel
 			Channel_flag = 1;
 		}
 		key_count = 0;
@@ -117,9 +117,9 @@ void TMR1_IRQHandler(void)
 		{
 //			if(audio_2 < 0xff)
 //				_RST = 1;
-			audio_2 = 0;
+//			audio_2 = 0;
 			audio_1++;
-			if((audio_1 >= 0xfff0)&&(_RST == 1))
+			if((audio_1 >= 0x2fff0)&&(_RST == 1))
 			{
 				_RST = 0;
 				power_change = 1;
@@ -131,13 +131,13 @@ void TMR1_IRQHandler(void)
 //			if(audio_1 < 0xff)
 //				_RST = 1;
 			audio_1 = 0;
-			audio_2++;
-			if((audio_2 >= 0xfff0)&&(_RST == 1))
-			{
-				_RST = 0;
-				power_change = 1;
-				POWER_FLAG = ~POWER_FLAG;
-			}
+//			audio_2++;
+//			if((audio_2 >= 0xfff0)&&(_RST == 1))
+//			{
+//				_RST = 0;
+//				power_change = 1;
+//				POWER_FLAG = ~POWER_FLAG;
+//			}
 		}
 	}
 	if(ADC_V<0x0f)
@@ -150,7 +150,8 @@ void TMR1_IRQHandler(void)
 			POWER_FLAG = ~POWER_FLAG;
 		}
 	}
-	irticks++;//ledcount++;//Power_Meter++;
+	irticks++;ledcount++;//Power_Meter++;
+	if(irticks>0xfffd)irticks = 0xfffd;
     TIMER_ClearIntFlag(TIMER1);
 }
 
@@ -262,7 +263,7 @@ void GPIO234_IRQHandler(void)
 		CLK_SysTickDelay(1000);
 		if( SUB_B )
 		{
-			Encoder_sub_flag = 1;
+			Encoder_sub_flag = 0;
 			Encoder_Task();
 		}
 
@@ -273,17 +274,20 @@ void GPIO234_IRQHandler(void)
 		CLK_SysTickDelay(1000);
 		if( SUB_A )
 		{
-			Encoder_sub_flag = 0;
+			Encoder_sub_flag = 1;
 			Encoder_Task();
 		}
 	}
 	else if(P3->ISRC & BIT0)
 	{
-//		d++;
+		d++;
+		if(irticks > 0xf0)irwork=IDLE;
 		switch(irwork)
         {
 			case IDLE: 
+//				if(d == 1)
 				irwork=HEAD;
+				d=0;
             break;
 						
             case HEAD: 
@@ -298,6 +302,8 @@ void GPIO234_IRQHandler(void)
 				{
 					disp++;
 					disp_flag = 1;
+					d = 0;
+//					if(KEY_data==0x14)disp=4;
 				}								
              break;
 						
@@ -335,9 +341,13 @@ void GPIO234_IRQHandler(void)
 						disp_flag=1;
 						disp = 0;
 						KEY_data = ir.data0;
+//						if(KEY_data==0x14)disp=0;
+//						d = 0;
 					}
+//					if(d>34)d = 0;
 			break;
         }  
+//		if(d >= 34)irwork=IDLE;		
 		irticks=0; 
 		P3->ISRC = BIT0;
 	}

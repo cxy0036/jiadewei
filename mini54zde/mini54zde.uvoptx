@@ -135,29 +135,12 @@
           <Name>UL2CM3(-S0 -C0 -P0 -FD20000000 -FC800 -FN1 -FF0Mini51_AP_16 -FS00 -FL04000 -FP0($$Device:Mini54ZDE$Flash\Mini51_AP_16.FLM))</Name>
         </SetRegEntry>
       </TargetDriverDllRegistry>
-      <Breakpoint>
-        <Bp>
-          <Number>0</Number>
-          <Type>0</Type>
-          <LineNumber>139</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>6684</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>.\User\task.c</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression></Expression>
-        </Bp>
-      </Breakpoint>
+      <Breakpoint/>
       <WatchWindow1>
         <Ww>
           <count>0</count>
           <WinNumber>1</WinNumber>
-          <ItemText>audio_2</ItemText>
+          <ItemText>d</ItemText>
         </Ww>
         <Ww>
           <count>1</count>
@@ -197,7 +180,7 @@
         <Ww>
           <count>8</count>
           <WinNumber>1</WinNumber>
-          <ItemText>ADC</ItemText>
+          <ItemText>disp_flag</ItemText>
         </Ww>
         <Ww>
           <count>9</count>
@@ -208,6 +191,16 @@
           <count>10</count>
           <WinNumber>1</WinNumber>
           <ItemText>ledcount</ItemText>
+        </Ww>
+        <Ww>
+          <count>11</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>d</ItemText>
+        </Ww>
+        <Ww>
+          <count>12</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>d1</ItemText>
         </Ww>
       </WatchWindow1>
       <MemoryWindow1>

@@ -116,25 +116,29 @@ int32_t main(void)
 	SetupHardware();
 	POWER_FLAG = 0;
 	Channel_flag = 0;
+	POWER_FLAG = 0xff;
+	SYS_power_flag = 0;
 //	POWER = 1;
 //	POWER_OFF = 1;
 //	BT_POWER = 1;
-	ST_BY = 1;
-	I2C_SW_Open(500000);	
+//	ST_BY = 1;
+	I2C_SW_Open(500000);
+
 	#if 1
 	while(1)
 	{
+//		_4052_A = ~_4052_A;
 		if( POWER_FLAG && (SYS_power_flag == 0) )
 		{
 			Sys_power_on();
 //			CLK_SysTickDelay(5000);
-			TIMER_Close(TIMER1);
+//			TIMER_Close(TIMER1);
 			TAS_5754_Init(slave_addr);
 			CLK_SysTickDelay(5000);	
 //			_RST = 1;
 			test_24c02();
 //			timer1_init();
-			IR_init();
+//			IR_init();
 			Channel_select(Channel);
 //			while(1)
 //			{
@@ -150,6 +154,8 @@ int32_t main(void)
 			_RST = 0;
 			Sys_power_off();			
 		}
+//		if((disp>5)||(disp==0))
+			IR_test_task();
 		if(Channel_flag)
 		{
 			Channel_flag = 0;
@@ -157,12 +163,12 @@ int32_t main(void)
 		}
 //		Headset_Test_Task();
 		Bluetooth_Test_Task();
-		if(disp_flag)
-		{
-			disp_flag=0;
-			irwork = IDLE;
-			if((disp>2)||(disp==0))IR_test_task();
-		}
+//		if(disp_flag)
+//		{
+//			irwork = IDLE;
+//			if(disp>0)//||(disp==0))
+//			disp_flag=0;
+//		}
 		// Trigger ADC conversion if it is idle
         if(!ADC_IS_BUSY(ADC)) 
 		{

@@ -35,7 +35,7 @@ void IR_test_task(void)
 {
 	uint8_t p[2];
 	p[0] = 31;
-				if(disp_flag == 0)
+				if(disp_flag == 1)
                 {
 					switch(KEY_data)
 					{
@@ -44,7 +44,7 @@ void IR_test_task(void)
 							{
 								Amplifier_BASS_A();							
 							}
-							disp_flag=0;
+//							disp_flag=0;
 						break;
 							
 						case 0x02:							//BASS-
@@ -52,7 +52,7 @@ void IR_test_task(void)
 							{
 								Amplifier_BASS_B();	
 							}
-							disp_flag=0;
+//							disp_flag=0;
 						break;
 						
 						case 0x03:							//TREBLE+
@@ -60,7 +60,7 @@ void IR_test_task(void)
 							{
 								Amplifier_TREBLE_A();						
 							}	
-							disp_flag=0;
+//							disp_flag=0;
 						break;
 						
 						case 0x04:							//TREBLE-
@@ -68,7 +68,7 @@ void IR_test_task(void)
 							{
 								Amplifier_TREBLE_B();	
 							}
-							disp_flag=0;
+//							disp_flag=0;
 						break;
 						
 						case 0x0a:							//ÔÝÊ±BLUETOOTHÌæ´úLINE IN
@@ -78,15 +78,17 @@ void IR_test_task(void)
 								_4052_A = 1;_4052_B = 0;
 								BT_POWER = 1;
 								LED_R = 1;LED_B = 0;LED_G = 1;
-								if(LED_R == 0){LED_R = ~LED_R;CLK_SysTickDelay(40000);LED_R = ~LED_R;}
-								if(LED_G == 0){LED_G = ~LED_G;CLK_SysTickDelay(40000);LED_G = ~LED_G;}
-								if(LED_B == 0){LED_B = ~LED_B;CLK_SysTickDelay(40000);LED_B = ~LED_B;}
-								_RST = 1;
+//								if(LED_R == 0){LED_R = ~LED_R;CLK_SysTickDelay(40000);LED_R = ~LED_R;}
+//								if(LED_G == 0){LED_G = ~LED_G;CLK_SysTickDelay(40000);LED_G = ~LED_G;}
+//								if(LED_B == 0){LED_B = ~LED_B;CLK_SysTickDelay(40000);LED_B = ~LED_B;}
+//								CLK_SysTickDelay(40000);LED_B = 1;
+//								CLK_SysTickDelay(40000);LED_B = 0;
 							}
-							p[1] = Channel[0] = 1;
+							p[1] = Channel[0] = 0;
 							I2C_SW_Send(_24c02_addr,p,2);
 							CLK_SysTickDelay(9000);
-							disp_flag=0;
+//						disp_flag=0;
+							_RST = 1;
 						break;
 						
 						case 0x0b:							//AUX IN
@@ -95,23 +97,25 @@ void IR_test_task(void)
 								_RST = 0;
 								_4052_A = 0;_4052_B = 1;
 								BT_POWER = 0;
-								LED_R = 1;LED_B = 1;LED_G = 0;		
-								if(LED_R == 0){LED_R = ~LED_R;CLK_SysTickDelay(40000);LED_R = ~LED_R;}
-								if(LED_G == 0){LED_G = ~LED_G;CLK_SysTickDelay(40000);LED_G = ~LED_G;}
-								if(LED_B == 0){LED_B = ~LED_B;CLK_SysTickDelay(40000);LED_B = ~LED_B;}
-								_RST = 1;
+								LED_R = 1;LED_B = 1;LED_G = 0;
+//								CLK_SysTickDelay(40000);LED_G = 1;
+//								CLK_SysTickDelay(40000);LED_G = 0;
+//								if(LED_R == 0){LED_R = ~LED_R;CLK_SysTickDelay(40000);LED_R = ~LED_R;}
+//								if(LED_G == 0){LED_G = ~LED_G;CLK_SysTickDelay(40000);LED_G = ~LED_G;}
+//								if(LED_B == 0){LED_B = ~LED_B;CLK_SysTickDelay(40000);LED_B = ~LED_B;}
 							}
-							p[1] = Channel[0] = 2;
+							p[1] = Channel[0] = 1;
 							I2C_SW_Send(_24c02_addr,p,2);
 							CLK_SysTickDelay(9000);
-							disp_flag=0;
+							_RST = 1;
+//							disp_flag=0;
 						break;
 												
 						case 0x0c:							//BLUETOOTH
 //							_4052_A = 1;_4052_B = 0;
-							if(( SYS_power_flag )&&(Channel[0]==1))
+							if(( SYS_power_flag )&&(Channel[0]==0))
 							{
-								if(disp_flag>1)
+								if(disp>2)
 								{
 									BT_patch();
 								}
@@ -119,19 +123,22 @@ void IR_test_task(void)
 								{
 									BT_Play_Pause();
 								}
-								if(LED_R == 0){LED_R = ~LED_R;CLK_SysTickDelay(40000);LED_R = ~LED_R;}
-								if(LED_G == 0){LED_G = ~LED_G;CLK_SysTickDelay(40000);LED_G = ~LED_G;}
-								if(LED_B == 0){LED_B = ~LED_B;CLK_SysTickDelay(40000);LED_B = ~LED_B;}								
+//								if(LED_R == 0){LED_R = ~LED_R;CLK_SysTickDelay(40000);LED_R = ~LED_R;}
+//								if(LED_G == 0){LED_G = ~LED_G;CLK_SysTickDelay(40000);LED_G = ~LED_G;}
+								LED_R = 1;LED_G = 1;
+								CLK_SysTickDelay(40000);LED_B = 1;
+								CLK_SysTickDelay(40000);LED_B = 0;
+//								if(LED_B == 0){LED_B = ~LED_B;CLK_SysTickDelay(40000);LED_B = ~LED_B;}								
 							}
-							disp_flag=0;
+//							disp_flag=0;
 						break;
 
 						case 0x0d:							//OPTICAL
-							disp_flag=0;
+//							disp_flag=0;
 						break;
 						
 						case 0x0E:							//COAXIAL
-							disp_flag=0;
+//							disp_flag=0;
 						break;
 
 						case 0x12:							//VOL+
@@ -152,26 +159,29 @@ void IR_test_task(void)
 						break;
 
 						case 0x14:							//ON-OFF
+							if(disp==0)
 							POWER_FLAG = ~POWER_FLAG;
-//							SYS_power_flag = ~SYS_power_flag;
-							disp_flag=0;
+							
 						break;
 
 						case 0x15:							//MUTE
 							if( SYS_power_flag )
 							{
+								_RST = ~_RST;
+								if(LED_B == 0){LED_B = ~LED_B;CLK_SysTickDelay(40000);LED_B = ~LED_B;}
+								if(LED_G == 0){LED_G = ~LED_G;CLK_SysTickDelay(40000);LED_G = ~LED_G;}
 								//Amplifier_Auto_Mute();
 							}
-							disp_flag=0;
+//							disp_flag=0;
 						break;
 
 						case 0x18:							//HDMI
-							disp_flag=0;
+//							disp_flag=0;
 						break;
 						default:
 							irwork = IDLE;
 							break;
 					}
 				}
-	
+		disp_flag=0;
 }

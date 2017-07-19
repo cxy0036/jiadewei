@@ -32,7 +32,7 @@ uint8_t Channel[1] = {0x00};
 //	static uint8_t s_u8LastKey = KEY_NULL,BOTH_EDGE_ROTOB = 1,BOTH_EDGE_ROTOA = 1;
 
 
-uint8_t ADC_V=0;
+uint8_t ADC_V=0xfe;
 
 //void AUDIO_TEST(void)
 //{
@@ -95,7 +95,7 @@ void Channel_select( uint8_t* Channel )
 	_RST = 0;
 	switch( *Channel )
 	{
-		case 0:
+		case 2:
 			_4052_A = 0;
 			_4052_B = 0;
 			if( SYS_power_flag )
@@ -107,7 +107,7 @@ void Channel_select( uint8_t* Channel )
 			I2C_SW_Send(_24c02_addr,p,2);
 			*Channel = 0x00;
 			break;
-		case 1:
+		case 0:		//Bluetooth
 			_4052_A = 1;
 			_4052_B = 0;
 			if( SYS_power_flag )
@@ -116,11 +116,11 @@ void Channel_select( uint8_t* Channel )
 //				Power_Meter_Detect();
 				LED_R = 1;LED_B = 0;LED_G = 1;		
 			}
-			p[1] = 1;
+			p[1] = 0;
 			I2C_SW_Send(_24c02_addr,p,2);
-			*Channel = 0x01;
+			*Channel = 0x00;
 			break;
-		case 2:
+		case 1:			//aux
 			_4052_A = 0;
 			_4052_B = 1;
 			if( SYS_power_flag )
@@ -129,9 +129,9 @@ void Channel_select( uint8_t* Channel )
 //				Power_Meter_Detect();
 				LED_R = 1;LED_B = 1;LED_G = 0;		
 			}
-			p[1] = 2;
+			p[1] = 1;
 			I2C_SW_Send(_24c02_addr,p,2);
-			*Channel = 0x02;
+			*Channel = 0x01;
 			break;
 		case 3:
 			_4052_A = 1;
@@ -148,6 +148,6 @@ void Channel_select( uint8_t* Channel )
 		default:
 			break;
 	}
-	CLK_SysTickDelay(10000);
+	CLK_SysTickDelay(9000);
 	_RST = 1;
 }
