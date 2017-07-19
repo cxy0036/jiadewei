@@ -13,7 +13,7 @@ void Bluetooth_Test_Task(void)
 		}
 		else
 		{
-			if(ledcount>0x2000)
+			if(ledcount>0x1000)
 			{
 //				BT_Flag = 0;
 				LED_B = ~LED_B;

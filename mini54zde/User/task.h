@@ -13,6 +13,7 @@
 	#define TASK_EXT extern
 #endif
 typedef enum  {IDLE=1,HEAD,DATA} irstatus_t;	
+TASK_EXT	uint8_t	LED_Flag;
 TASK_EXT	uint32_t ledcount;
 TASK_EXT	irstatus_t irwork;
 TASK_EXT	uint8_t disp_flag,disp;

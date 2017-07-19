@@ -5381,15 +5381,17 @@ void Amplifier_VOL_A(void)
 	}
 	else
 	{
+//		led_chang(0x600);
+//		led_chang(0x600);
 //		if(LED_R == 0){LED_R = ~LED_R;CLK_SysTickDelay(40000);LED_R = ~LED_R;}
-		if(LED_G == 0){LED_G = ~LED_G;CLK_SysTickDelay(40000);LED_G = ~LED_G;}
-		if(LED_B == 0){LED_B = ~LED_B;CLK_SysTickDelay(40000);LED_B = ~LED_B;}		
-	}
-	vol_adjust();
+		if(LED_G == 0){LED_G = ~LED_G;CLK_SysTickDelay(30000);LED_G = ~LED_G;}
+		if(LED_B == 0){LED_B = ~LED_B;CLK_SysTickDelay(30000);LED_B = ~LED_B;}		
+		vol_adjust();
 	p[0] = 32;
 	p[1] = vol_level;
 	I2C_SW_Send(_24c02_addr,p,2);
 	CLK_SysTickDelay(2000);
+	}
 }
 
 void Amplifier_VOL_B(void)
@@ -5402,22 +5404,24 @@ void Amplifier_VOL_B(void)
 	}	
 	else
 	{
+//		led_chang(0x600);
+//		led_chang(0x600);
 //		if(LED_R == 0){LED_R = ~LED_R;CLK_SysTickDelay(40000);LED_R = ~LED_R;}
-		if(LED_G == 0){LED_G = ~LED_G;CLK_SysTickDelay(40000);LED_G = ~LED_G;}
-		if(LED_B == 0){LED_B = ~LED_B;CLK_SysTickDelay(40000);LED_B = ~LED_B;}		
-	}
-	vol_adjust();
+		if(LED_G == 0){LED_G = ~LED_G;CLK_SysTickDelay(30000);LED_G = ~LED_G;}
+		if(LED_B == 0){LED_B = ~LED_B;CLK_SysTickDelay(30000);LED_B = ~LED_B;}		
+		vol_adjust();
 	p[0] = 32;
 	p[1] = vol_level;
 	I2C_SW_Send(_24c02_addr,p,2);
 	CLK_SysTickDelay(2000);
+	}
 }
 
 
-void treble_adjust(void)
+void treble_adjust(uint8_t level)
 {
 	uint8_t p[13];
-	switch(treble_level)
+	switch(level)
 	{
 		case	0:
 			p[0] = Treble_TAS[0].page1_T.cmd;
@@ -6197,10 +6201,10 @@ void Amplifier_TREBLE_A(void)
 	else
 	{
 //		if(LED_R == 0){LED_R = ~LED_R;CLK_SysTickDelay(40000);LED_R = ~LED_R;}
-		if(LED_G == 0){LED_G = ~LED_G;CLK_SysTickDelay(40000);LED_G = ~LED_G;}
-		if(LED_B == 0){LED_B = ~LED_B;CLK_SysTickDelay(40000);LED_B = ~LED_B;}		
+		if(LED_G == 0){LED_G = ~LED_G;CLK_SysTickDelay(30000);LED_G = ~LED_G;}
+		if(LED_B == 0){LED_B = ~LED_B;CLK_SysTickDelay(30000);LED_B = ~LED_B;}		
+		treble_adjust(treble_level);
 	}
-	treble_adjust();
 }
 
 void Amplifier_TREBLE_B(void)
@@ -6211,15 +6215,15 @@ void Amplifier_TREBLE_B(void)
 	else
 	{
 //		if(LED_R == 0){LED_R = ~LED_R;CLK_SysTickDelay(40000);LED_R = ~LED_R;}
-		if(LED_G == 0){LED_G = ~LED_G;CLK_SysTickDelay(40000);LED_G = ~LED_G;}
-		if(LED_B == 0){LED_B = ~LED_B;CLK_SysTickDelay(40000);LED_B = ~LED_B;}		
+		if(LED_G == 0){LED_G = ~LED_G;CLK_SysTickDelay(30000);LED_G = ~LED_G;}
+		if(LED_B == 0){LED_B = ~LED_B;CLK_SysTickDelay(30000);LED_B = ~LED_B;}		
+		treble_adjust(treble_level);
 	}
-	treble_adjust();
 }
 
 
 
-void bass_adjust(void)
+void bass_adjust(uint8_t level)
 {
 	uint8_t p[13];
 	switch(bass_level)
@@ -7001,10 +7005,10 @@ void Amplifier_BASS_A(void)
 	else
 	{
 //		if(LED_R == 0){LED_R = ~LED_R;CLK_SysTickDelay(40000);LED_R = ~LED_R;}
-		if(LED_G == 0){LED_G = ~LED_G;CLK_SysTickDelay(40000);LED_G = ~LED_G;}
-		if(LED_B == 0){LED_B = ~LED_B;CLK_SysTickDelay(40000);LED_B = ~LED_B;}		
+		if(LED_G == 0){LED_G = ~LED_G;CLK_SysTickDelay(30000);LED_G = ~LED_G;}
+		if(LED_B == 0){LED_B = ~LED_B;CLK_SysTickDelay(30000);LED_B = ~LED_B;}		
+		bass_adjust(bass_level);
 	}
-	bass_adjust();
 }
 void Amplifier_BASS_B(void)
 {
@@ -7014,10 +7018,10 @@ void Amplifier_BASS_B(void)
 	else
 	{
 //		if(LED_R == 0){LED_R = ~LED_R;CLK_SysTickDelay(40000);LED_R = ~LED_R;}
-		if(LED_G == 0){LED_G = ~LED_G;CLK_SysTickDelay(40000);LED_G = ~LED_G;}
-		if(LED_B == 0){LED_B = ~LED_B;CLK_SysTickDelay(40000);LED_B = ~LED_B;}		
+		if(LED_G == 0){LED_G = ~LED_G;CLK_SysTickDelay(30000);LED_G = ~LED_G;}
+		if(LED_B == 0){LED_B = ~LED_B;CLK_SysTickDelay(30000);LED_B = ~LED_B;}		
+		bass_adjust(bass_level);
 	}
-	bass_adjust();
 }
 
 //void Amplifier_DELAY_A(void)

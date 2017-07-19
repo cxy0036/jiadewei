@@ -22,8 +22,9 @@ KEY_EXT uint8_t	POWER;
 KEY_EXT uint8_t	POWER_FLAG;
 KEY_EXT uint8_t Channel[];
 KEY_EXT uint8_t	SYS_power_flag;
-KEY_EXT	uint8_t ADC_V;
-	
+KEY_EXT	uint16_t ADC_V;
+
+void led_chang(uint32_t num);	
 void ADC_init(void);
 void ADC_IRQHandler(void);		
 void Sys_power_on( void );

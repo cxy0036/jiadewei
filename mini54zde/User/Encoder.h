@@ -25,6 +25,8 @@ Encoder_EXT uint8_t	Encoder_vol_flag;
 Encoder_EXT uint8_t	Encoder_treble_flag;
 Encoder_EXT uint8_t	Encoder_sub_flag;
 	
+	
+void Encoder_(void);
 void Encoder_Task(void);
 	
 #endif

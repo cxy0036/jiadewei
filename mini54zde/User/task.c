@@ -17,8 +17,9 @@ uint8_t ircount=0;
 irstatus_t irwork=IDLE;
 uint8_t disp_flag=0,disp=0;
 uint8_t KEY_data = 0;
-uint8_t d=0;
+uint8_t _channel=0;
 uint8_t	power_change=0;
+uint8_t x=0,y=0;
 
 /************************************************************
  *@init file
@@ -67,10 +68,10 @@ void GPIO_Init( void )
 //	GPIO_SetMode(P2, BIT3, GPIO_PMD_OPEN_DRAIN);
 
 //    GPIO_EnableInt(P1, 5, GPIO_INT_BOTH_EDGE);//GPIO_INT_LOW);
-	GPIO_EnableInt(P0, 4, GPIO_INT_FALLING);
-	GPIO_EnableInt(P0, 5, GPIO_INT_FALLING);
-	GPIO_EnableInt(P0, 6, GPIO_INT_FALLING);
-	GPIO_EnableInt(P0, 7, GPIO_INT_FALLING);
+	GPIO_EnableInt(P0, 4, GPIO_INT_BOTH_EDGE);
+	GPIO_EnableInt(P0, 5, GPIO_INT_BOTH_EDGE);
+	GPIO_EnableInt(P0, 6, GPIO_INT_BOTH_EDGE);
+	GPIO_EnableInt(P0, 7, GPIO_INT_BOTH_EDGE);
     NVIC_EnableIRQ(GPIO01_IRQn);
 //	GPIO_EnableInt(P3, 0, GPIO_INT_RISING);
 //    GPIO_EnableInt(P3, 0, GPIO_INT_FALLING);
@@ -80,8 +81,8 @@ void GPIO_Init( void )
 //	NVIC_EnableIRQ(EINT0_IRQn);
 //	GPIO_EnableInt(P3, 4, GPIO_INT_FALLING);
 //	GPIO_EnableInt(P3, 5, GPIO_INT_FALLING);
-	GPIO_EnableInt(P2, 5, GPIO_INT_FALLING);
-	GPIO_EnableInt(P2, 6, GPIO_INT_FALLING);
+	GPIO_EnableInt(P2, 5, GPIO_INT_BOTH_EDGE);
+	GPIO_EnableInt(P2, 6, GPIO_INT_BOTH_EDGE);
     NVIC_EnableIRQ(GPIO234_IRQn);
 //	GPIO_EnableInt(P5, 4, GPIO_INT_BOTH_EDGE);
 //	NVIC_EnableIRQ(GPIO5_IRQn);
@@ -103,7 +104,18 @@ void GPIO_Init( void )
 // The Timer1 default IRQ, declared in startup_Mini51.s.
 void TMR1_IRQHandler(void)
 {
-	if(ADC_V>0xf0)
+	if(ADC_V>0x3f0)
+	{
+		if((key_count>0x100)&&(key_count<0x2000))
+		{
+			Channel[0]++;
+			if(Channel[0] >= 0x02 )Channel[0] = 0;//2 channel
+			Channel_flag = 1;
+		}
+		key_count = 0;
+		power_change = 0;
+	}
+	if((ADC_V>0xf0)&&(ADC_V<0x3f0))
 	{
 		if((key_count>0x100)&&(key_count<0x2000))
 		{
@@ -119,7 +131,7 @@ void TMR1_IRQHandler(void)
 //				_RST = 1;
 //			audio_2 = 0;
 			audio_1++;
-			if((audio_1 >= 0x2fff0)&&(_RST == 1))
+			if((audio_1 >= 0x1ad2748)&&(_RST == 1))	//2 hours
 			{
 				_RST = 0;
 				power_change = 1;
@@ -183,13 +195,13 @@ void GPIO01_IRQHandler(void)
 				POWER_FLAG = ~POWER_FLAG;
 				POWER = 1;
 				POWER_OFF = 1;
-				Channel[0] = d;
+				Channel[0] = _channel;
 			}
 			else
 			{
-				d++;
-				if(d >= 0x04 )d = 0;
-				Channel[0] = d;
+				channel++;
+				if(_channel >= 0x04 )_channel = 0;
+				Channel[0] = _channel;
 //				if( Channel[0] >= 0x04 )Channel[0] = 0;				
 			}
 		}
@@ -198,27 +210,41 @@ void GPIO01_IRQHandler(void)
 	if(P0->ISRC & BIT4)
 	{
 		P0->ISRC = BIT4;
-		CLK_SysTickDelay(1000);
+//		if(VOL_ROTOB)
+//		{
+//			Encoder_vol_flag = 1;
+//			Encoder_Task();
+//			x++;
+//		}
+		CLK_SysTickDelay(500);
 		if( VOL_A )
 		{
 			Encoder_vol_flag = 1;
 			Encoder_Task();
+			x++;
 		}		
 	}
 	else if(P0->ISRC & BIT5)
 	{
 		P0->ISRC = BIT5;
-		CLK_SysTickDelay(1000);
+//		if(VOL_ROTOA)
+//		{
+//			Encoder_vol_flag = 0;
+//			Encoder_Task();
+//			y++;
+//		}		
+		CLK_SysTickDelay(500);
 		if( VOL_B )
 		{
 			Encoder_vol_flag = 0;
 			Encoder_Task();
+			y++;
 		}		
 	}
 	else if(P0->ISRC & BIT6)
 	{
 		P0->ISRC = BIT6;
-		CLK_SysTickDelay(1000);
+		CLK_SysTickDelay(500);
 		if( TREBLE_A )
 		{
 			Encoder_treble_flag = 1;
@@ -228,7 +254,7 @@ void GPIO01_IRQHandler(void)
 	else if(P0->ISRC & BIT7)
 	{
 		P0->ISRC = BIT7;
-		CLK_SysTickDelay(1000);
+		CLK_SysTickDelay(500);
 		if( TREBLE_B )
 		{
 			Encoder_treble_flag = 0;
@@ -260,7 +286,7 @@ void GPIO234_IRQHandler(void)
     if (P2->ISRC & BIT5) 
 	{
         P2->ISRC = BIT5;
-		CLK_SysTickDelay(1000);
+		CLK_SysTickDelay(500);
 		if( SUB_B )
 		{
 			Encoder_sub_flag = 0;
@@ -271,7 +297,7 @@ void GPIO234_IRQHandler(void)
 	else if(P2->ISRC & BIT6)
 	{
 		P2->ISRC = BIT6;
-		CLK_SysTickDelay(1000);
+		CLK_SysTickDelay(500);
 		if( SUB_A )
 		{
 			Encoder_sub_flag = 1;
@@ -280,14 +306,14 @@ void GPIO234_IRQHandler(void)
 	}
 	else if(P3->ISRC & BIT0)
 	{
-		d++;
+//		d++;
 		if(irticks > 0xf0)irwork=IDLE;
 		switch(irwork)
         {
 			case IDLE: 
 //				if(d == 1)
 				irwork=HEAD;
-				d=0;
+//				d=0;
             break;
 						
             case HEAD: 
@@ -302,7 +328,7 @@ void GPIO234_IRQHandler(void)
 				{
 					disp++;
 					disp_flag = 1;
-					d = 0;
+//					d = 0;
 //					if(KEY_data==0x14)disp=4;
 				}								
              break;

@@ -18,6 +18,9 @@
 	#define TAS5754_EXT extern
 #endif
 
+TAS5754_EXT	uint8_t treble_level;
+TAS5754_EXT	uint8_t bass_level;	
+	
 typedef struct page
 {
 	uint8_t cmd;
@@ -80,10 +83,12 @@ void Amplifier_Power_OFF(void);
 void vol_adjust(void);
 void Amplifier_VOL_A(void);
 void Amplifier_VOL_B(void);
-void treble_adjust(void);
+//void treble_adjust(void);
+void treble_adjust(uint8_t level);
 void Amplifier_TREBLE_A(void);
 void Amplifier_TREBLE_B(void);
-void bass_adjust(void);
+//void bass_adjust(void);
+void bass_adjust(uint8_t level);
 void Amplifier_BASS_A(void);
 void Amplifier_BASS_B(void);
 //void Amplifier_DELAY_A(void);

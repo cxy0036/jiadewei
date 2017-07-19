@@ -413,11 +413,6 @@
               <FileType>1</FileType>
               <FilePath>.\User\ir.c</FilePath>
             </File>
-            <File>
-              <FileName>Headset.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\User\Headset.c</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>

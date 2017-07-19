@@ -52,6 +52,7 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 //void Timer500ms( void *pvParameters );
 //void timer1_init(void);
+//void led_chang(uint32_t num);
 
 void SYS_Init(void)
 {
@@ -118,6 +119,7 @@ int32_t main(void)
 	Channel_flag = 0;
 	POWER_FLAG = 0xff;
 	SYS_power_flag = 0;
+	LED_Flag = 0;
 //	POWER = 1;
 //	POWER_OFF = 1;
 //	BT_POWER = 1;
@@ -127,69 +129,65 @@ int32_t main(void)
 	#if 1
 	while(1)
 	{
-//		_4052_A = ~_4052_A;
-		if( POWER_FLAG && (SYS_power_flag == 0) )
+		if( POWER_FLAG && (SYS_power_flag == 0) )  		//power on 
 		{
 			Sys_power_on();
-//			CLK_SysTickDelay(5000);
 //			TIMER_Close(TIMER1);
 			TAS_5754_Init(slave_addr);
 			CLK_SysTickDelay(5000);	
-//			_RST = 1;
 			test_24c02();
 //			timer1_init();
 //			IR_init();
 			Channel_select(Channel);
 //			while(1)
 //			{
-//				if(AUDIO_DET ==0)
-//				{
-//					irwork = IDLE;
-//				}
+//				LED_R = 0;LED_B = 0;LED_G = 0;
 //			}
-//			_RST = 1;
 		}
-		else if( (!POWER_FLAG) && (SYS_power_flag == 1) )
+		else if( (!POWER_FLAG) && (SYS_power_flag == 1) )//power off
 		{
 			_RST = 0;
+			LED_Flag = 0;
 			Sys_power_off();			
 		}
 //		if((disp>5)||(disp==0))
-			IR_test_task();
-		if(Channel_flag)
+		IR_test_task();								//IR
+//		Encoder_();
+		if(Channel_flag)								//channel
 		{
 			Channel_flag = 0;
-			Channel_select( Channel );			
+			Channel_select( Channel );	
+			LED_Flag = 0;			
 		}
-//		Headset_Test_Task();
-		Bluetooth_Test_Task();
-//		if(disp_flag)
-//		{
-//			irwork = IDLE;
-//			if(disp>0)//||(disp==0))
-//			disp_flag=0;
-//		}
+		Bluetooth_Test_Task();							//Bluetooth
 		// Trigger ADC conversion if it is idle
-        if(!ADC_IS_BUSY(ADC)) 
+        if(!ADC_IS_BUSY(ADC)) 							//Voltage
 		{
             ADC_START_CONV(ADC);
         }
-		
-//		IR_init();
-		
-//		if(SYS_power_flag && ledcount>50000 )
-//		{
-//			ledcount = 0;
-//			Power_Meter_Detect();
-//		}
-//		if(Power_Meter>0xff)
-//		{
-//			Sys_power_off();
-//		}
+		if(LED_Flag)
+		{
+			led_chang(0x2000);
+		}
 	}
 	#endif
 }
 
+//void led_chang(uint32_t num)
+//{
+//	if(ledcount>num)
+//	{
+//		if(Channel[0]==1)
+//		{
+//			LED_G = ~LED_G;
+//		}
+//		else if((BT_DET)&&(Channel[0]==0))
+//		{
+//			LED_B = ~LED_B;
+//		}
+//		ledcount = 0;
+//	}
+//}
 //void timer1_init(void)
 //{
 //	CLK_EnableModuleClock(TMR1_MODULE);        

@@ -32,8 +32,24 @@ uint8_t Channel[1] = {0x00};
 //	static uint8_t s_u8LastKey = KEY_NULL,BOTH_EDGE_ROTOB = 1,BOTH_EDGE_ROTOA = 1;
 
 
-uint8_t ADC_V=0xfe;
+uint16_t ADC_V=0x4fe;
 
+
+void led_chang(uint32_t num)
+{
+	if(ledcount>num)
+	{
+		if(Channel[0]==1)
+		{
+			LED_G = ~LED_G;
+		}
+		else
+		{
+			LED_B = ~LED_B;
+		}
+		ledcount = 0;
+	}
+}
 //void AUDIO_TEST(void)
 //{
 //	if(SYS_power_flag)
@@ -76,7 +92,7 @@ void Sys_power_on( void )
 	CLK_SysTickDelay(200000);	
 //	POWER = 0;
 	SYS_power_flag = 1;
-	LED_R = 0;LED_B = 0;LED_G = 0;	
+//	LED_R = 0;LED_B = 0;LED_G = 0;	
 }
 
 void Sys_power_off( void )
@@ -108,6 +124,7 @@ void Channel_select( uint8_t* Channel )
 			*Channel = 0x00;
 			break;
 		case 0:		//Bluetooth
+			CLK_SysTickDelay(200000);
 			_4052_A = 1;
 			_4052_B = 0;
 			if( SYS_power_flag )
@@ -148,6 +165,6 @@ void Channel_select( uint8_t* Channel )
 		default:
 			break;
 	}
-	CLK_SysTickDelay(9000);
+	CLK_SysTickDelay(100000);
 	_RST = 1;
 }
