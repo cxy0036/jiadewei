@@ -94,8 +94,8 @@
     <MDIClientArea>
       <RegID>0</RegID>
       <MDITabState>
-        <Len>670</Len>
-        <Data>0100000004000000010000000100000001000000010000000000000002000000000000000100000001000000000000002800000028000000010000000800000007000000010000001D453A5C776F726B5C6D696E6935347A64655C557365725C6D61696E2E6300000000066D61696E2E63000000005FC3CF00FFFFFFFF1D453A5C776F726B5C6D696E6935347A64655C557365725C7461736B2E6300000000067461736B2E6300000000F0A0A100FFFFFFFF1B453A5C776F726B5C6D696E6935347A64655C557365725C69722E63000000000469722E6300000000A5C2D700FFFFFFFF22453A5C776F726B5C6D696E6935347A64655C557365725C426C7565746F6F74682E63000000000B426C7565746F6F74682E6300000000B3A6BE00FFFFFFFF21453A5C776F726B5C6D696E6935347A64655C557365725C4B45595F5363616E2E63000000000A4B45595F5363616E2E6300000000EAD6A300FFFFFFFF20453A5C776F726B5C6D696E6935347A64655C557365725C456E636F6465722E630000000009456E636F6465722E63000000009CC1B600FFFFFFFF20453A5C776F726B5C6D696E6935347A64655C557365725C456E636F6465722E680000000009456E636F6465722E6800000000F7B88600FFFFFFFF3D453A5C776F726B5C6D696E6935347A64655C5254455C4465766963655C4D696E6935345A44455C737461727475705F4D696E6935315365726965732E730000000016737461727475705F4D696E6935315365726965732E7300000000D9ADC200FFFFFFFF0100000010000000C5D4F200FFDC7800BECEA100F0A0A100BCA8E1009CC1B600F7B88600D9ADC200A5C2D700B3A6BE00EAD6A300F6FA7D00B5E99D005FC3CF00C1838300CACAD500010000000000000002000000F4000000650000008007000069030000</Data>
+        <Len>729</Len>
+        <Data>0100000004000000010000000100000001000000010000000000000002000000000000000100000001000000000000002800000028000000010000000900000006000000010000003D453A5C776F726B5C6D696E6935347A64655C5254455C4465766963655C4D696E6935345A44455C737461727475705F4D696E6935315365726965732E730000000016737461727475705F4D696E6935315365726965732E7300000000FFDC7800FFFFFFFF20453A5C776F726B5C6D696E6935347A64655C557365725C456E636F6465722E680000000009456E636F6465722E6800000000BECEA100FFFFFFFF20453A5C776F726B5C6D696E6935347A64655C557365725C456E636F6465722E630000000009456E636F6465722E6300000000F0A0A100FFFFFFFF21453A5C776F726B5C6D696E6935347A64655C557365725C4B45595F5363616E2E63000000000A4B45595F5363616E2E6300000000BCA8E100FFFFFFFF22453A5C776F726B5C6D696E6935347A64655C557365725C426C7565746F6F74682E63000000000B426C7565746F6F74682E63000000009CC1B600FFFFFFFF1B453A5C776F726B5C6D696E6935347A64655C557365725C69722E63000000000469722E6300000000F7B88600FFFFFFFF1D453A5C776F726B5C6D696E6935347A64655C557365725C7461736B2E6300000000067461736B2E6300000000D9ADC200FFFFFFFF1D453A5C776F726B5C6D696E6935347A64655C557365725C6D61696E2E6300000000066D61696E2E6300000000A5C2D700FFFFFFFF20453A5C776F726B5C6D696E6935347A64655C557365725C544153353735342E630000000009544153353735342E6300000000B3A6BE00FFFFFFFF0100000010000000C5D4F200FFDC7800BECEA100F0A0A100BCA8E1009CC1B600F7B88600D9ADC200A5C2D700B3A6BE00EAD6A300F6FA7D00B5E99D005FC3CF00C1838300CACAD500010000000000000002000000F4000000650000008007000069030000</Data>
       </MDITabState>
     </MDIClientArea>
     <ViewEx>
@@ -3387,30 +3387,39 @@
     <ActiveMDIGroup>0</ActiveMDIGroup>
     <MDIGroup>
       <Size>100</Size>
-      <ActiveTab>7</ActiveTab>
+      <ActiveTab>6</ActiveTab>
       <Doc>
-        <Name>.\User\main.c</Name>
-        <ColumnNumber>32</ColumnNumber>
-        <TopLine>59</TopLine>
-        <CurrentLine>135</CurrentLine>
+        <Name>RTE\Device\Mini54ZDE\startup_Mini51Series.s</Name>
+        <ColumnNumber>20</ColumnNumber>
+        <TopLine>95</TopLine>
+        <CurrentLine>117</CurrentLine>
         <Folding>1</Folding>
-        <ContractedFolders>57,91</ContractedFolders>
+        <ContractedFolders></ContractedFolders>
         <PaneID>0</PaneID>
       </Doc>
       <Doc>
-        <Name>.\User\task.c</Name>
-        <ColumnNumber>0</ColumnNumber>
-        <TopLine>3</TopLine>
-        <CurrentLine>15</CurrentLine>
+        <Name>User\Encoder.h</Name>
+        <ColumnNumber>38</ColumnNumber>
+        <TopLine>1</TopLine>
+        <CurrentLine>17</CurrentLine>
         <Folding>1</Folding>
-        <ContractedFolders>30,107,118,155,192,202,203,206,232,249,266,276,286,294,308,319,329,402,411,423,456</ContractedFolders>
+        <ContractedFolders></ContractedFolders>
         <PaneID>0</PaneID>
       </Doc>
       <Doc>
-        <Name>.\User\ir.c</Name>
+        <Name>.\User\Encoder.c</Name>
+        <ColumnNumber>21</ColumnNumber>
+        <TopLine>12</TopLine>
+        <CurrentLine>55</CurrentLine>
+        <Folding>1</Folding>
+        <ContractedFolders></ContractedFolders>
+        <PaneID>0</PaneID>
+      </Doc>
+      <Doc>
+        <Name>.\User\KEY_Scan.c</Name>
         <ColumnNumber>0</ColumnNumber>
-        <TopLine>29</TopLine>
-        <CurrentLine>40</CurrentLine>
+        <TopLine>126</TopLine>
+        <CurrentLine>107</CurrentLine>
         <Folding>1</Folding>
         <ContractedFolders></ContractedFolders>
         <PaneID>0</PaneID>
@@ -3419,45 +3428,45 @@
         <Name>.\User\Bluetooth.c</Name>
         <ColumnNumber>0</ColumnNumber>
         <TopLine>1</TopLine>
-        <CurrentLine>12</CurrentLine>
+        <CurrentLine>8</CurrentLine>
         <Folding>1</Folding>
         <ContractedFolders></ContractedFolders>
         <PaneID>0</PaneID>
       </Doc>
       <Doc>
-        <Name>.\User\KEY_Scan.c</Name>
+        <Name>.\User\ir.c</Name>
         <ColumnNumber>0</ColumnNumber>
-        <TopLine>1</TopLine>
-        <CurrentLine>81</CurrentLine>
+        <TopLine>26</TopLine>
+        <CurrentLine>37</CurrentLine>
         <Folding>1</Folding>
         <ContractedFolders></ContractedFolders>
         <PaneID>0</PaneID>
       </Doc>
       <Doc>
-        <Name>.\User\Encoder.c</Name>
+        <Name>.\User\task.c</Name>
+        <ColumnNumber>5</ColumnNumber>
+        <TopLine>50</TopLine>
+        <CurrentLine>184</CurrentLine>
+        <Folding>1</Folding>
+        <ContractedFolders>30,107,118,155,192,202,203,206,232,249,266,276,286,294,308,319,329,402,411,423,456</ContractedFolders>
+        <PaneID>0</PaneID>
+      </Doc>
+      <Doc>
+        <Name>.\User\main.c</Name>
         <ColumnNumber>12</ColumnNumber>
-        <TopLine>1</TopLine>
-        <CurrentLine>55</CurrentLine>
+        <TopLine>67</TopLine>
+        <CurrentLine>130</CurrentLine>
         <Folding>1</Folding>
-        <ContractedFolders></ContractedFolders>
+        <ContractedFolders>57,91</ContractedFolders>
         <PaneID>0</PaneID>
       </Doc>
       <Doc>
-        <Name>User\Encoder.h</Name>
-        <ColumnNumber>33</ColumnNumber>
-        <TopLine>1</TopLine>
-        <CurrentLine>17</CurrentLine>
+        <Name>.\User\TAS5754.c</Name>
+        <ColumnNumber>36</ColumnNumber>
+        <TopLine>40</TopLine>
+        <CurrentLine>5003</CurrentLine>
         <Folding>1</Folding>
-        <ContractedFolders></ContractedFolders>
-        <PaneID>0</PaneID>
-      </Doc>
-      <Doc>
-        <Name>RTE\Device\Mini54ZDE\startup_Mini51Series.s</Name>
-        <ColumnNumber>0</ColumnNumber>
-        <TopLine>95</TopLine>
-        <CurrentLine>106</CurrentLine>
-        <Folding>1</Folding>
-        <ContractedFolders></ContractedFolders>
+        <ContractedFolders>7,4555,4763,4970,4977</ContractedFolders>
         <PaneID>0</PaneID>
       </Doc>
     </MDIGroup>
