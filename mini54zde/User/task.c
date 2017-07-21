@@ -11,7 +11,7 @@
 //typedef enum  {IDLE=1,HEAD,DATA} irstatus_t; 
 typedef union {uint32_t data;struct {uint8_t address0;uint8_t address1;uint8_t data0;uint8_t data1;};}irdata_t;
 irdata_t ir;
-uint16_t irticks=0,audio_2=0;//,ircount=0;
+uint16_t VA_ticks=0,VB_ticks=0,irticks=0,audio_2=0;//,ircount=0;
 uint32_t audio_1=0,ledcount=0;
 uint8_t ircount=0;
 irstatus_t irwork=IDLE;
@@ -161,6 +161,28 @@ void TMR1_IRQHandler(void)
 			power_change = 1;
 			POWER_FLAG = ~POWER_FLAG;
 		}
+	}
+	if(VOL_ROTOA==0)
+	{
+		VA_ticks++;
+	}
+	else
+	{
+		if(VA_ticks>0x20)x=VA_ticks;
+		VA_ticks = 0;
+	}
+	if(VOL_ROTOB==0)
+	{
+		VB_ticks++;
+	}
+	else
+	{
+		if(VB_ticks>0x20)y=VB_ticks;
+		VB_ticks = 0;
+	}
+	if(x>y)
+	{
+		
 	}
 	irticks++;ledcount++;//Power_Meter++;
 	if(irticks>0xfffd)irticks = 0xfffd;
