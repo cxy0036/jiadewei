@@ -135,12 +135,29 @@
           <Name>UL2CM3(-S0 -C0 -P0 -FD20000000 -FC800 -FN1 -FF0Mini51_AP_16 -FS00 -FL04000 -FP0($$Device:Mini54ZDE$Flash\Mini51_AP_16.FLM))</Name>
         </SetRegEntry>
       </TargetDriverDllRegistry>
-      <Breakpoint/>
+      <Breakpoint>
+        <Bp>
+          <Number>0</Number>
+          <Type>0</Type>
+          <LineNumber>175</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>14982</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>RTE\Device\Mini54ZDE\startup_Mini51Series.s</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression></Expression>
+        </Bp>
+      </Breakpoint>
       <WatchWindow1>
         <Ww>
           <count>0</count>
           <WinNumber>1</WinNumber>
-          <ItemText>right</ItemText>
+          <ItemText>vol_n</ItemText>
         </Ww>
         <Ww>
           <count>1</count>
@@ -150,60 +167,45 @@
         <Ww>
           <count>2</count>
           <WinNumber>1</WinNumber>
-          <ItemText>audio_1</ItemText>
+          <ItemText>treble_level</ItemText>
         </Ww>
         <Ww>
           <count>3</count>
           <WinNumber>1</WinNumber>
-          <ItemText>KEY_data</ItemText>
+          <ItemText>bass_level</ItemText>
         </Ww>
         <Ww>
           <count>4</count>
           <WinNumber>1</WinNumber>
-          <ItemText>irwork</ItemText>
+          <ItemText>vol_level</ItemText>
         </Ww>
         <Ww>
           <count>5</count>
           <WinNumber>1</WinNumber>
-          <ItemText>vol_level</ItemText>
+          <ItemText>disp</ItemText>
         </Ww>
         <Ww>
           <count>6</count>
           <WinNumber>1</WinNumber>
-          <ItemText>disp</ItemText>
+          <ItemText>Key_count</ItemText>
         </Ww>
         <Ww>
           <count>7</count>
           <WinNumber>1</WinNumber>
-          <ItemText>Key_count</ItemText>
+          <ItemText>pii</ItemText>
         </Ww>
         <Ww>
           <count>8</count>
           <WinNumber>1</WinNumber>
-          <ItemText>ADC</ItemText>
+          <ItemText>ADC_V</ItemText>
         </Ww>
         <Ww>
           <count>9</count>
           <WinNumber>1</WinNumber>
-          <ItemText>ADC_V</ItemText>
-        </Ww>
-        <Ww>
-          <count>10</count>
-          <WinNumber>1</WinNumber>
           <ItemText>ledcount</ItemText>
         </Ww>
         <Ww>
-          <count>11</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>x</ItemText>
-        </Ww>
-        <Ww>
-          <count>12</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>y</ItemText>
-        </Ww>
-        <Ww>
-          <count>13</count>
+          <count>10</count>
           <WinNumber>1</WinNumber>
           <ItemText>VOL_ROTOB</ItemText>
         </Ww>

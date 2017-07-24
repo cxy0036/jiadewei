@@ -14,12 +14,19 @@
 
 
 //#define EP_DET  			P52
-#define	VOL_A		( ( VOL_ROTOA == 0 ) && ( VOL_ROTOB == 1 ) )
-#define	VOL_B		( ( VOL_ROTOA == 1 ) && ( VOL_ROTOB == 0 ) )
-#define TREBLE_A	( ( TREBLE_ROTOA == 0 ) && ( TREBLE_ROTOB == 1 ) )
-#define TREBLE_B	( ( TREBLE_ROTOA == 1 ) && ( TREBLE_ROTOB == 0 ) )
-#define SUB_A	( ( SUB_ROTOA == 0 ) && ( SUB_ROTOB == 1 ) )
-#define SUB_B	( ( SUB_ROTOA == 1 ) && ( SUB_ROTOB == 0 ) )	
+//#define	VOL_A		( ( VOL_ROTOA == 0 ) && ( VOL_ROTOB == 0 ) )
+#define	VOL_B		( ( VOL_ROTOA == 0 ) && ( VOL_ROTOB == 1 ) )
+#define	VOL_A		( ( VOL_ROTOA == 1 ) && ( VOL_ROTOB == 0 ) )
+#define	VOL_D		( ( VOL_ROTOA == 1 ) && ( VOL_ROTOB == 1 ) )	
+//#define TREBLE_A	( ( TREBLE_ROTOA == 0 ) && ( TREBLE_ROTOB == 0 ) )
+#define TREBLE_B	( ( TREBLE_ROTOA == 0 ) && ( TREBLE_ROTOB == 1 ) )
+#define TREBLE_A	( ( TREBLE_ROTOA == 1 ) && ( TREBLE_ROTOB == 0 ) )
+#define TREBLE_D	( ( TREBLE_ROTOA == 1 ) && ( TREBLE_ROTOB == 1 ) )
+//#define SUB_A	( ( SUB_ROTOA == 0 ) && ( SUB_ROTOB == 0 ) )
+#define SUB_B	( ( SUB_ROTOA == 0 ) && ( SUB_ROTOB == 1 ) )
+#define SUB_A	( ( SUB_ROTOA == 1 ) && ( SUB_ROTOB == 0 ) )
+#define SUB_D	( ( SUB_ROTOA == 1 ) && ( SUB_ROTOB == 1 ) )
+	
 	
 Encoder_EXT uint8_t	Encoder_vol_flag;
 Encoder_EXT uint8_t	Encoder_treble_flag;

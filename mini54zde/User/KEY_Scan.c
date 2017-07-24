@@ -43,9 +43,9 @@ void led_chang(uint32_t num)
 		{
 			LED_G = ~LED_G;
 		}
-		else
+		if((Channel[0]==0)&&(BT_DET&BT_POWER))
 		{
-			LED_B = ~LED_B;
+				LED_B = ~LED_B;
 		}
 		ledcount = 0;
 	}

@@ -152,7 +152,7 @@ int32_t main(void)
 		}
 //		if((disp>5)||(disp==0))
 		IR_test_task();								//IR
-//		Encoder_();
+		Encoder_Task();
 		if(Channel_flag)								//channel
 		{
 			Channel_flag = 0;

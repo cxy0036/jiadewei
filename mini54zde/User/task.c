@@ -11,7 +11,7 @@
 //typedef enum  {IDLE=1,HEAD,DATA} irstatus_t; 
 typedef union {uint32_t data;struct {uint8_t address0;uint8_t address1;uint8_t data0;uint8_t data1;};}irdata_t;
 irdata_t ir;
-uint16_t VA_ticks=0,VB_ticks=0,irticks=0,audio_2=0;//,ircount=0;
+uint16_t irticks=0,audio_2=0;//,ircount=0;
 uint32_t audio_1=0,ledcount=0;
 uint8_t ircount=0;
 irstatus_t irwork=IDLE;
@@ -19,7 +19,8 @@ uint8_t disp_flag=0,disp=0;
 uint8_t KEY_data = 0;
 uint8_t _channel=0;
 uint8_t	power_change=0;
-uint8_t x=0,y=0;
+uint8_t vol_n = 0xf0,treble_n = 0xf0,sub_n = 0xf0;
+uint8_t	VOL_F=0,TREBLE_F=0,SUB_F=0;
 
 /************************************************************
  *@init file
@@ -68,11 +69,11 @@ void GPIO_Init( void )
 //	GPIO_SetMode(P2, BIT3, GPIO_PMD_OPEN_DRAIN);
 
 //    GPIO_EnableInt(P1, 5, GPIO_INT_BOTH_EDGE);//GPIO_INT_LOW);
-	GPIO_EnableInt(P0, 4, GPIO_INT_BOTH_EDGE);
-	GPIO_EnableInt(P0, 5, GPIO_INT_BOTH_EDGE);
-	GPIO_EnableInt(P0, 6, GPIO_INT_BOTH_EDGE);
-	GPIO_EnableInt(P0, 7, GPIO_INT_BOTH_EDGE);
-    NVIC_EnableIRQ(GPIO01_IRQn);
+//	GPIO_EnableInt(P0, 4, GPIO_INT_BOTH_EDGE);
+//	GPIO_EnableInt(P0, 5, GPIO_INT_BOTH_EDGE);
+//	GPIO_EnableInt(P0, 6, GPIO_INT_BOTH_EDGE);
+//	GPIO_EnableInt(P0, 7, GPIO_INT_BOTH_EDGE);
+//    NVIC_EnableIRQ(GPIO01_IRQn);
 //	GPIO_EnableInt(P3, 0, GPIO_INT_RISING);
 //    GPIO_EnableInt(P3, 0, GPIO_INT_FALLING);
 //	GPIO_EnableInt(P3, 1, GPIO_INT_FALLING);
@@ -162,29 +163,53 @@ void TMR1_IRQHandler(void)
 			POWER_FLAG = ~POWER_FLAG;
 		}
 	}
-	if(VOL_ROTOA==0)
+	if(audio_1>50)
 	{
-		VA_ticks++;
+		audio_1 = 0;
+		if(VOL_D)
+		{
+			VOL_F = 1;
+		}
+		if(TREBLE_D)
+		{
+			TREBLE_F = 1;
+		}
+		if(SUB_D)
+		{
+			SUB_F = 1;
+		}
+		if((VOL_A)&&(VOL_F))
+		{
+			vol_n++;
+			VOL_F = 0;
+		}		
+		if((VOL_B)&&(VOL_F))
+		{
+			vol_n--;
+			VOL_F = 0;
+		}
+		if((TREBLE_A)&&(TREBLE_F))
+		{
+			treble_n++;
+			TREBLE_F = 0;
+		}
+		if((TREBLE_B)&&(TREBLE_F))
+		{
+			treble_n--;
+			TREBLE_F = 0;
+		}
+		if((SUB_A)&&(SUB_F))
+		{
+			sub_n++;
+			SUB_F = 0;
+		}
+		if((SUB_B)&&(SUB_F))
+		{
+			sub_n--;
+			SUB_F = 0;
+		}
 	}
-	else
-	{
-		if(VA_ticks>0x20)x=VA_ticks;
-		VA_ticks = 0;
-	}
-	if(VOL_ROTOB==0)
-	{
-		VB_ticks++;
-	}
-	else
-	{
-		if(VB_ticks>0x20)y=VB_ticks;
-		VB_ticks = 0;
-	}
-	if(x>y)
-	{
-		
-	}
-	irticks++;ledcount++;//Power_Meter++;
+	irticks++;ledcount++;audio_1++;//Power_Meter++;
 	if(irticks>0xfffd)irticks = 0xfffd;
     TIMER_ClearIntFlag(TIMER1);
 }
@@ -199,6 +224,7 @@ void TMR1_IRQHandler(void)
  *
  * @details     The Port0/Port1 default IRQ, declared in startup_Mini51.s.
  */
+	#if 0
 void GPIO01_IRQHandler(void)
 {
 	#if 0
@@ -238,29 +264,33 @@ void GPIO01_IRQHandler(void)
 //			Encoder_Task();
 //			x++;
 //		}
-		CLK_SysTickDelay(500);
+		if((irticks>0x46)&&(irticks<0xaa))
+		CLK_SysTickDelay(300);
 		if( VOL_A )
 		{
 			Encoder_vol_flag = 1;
-			Encoder_Task();
 			x++;
-		}		
+//			if(x>7){Encoder_Task();x=0;}
+		}
+		irticks = 0;	
 	}
 	else if(P0->ISRC & BIT5)
 	{
+		if((irticks>0x46)&&(irticks<0xaa))
+		y++;
 		P0->ISRC = BIT5;
 //		if(VOL_ROTOA)
 //		{
 //			Encoder_vol_flag = 0;
 //			Encoder_Task();
 //			y++;
-//		}		
-		CLK_SysTickDelay(500);
+//		}	
+		CLK_SysTickDelay(300);
 		if( VOL_B )
 		{
 			Encoder_vol_flag = 0;
-			Encoder_Task();
-			y++;
+			
+//			if(vol_level>=30)	{Encoder_Task();y=0;}
 		}		
 	}
 	else if(P0->ISRC & BIT6)
@@ -290,6 +320,7 @@ void GPIO01_IRQHandler(void)
         P1->ISRC = P1->ISRC;
     }
 }
+	#endif
 
 
 /**
@@ -305,6 +336,7 @@ void GPIO234_IRQHandler(void)
 {
 	uint8_t irdata;
     /* To check if P3.0 interrupt occurred */
+	#if 0
     if (P2->ISRC & BIT5) 
 	{
         P2->ISRC = BIT5;
@@ -326,7 +358,9 @@ void GPIO234_IRQHandler(void)
 			Encoder_Task();
 		}
 	}
-	else if(P3->ISRC & BIT0)
+	else 
+	#endif
+	if(P3->ISRC & BIT0)
 	{
 //		d++;
 		if(irticks > 0xf0)irwork=IDLE;

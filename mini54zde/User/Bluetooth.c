@@ -9,7 +9,10 @@ void Bluetooth_Test_Task(void)
 	{
 		if(BT_DET)
 		{
-			LED_B = 0;
+			if(LED_Flag==0)
+			{
+				LED_B = 0;				
+			}
 		}
 		else
 		{
@@ -33,7 +36,7 @@ void BT_patch(void)
 		BT_REV = 0;	BT_FWD = 0;
 		CLK_SysTickDelay(1000);
 		BT_REV = 1;	BT_FWD = 1;
-		CLK_SysTickDelay(7000*1000);
+		CLK_SysTickDelay(3000*1000);
 		BT_REV = 0;	BT_FWD = 0;
 		CLK_SysTickDelay(1000);
 	}
