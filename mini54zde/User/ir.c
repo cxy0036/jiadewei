@@ -129,7 +129,7 @@ void IR_test_task(void)
 								{
 									BT_patch();
 								}
-								else
+								else 
 								{
 									BT_Play_Pause();
 								}
