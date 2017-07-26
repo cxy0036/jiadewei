@@ -1,14 +1,26 @@
+#ifndef __TASK_H__
+#define __TASK_H__
+
 #include <stdio.h>
-//#include "AIOS.h"
 #include "Mini51Series.h"
-//#include "i2c_software_gpio_with_timer.h"
+//#include "Encoder.h"
+#include "KEY_Scan.h"
+#include "ir.h"
 
 #ifdef TASK_GLOBALS
 	#define TASK_EXT 
 #else
 	#define TASK_EXT extern
 #endif
-
+typedef enum  {IDLE=1,HEAD,DATA} irstatus_t;	
+TASK_EXT	uint8_t	LED_Flag;
+TASK_EXT	uint32_t ledcount;
+TASK_EXT	irstatus_t irwork;
+TASK_EXT	uint8_t disp_flag,disp;
+TASK_EXT	uint8_t Channel_flag;
+TASK_EXT	uint8_t KEY_data;
+TASK_EXT	uint8_t vol_n,treble_n,sub_n;
+//TASK_EXT	uint32_t ledcount;
 /**
   * IR Define
   */
@@ -19,29 +31,38 @@
 /** Define GPIO Pin. 
  *
  */
-#define BT_REV				P04
-#define BT_FWD				P05
-#define BT_DET				P06
-#define BT_POWER			P07
+#define BT_REV				P00
+#define BT_FWD				P01
+#define BT_DET				P53
+#define BT_POWER			P10
+	
 #define ICE_DAT				P47
 #define ICE_CLK				P46
-#define _4052_B				P26
-#define _4052_A				P25
+
+#define _4052_B				P13
+#define _4052_A				P12
+
 #define _RST				P24
+
 #define _SDA				P23
 #define _SCL				P22
-#define EP_DET  			P52
+
+#define AUDIO_DET  			P15
+
 #define ST_BY   			P36
-#define SUB_ROTOB			P35
-#define SUB_ROTOA			P34
-#define TREBLE_ROTOB		P32
-#define TREBLE_ROTOA		P31
-#define VOL_ROTOB  			P54
-#define VOL_ROTOA   		P30
-#define IR					P10
-#define LED_B				P12
-#define LED_G				P13
-#define LED_R				P14
+
+#define SUB_ROTOB			P25
+#define SUB_ROTOA			P26
+#define TREBLE_ROTOB		P07
+#define TREBLE_ROTOA		P06
+#define VOL_ROTOB  			P05
+#define VOL_ROTOA   		P04
+
+#define IR					P30
+
+#define LED_B				P32
+#define LED_G				P31
+#define LED_R				P54
 
 #define VOL_ROTOA_1			1
 #define VOL_ROTOB_2			2
@@ -50,10 +71,16 @@
 #define	SUB_ROTOA_5			5
 #define SUB_ROTOB_6			6
 
-//VOL	Addr 0x2D: Master Volume Fine Control
-
-
-void Sys_power( void );
 void GPIO_Init( void );
-void Channel_select( void );
+void _RST_8230( void );
+void TMR0_IRQHandler(void);
+void TMR1_IRQHandler(void);
+void GPIO01_IRQHandler(void);
+void GPIO234_IRQHandler(void);
+void GPIO5_IRQHandler(void);
+void EINT0_IRQHandler(void);
+
+#endif
+
+
 

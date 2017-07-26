@@ -13,8 +13,8 @@
 #include "i2c_software_gpio.h"
 
 /* SDA = GP2.3, CLK = GP2.2 */
-#define I2C_SW_SDA     P23
-#define I2C_SW_CLK     P22
+//#define I2C_SW_SDA     P23
+//#define I2C_SW_CLK     P22
 
 uint32_t u32_I2C_SW_Delay;
 
@@ -47,7 +47,8 @@ int32_t I2C_SW_Open(uint32_t u32BusClock)
 int32_t I2C_SW_Send_byte(uint8_t u8Data)
 {
     uint32_t u32count;
-    for(u32count=0; u32count<8; u32count++) {
+    for(u32count=0; u32count<8; u32count++) 
+	{
         I2C_SW_SDA = u8Data>>(7-u32count);
         CLK_SysTickDelay(u32_I2C_SW_Delay);
         I2C_SW_CLK = 1;
@@ -85,7 +86,8 @@ int32_t I2C_SW_Send(uint8_t u8Address, uint8_t* p8Data, uint32_t u32ByteSize)
     I2C_SW_CLK = 0;
     CLK_SysTickDelay(u32_I2C_SW_Delay);
 
-    if(I2C_SW_Send_byte(u8Address<<1))
+//    if(I2C_SW_Send_byte(u8Address<<1))
+	if(I2C_SW_Send_byte(u8Address&0xfe))
         goto I2C_SW_Stop_Send;
 
     while(u32count<u32ByteSize) {
@@ -143,6 +145,18 @@ int32_t I2C_SW_Get(uint8_t u8Address, uint8_t* p8Data, uint32_t u32ByteSize)
     uint32_t u32count = 0;
     if(u32ByteSize == 0)
         return 0;
+	I2C_SW_SDA = 1;
+    I2C_SW_CLK = 1;
+    CLK_SysTickDelay(u32_I2C_SW_Delay);
+    I2C_SW_SDA = 0;
+    CLK_SysTickDelay(u32_I2C_SW_Delay);
+    I2C_SW_CLK = 0;
+    CLK_SysTickDelay(u32_I2C_SW_Delay);
+
+    if(I2C_SW_Send_byte((u8Address)&0xfe))
+        goto I2C_SW_Stop_Get;
+	if(I2C_SW_Send_byte(*p8Data))
+        goto I2C_SW_Stop_Get;
 
     I2C_SW_SDA = 1;
     I2C_SW_CLK = 1;
@@ -152,13 +166,13 @@ int32_t I2C_SW_Get(uint8_t u8Address, uint8_t* p8Data, uint32_t u32ByteSize)
     I2C_SW_CLK = 0;
     CLK_SysTickDelay(u32_I2C_SW_Delay);
 
-    if(I2C_SW_Send_byte((u8Address<<1)|1))
+    if(I2C_SW_Send_byte((u8Address)|1))
         goto I2C_SW_Stop_Get;
 
     while(u32count<(u32ByteSize-1)) {
-        *(p8Data+u32count++) = I2C_SW_Get_byte(0);
+        *(p8Data+1+u32count++) = I2C_SW_Get_byte(0);
     }
-    *(p8Data+u32count++) = I2C_SW_Get_byte(1);
+    *(p8Data+1+u32count++) = I2C_SW_Get_byte(1);
 I2C_SW_Stop_Get:
     I2C_SW_SDA = 0;
     CLK_SysTickDelay(u32_I2C_SW_Delay);

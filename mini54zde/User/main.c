@@ -37,45 +37,22 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <stdio.h>
 #include "Mini51Series.h"
-//AIOS
-//#include "AIOS.h"
 #include "task.h"
 #include "i2c_software_gpio.h"
+#include "KEY_Scan.h"
+//#include "Headset.h"
+#include "Bluetooth.h"
+//#include "Encoder.h"
+#include "ir.h"
+#include "tas5754.h"
+
 
 #define PLLCON_SETTING  CLK_PLLCON_50MHz_HXT
 #define PLL_CLOCK       50000000
 
-void Timer500ms( void *pvParameters );
-
-#if 0
-/************************************************************
- *@init file
- ************************************************************/
-/*
- *Init GPIO mode 
- */
-void GPIO_Init( void )
-{
-	/* Set P1.5 to ADC channel 0 input pin */
-    SYS->P1_MFP = SYS_MFP_P15_AIN5;
-	/* Analog pin OFFD to prevent leakage */
-    P1->OFFD |= (1 << 5) << GPIO_OFFD_OFFD_Pos;
-	
-	/* Init P2.2 P2.3 P2.4 and P3.6 to be output mode */
-	GPIO_SetMode(P0, BIT4, GPIO_PMD_OUTPUT);//BT_REV
-	GPIO_SetMode(P0, BIT5, GPIO_PMD_OUTPUT);//BT_FWD
-	GPIO_SetMode(P0, BIT7, GPIO_PMD_OUTPUT);//BT_POWER
-	GPIO_SetMode(P1, BIT2, GPIO_PMD_OUTPUT);//LED_B
-	GPIO_SetMode(P1, BIT3, GPIO_PMD_OUTPUT);//LED_G
-	GPIO_SetMode(P1, BIT4, GPIO_PMD_OUTPUT);//LED_R
-	GPIO_SetMode(P2, BIT2, GPIO_PMD_OUTPUT);//_SCL
-	GPIO_SetMode(P2, BIT3, GPIO_PMD_OUTPUT);//_SDA
-	GPIO_SetMode(P2, BIT4, GPIO_PMD_OUTPUT);//_RST
-	GPIO_SetMode(P2, BIT5, GPIO_PMD_OUTPUT);//_4052_A
-	GPIO_SetMode(P2, BIT6, GPIO_PMD_OUTPUT);//_4052_B
-	GPIO_SetMode(P3, BIT6, GPIO_PMD_OUTPUT);//ST_BY 
-}
-#endif
+//void Timer500ms( void *pvParameters );
+//void timer1_init(void);
+//void led_chang(uint32_t num);
 
 void SYS_Init(void)
 {
@@ -106,76 +83,10 @@ void SYS_Init(void)
 
     /* Update System Core Clock */
     /* User can use SystemCoreClockUpdate() to calculate PllClock, SystemCoreClock and CycylesPerUs automatically. */
-    SystemCoreClockUpdate();
+    SystemCoreClockUpdate();//选择系统时钟源
 
-//	/* Enable Internal RC 22.1184MHz clock */
-//	CLK->PWRCON |= CLK_PWRCON_OSC22M_EN_Msk;
-
-//	/* Waiting for Internal RC clock ready */
-//	while(!(CLK->CLKSTATUS & CLK_CLKSTATUS_OSC22M_STB_Msk));
-
-//	/* Switch HCLK clock source to Internal RC and and HCLK source divide 1 */
-//	CLK->CLKSEL0 &= ~CLK_CLKSEL0_HCLK_S_Msk;
-//	CLK->CLKSEL0 |= CLK_CLKSEL0_HCLK_S_HIRC;
-//	CLK->CLKDIV &= ~CLK_CLKDIV_HCLK_N_Msk;
-//	CLK->CLKDIV |= CLK_CLKDIV_HCLK(1);
-
-//	/* Enable external XTAL 12MHz clock */
-//	CLK->PWRCON |= CLK_PWRCON_XTLCLK_EN_Msk;
-
-//	/* Waiting for external XTAL clock ready */
-//	while(!(CLK->CLKSTATUS & CLK_CLKSTATUS_XTLCLK_STB_Msk ));
-
-//	/* Set core clock as PLL_CLOCK from PLL */
-//	CLK->PLLCON = PLLCON_SETTING;
-//	while(!(CLK->CLKSTATUS & CLK_CLKSTATUS_PLL_STB_Msk));
-//	CLK->CLKSEL0 &= (~CLK_CLKSEL0_HCLK_S_Msk);
-//	CLK->CLKSEL0 |= CLK_CLKSEL0_HCLK_S_PLL;
-
-//	/* Update System Core Clock */
-//	/* User can use SystemCoreClockUpdate() to calculate PllClock, SystemCoreClock and CycylesPerUs automatically. */
-//	//SystemCoreClockUpdate();
-//	PllClock        = PLL_CLOCK;            // PLL
-//	SystemCoreClock = PLL_CLOCK / 1;        // HCLK
-//	CyclesPerUs     = PLL_CLOCK / 1000000;  // For SYS_SysTickDelay()
-
-//	/* Enable UART module clock */
-//	CLK->APBCLK |= CLK_APBCLK_UART0_EN_Msk;
-
-//	/* Select UART module clock source */
-//	CLK->CLKSEL1 &= ~CLK_CLKSEL1_UART_S_Msk;
-//	CLK->CLKSEL1 |= CLK_CLKSEL1_UART_S_HXT;
-
-	/*---------------------------------------------------------------------------------------------------------*/
-	/* Init I/O Multi-function                                                                                 */
-	/*---------------------------------------------------------------------------------------------------------*/
-
-    /* Set P1 multi-function pins for UART1 RXD and TXD  */
-//    SYS->P1_MFP &= ~(SYS_MFP_P12_Msk | SYS_MFP_P13_Msk);
-//    SYS->P1_MFP |= (SYS_MFP_P12_RXD | SYS_MFP_P13_TXD);
-
-    /* Set P0 multi-function pins for UART1 RTS and CTS */
-//    SYS->P0_MFP &= ~(SYS_MFP_P00_Msk | SYS_MFP_P01_Msk);
-//    SYS->P0_MFP |= (SYS_MFP_P00_CTS | SYS_MFP_P01_RTS);
 }
 
-//void UART0_Init()
-//{
-//	/*---------------------------------------------------------------------------------------------------------*/
-//    /* Init UART                                                                                               */
-//    /*---------------------------------------------------------------------------------------------------------*/
-//    UART_Open(UART, 115200);
-//	/*---------------------------------------------------------------------------------------------------------*/
-//	/* Init UART                                                                                               */
-//	/*---------------------------------------------------------------------------------------------------------*/
-//	/* Reset UART0 */
-////	SYS->IPRSTC2 |=  SYS_IPRSTC2_UART0_RST_Msk;
-////	SYS->IPRSTC2 &= ~SYS_IPRSTC2_UART0_RST_Msk;
-
-//	/* Configure UART0 and set UART0 Baudrate */
-////	UART0->BAUD = UART_BAUD_MODE2 | UART_BAUD_MODE2_DIVIDER(__HXT, 115200);
-////	UART0->LCR = UART_WORD_LEN_8 | UART_PARITY_NONE | UART_STOP_BIT_1;
-//}
 
 static void SetupHardware(void)
 {
@@ -188,63 +99,114 @@ static void SetupHardware(void)
 	/* Init GPIO mode */
 	GPIO_Init();
 	
+	/* Init IR mode */
+	IR_init();
+//	timer1_init();
+	ADC_init();
+	
 	/* Lock protected registers */
 	SYS_LockReg();
-
-	/* Init UART0 for printf */
-//	UART0_Init();
 	
-
-//	printf("\n\nCPU @ %dHz\n", SystemCoreClock);
-
-	/*
-		This sample code will blinking LED on NuTiny EVB board of M058SSAN.
-		The I/O for LED is P2.3 or P3.6
-	*/
-
-//	printf("+---------------------------------------+\n");
-//	printf("|    NuTiny EVB LED Sample Code         |\n");
-//	printf("+---------------------------------------+\n");
-
-
-//	P2->PMD = (P2->PMD & ~(0x3 << 2*3)) | (1 << 2*3);
-//	P3->PMD = (P3->PMD & ~(0x3 << 2*6)) | (1 << 2*6);  
 }
 
 /*---------------------------------------------------------------------------------------------------------*/
 /*  Main Function                                                                                          */
 /*---------------------------------------------------------------------------------------------------------*/
 int32_t main(void)
-{
-	uint8_t Tx_Data[6];
-	
+{	
 	SetupHardware();
-	
-	Sys_power();
-	Channel_select();
-	
-	
-	
-//    printf("Initiate software I2C for Master\n");
-    I2C_SW_Open(100000);
-	Tx_Data[0]=0x54;
-    Tx_Data[1]=0x7e;
-    Tx_Data[2]=0xA5;
-    Tx_Data[3]=0xcc;
-    Tx_Data[4]=0xbb;
-    Tx_Data[5]=0xdd;
+	POWER_FLAG = 0;
+	Channel_flag = 0;
+	POWER_FLAG = 0xff;
+	SYS_power_flag = 0;
+	LED_Flag = 0;
+//	POWER = 1;
+//	POWER_OFF = 1;
+//	BT_POWER = 1;
+//	ST_BY = 1;
+	I2C_SW_Open(500000);
+
+	#if 1
 	while(1)
 	{
-		I2C_SW_Send(0x15,Tx_Data,6);
-		CLK_SysTickDelay(5000);
+		if( POWER_FLAG && (SYS_power_flag == 0) )  		//power on 
+		{
+			Sys_power_on();
+//			TIMER_Close(TIMER1);
+			TAS_5754_Init(slave_addr);
+			CLK_SysTickDelay(5000);	
+			test_24c02();
+//			timer1_init();
+//			IR_init();
+			Channel_select(Channel);
+//			while(1)
+//			{
+//				LED_R = 0;LED_B = 0;LED_G = 0;
+//			}
+		}
+		else if( (!POWER_FLAG) && (SYS_power_flag == 1) )//power off
+		{
+			_RST = 0;
+			LED_Flag = 0;
+			Sys_power_off();			
+		}
+//		if((disp>5)||(disp==0))
+		IR_test_task();								//IR
+		Encoder_Task();
+		if(Channel_flag)								//channel
+		{
+			Channel_flag = 0;
+			Channel_select( Channel );	
+			LED_Flag = 0;			
+		}
+		Bluetooth_Test_Task();							//Bluetooth
+		// Trigger ADC conversion if it is idle
+        if(!ADC_IS_BUSY(ADC)) 							//Voltage
+		{
+            ADC_START_CONV(ADC);
+        }
+		if(LED_Flag)
+		{
+			led_chang(0x2000);
+		}
 	}
-		
-	//if everything is ok, can't reach here
+	#endif
 }
 
+//void led_chang(uint32_t num)
+//{
+//	if(ledcount>num)
+//	{
+//		if(Channel[0]==1)
+//		{
+//			LED_G = ~LED_G;
+//		}
+//		else if((BT_DET)&&(Channel[0]==0))
+//		{
+//			LED_B = ~LED_B;
+//		}
+//		ledcount = 0;
+//	}
+//}
+//void timer1_init(void)
+//{
+//	CLK_EnableModuleClock(TMR1_MODULE);        
+//    // Select Timer 1 clock source from internal 22.1184MHz RC clock.
+//    CLK_SetModuleClock(TMR1_MODULE,CLK_CLKSEL1_TMR1_S_IRC22M,1);
+////	CLK_SetModuleClock(TMR1_MODULE,CLK_CLKSEL1_TMR1_S_XTAL,1);
+//    // configure timer to operate in specified mode.
+//    TIMER_Open(TIMER1, TIMER_PERIODIC_MODE, 7812);        //7.8125K = 0.128MS = 128US
+//    // start Timer counting
+//    TIMER_Start(TIMER1);
+//    // enable the Timer time-out interrupt function.
+//    TIMER_EnableInt(TIMER1);
+//    // Enable timer interrupt
+//    NVIC_EnableIRQ(TMR1_IRQn);
+//}
 
+//void Timer500ms( void *pvParameters )
+//{
+//	// 500ms软件定时器. 
+////	Power_Meter_Detect();
+//}
 
-void Timer500ms( void *pvParameters )
-{
-	// 500ms软件定时器. 
-}
