@@ -11,13 +11,13 @@
 //typedef enum  {IDLE=1,HEAD,DATA} irstatus_t; 
 typedef union {uint32_t data;struct {uint8_t address0;uint8_t address1;uint8_t data0;uint8_t data1;};}irdata_t;
 irdata_t ir;
-uint16_t irticks=0,audio_2=0;//,ircount=0;
-uint32_t audio_1=0,ledcount=0;
+uint16_t irticks=0;//,audio_2=0;//,ircount=0;
+uint32_t audio_1=0,ledcount=0,audio_2=0;
 uint8_t ircount=0;
 irstatus_t irwork=IDLE;
 uint8_t disp_flag=0,disp=0;
 uint8_t KEY_data = 0;
-uint8_t _channel=0;
+//uint8_t _channel=0;
 uint8_t	power_change=0;
 uint8_t vol_n = 0xf0,treble_n = 0xf0,sub_n = 0xf0;
 uint8_t	VOL_F=0,TREBLE_F=0,SUB_F=0;
@@ -131,8 +131,9 @@ void TMR1_IRQHandler(void)
 //			if(audio_2 < 0xff)
 //				_RST = 1;
 //			audio_2 = 0;
-			audio_1++;
-			if((audio_1 >= 0x1ad2748)&&(_RST == 1))	//2 hours
+			audio_2++;
+//			if((audio_1 >= 0x1ad2748)&&(_RST == 1))	//2 hours
+			if((audio_2 >= 0xd2748)&&(_RST == 1))	//2 hours	
 			{
 				_RST = 0;
 				power_change = 1;
@@ -143,7 +144,7 @@ void TMR1_IRQHandler(void)
 		{
 //			if(audio_1 < 0xff)
 //				_RST = 1;
-			audio_1 = 0;
+			audio_2 = 0;
 //			audio_2++;
 //			if((audio_2 >= 0xfff0)&&(_RST == 1))
 //			{

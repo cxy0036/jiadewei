@@ -31,26 +31,32 @@ void Bluetooth_Test_Task(void)
 
 void BT_patch(void)
 {
+//	volatile uint32_t delay = 3000000;
 	if(BT_DET)
 	{
-		BT_REV = 0;	BT_FWD = 0;
-		CLK_SysTickDelay(1000);
+//		BT_REV = 0;	BT_FWD = 0;
+//		CLK_SysTickDelay(1000);
 		BT_REV = 1;	BT_FWD = 1;
-		CLK_SysTickDelay(3000*1000);
+		CLK_SysTickDelay(600000);
+		CLK_SysTickDelay(600000);
+		CLK_SysTickDelay(600000);
+		CLK_SysTickDelay(600000);
+		CLK_SysTickDelay(600000);
+		CLK_SysTickDelay(600000);
 		BT_REV = 0;	BT_FWD = 0;
-		CLK_SysTickDelay(1000);
+//		CLK_SysTickDelay(1000);
 	}
 }
 void BT_Play_Pause(void)
 {
 	if(BT_DET)
 	{
-		BT_REV = 0;	BT_FWD = 0;
-		CLK_SysTickDelay(1000);
+//		BT_REV = 0;	BT_FWD = 0;
+//		CLK_SysTickDelay(1000);
 		BT_REV = 1;	BT_FWD = 1;
-		CLK_SysTickDelay(300*1000);
+		CLK_SysTickDelay(300000);
 		BT_REV = 0;	BT_FWD = 0;
-		CLK_SysTickDelay(1000);
+//		CLK_SysTickDelay(1000);
 	}
 }
 //void BT_REV_TASK(void)
