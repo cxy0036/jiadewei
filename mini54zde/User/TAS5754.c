@@ -4967,7 +4967,7 @@ const Bass	Bass_TAS[17] =
 		0x00,0x00}	
 };
 
-uint8_t pii[35][2]=
+uint8_t pii[36][2]=
 {
 	{0,255},//{0,255},
 	{1,202},//{0,202},
@@ -5003,21 +5003,34 @@ uint8_t pii[35][2]=
 	{31,1},
 	{32,6},
 	{33,0},
-	{34,0}
+	{34,0},
+	{35,170}
 };
 void test_24c02(void)
 {
 	uint8_t i;
-	/* Programming EEPROM */
-    for(i=0; i<35; i++)
+	I2C_SW_Get(_24c02_addr,pii[35],1);
+	if(pii[35][1]==170)
 	{
-		pii[i][0] = i;
-		pii[i][1] = 0;
-//        I2C_SW_Send(_24c02_addr,pii[i-31],2);
-//		CLK_SysTickDelay(2000);
-//		p[i][1] = 0x00;
-		I2C_SW_Get(_24c02_addr,pii[i],1);
+		for(i=0; i<35; i++)
+		{
+			pii[i][0] = i;
+//			pii[i][1] = 0;
+			I2C_SW_Get(_24c02_addr,pii[i],1);
+		}		
 	}
+	else
+	{
+		pii[35][1]=170;
+		for(i=0; i<36; i++)
+		{
+			pii[i][0] = i;
+	        I2C_SW_Send(_24c02_addr,pii[i],2);
+			CLK_SysTickDelay(2000);
+		}
+	}
+	/* Programming EEPROM */
+
 	vol_level = pii[32][1];
 	Channel[0] = pii[31][1];
 }

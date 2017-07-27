@@ -132,8 +132,8 @@ void TMR1_IRQHandler(void)
 //				_RST = 1;
 //			audio_2 = 0;
 			audio_2++;
-//			if((audio_1 >= 0x1ad2748)&&(_RST == 1))	//2 hours
-			if((audio_2 >= 0xd2748)&&(_RST == 1))	//2 hours	
+			if((audio_2 >= 0x1ad2748)&&(_RST == 1))	//2 hours
+//			if((audio_2 >= 0xd2748)&&(_RST == 1))	//2 hours	
 			{
 				_RST = 0;
 				power_change = 1;
