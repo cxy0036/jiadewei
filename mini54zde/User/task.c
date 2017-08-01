@@ -69,11 +69,15 @@ void GPIO_Init( void )
 //	GPIO_SetMode(P2, BIT3, GPIO_PMD_OPEN_DRAIN);
 
 //    GPIO_EnableInt(P1, 5, GPIO_INT_BOTH_EDGE);//GPIO_INT_LOW);
-//	GPIO_EnableInt(P0, 4, GPIO_INT_BOTH_EDGE);
-//	GPIO_EnableInt(P0, 5, GPIO_INT_BOTH_EDGE);
-//	GPIO_EnableInt(P0, 6, GPIO_INT_BOTH_EDGE);
-//	GPIO_EnableInt(P0, 7, GPIO_INT_BOTH_EDGE);
-//    NVIC_EnableIRQ(GPIO01_IRQn);
+	GPIO_EnableInt(P0, 4, GPIO_INT_BOTH_EDGE);
+	GPIO_EnableInt(P0, 6, GPIO_INT_BOTH_EDGE);
+    NVIC_EnableIRQ(GPIO01_IRQn);
+	GPIO_EnableInt(P2, 6, GPIO_INT_BOTH_EDGE);
+    NVIC_EnableIRQ(GPIO234_IRQn);
+	GPIO_SET_DEBOUNCE_TIME(GPIO_DBNCECON_DBCLKSRC_HCLK, GPIO_DBNCECON_DBCLKSEL_1024);
+	GPIO_ENABLE_DEBOUNCE(P0,BIT4);
+	GPIO_ENABLE_DEBOUNCE(P0,BIT6);
+	GPIO_ENABLE_DEBOUNCE(P2,BIT6);
 //	GPIO_EnableInt(P3, 0, GPIO_INT_RISING);
 //    GPIO_EnableInt(P3, 0, GPIO_INT_FALLING);
 //	GPIO_EnableInt(P3, 1, GPIO_INT_FALLING);
@@ -82,9 +86,8 @@ void GPIO_Init( void )
 //	NVIC_EnableIRQ(EINT0_IRQn);
 //	GPIO_EnableInt(P3, 4, GPIO_INT_FALLING);
 //	GPIO_EnableInt(P3, 5, GPIO_INT_FALLING);
-	GPIO_EnableInt(P2, 5, GPIO_INT_BOTH_EDGE);
-	GPIO_EnableInt(P2, 6, GPIO_INT_BOTH_EDGE);
-    NVIC_EnableIRQ(GPIO234_IRQn);
+//	GPIO_EnableInt(P2, 5, GPIO_INT_BOTH_EDGE);
+
 //	GPIO_EnableInt(P5, 4, GPIO_INT_BOTH_EDGE);
 //	NVIC_EnableIRQ(GPIO5_IRQn);
 	
@@ -132,8 +135,11 @@ void TMR1_IRQHandler(void)
 //				_RST = 1;
 //			audio_2 = 0;
 			audio_2++;
-			if((audio_2 >= 0x1ad2748)&&(_RST == 1))	//2 hours
-//			if((audio_2 >= 0xd2748)&&(_RST == 1))	//2 hours	
+			if((audio_2 >= 0x1ad2748)&&(_RST == 1))	//2 hours  0x35a4e90
+//			if((audio_2 >= 0x1692000)&&(_RST == 1))	//1 hours  0x1ad2748
+//			if((audio_2 >= 0xb49000)&&(_RST == 1))	//°ë hours  0xd693a4	
+//			if((audio_2 >= 0x3c3000)&&(_RST == 1))	//10 minis	0x47868c
+//			if((audio_2 >= 0x78600)&&(_RST == 1))	//1 minis	0x7270e			
 			{
 				_RST = 0;
 				power_change = 1;
@@ -164,6 +170,7 @@ void TMR1_IRQHandler(void)
 			POWER_FLAG = ~POWER_FLAG;
 		}
 	}
+	#if 0
 	if(audio_1>50)
 	{
 		audio_1 = 0;
@@ -210,6 +217,7 @@ void TMR1_IRQHandler(void)
 			SUB_F = 0;
 		}
 	}
+	#endif
 	irticks++;ledcount++;audio_1++;//Power_Meter++;
 	if(irticks>0xfffd)irticks = 0xfffd;
     TIMER_ClearIntFlag(TIMER1);
@@ -225,7 +233,7 @@ void TMR1_IRQHandler(void)
  *
  * @details     The Port0/Port1 default IRQ, declared in startup_Mini51.s.
  */
-	#if 0
+	#if 1
 void GPIO01_IRQHandler(void)
 {
 	#if 0
@@ -263,56 +271,34 @@ void GPIO01_IRQHandler(void)
 //		{
 //			Encoder_vol_flag = 1;
 //			Encoder_Task();
-//			x++;
+
 //		}
-		if((irticks>0x46)&&(irticks<0xaa))
-		CLK_SysTickDelay(300);
+//		if((irticks>0x46)&&(irticks<0xaa))
+//		CLK_SysTickDelay(300);
 		if( VOL_A )
 		{
 			Encoder_vol_flag = 1;
-			x++;
-//			if(x>7){Encoder_Task();x=0;}
+			VOL_F = 1;
 		}
-		irticks = 0;	
-	}
-	else if(P0->ISRC & BIT5)
-	{
-		if((irticks>0x46)&&(irticks<0xaa))
-		y++;
-		P0->ISRC = BIT5;
-//		if(VOL_ROTOA)
-//		{
-//			Encoder_vol_flag = 0;
-//			Encoder_Task();
-//			y++;
-//		}	
-		CLK_SysTickDelay(300);
-		if( VOL_B )
+		else if(VOL_B)
 		{
 			Encoder_vol_flag = 0;
-			
-//			if(vol_level>=30)	{Encoder_Task();y=0;}
-		}		
+			VOL_F = 1;
+		}
 	}
 	else if(P0->ISRC & BIT6)
 	{
 		P0->ISRC = BIT6;
-		CLK_SysTickDelay(500);
 		if( TREBLE_A )
 		{
 			Encoder_treble_flag = 1;
-			Encoder_Task();
-		}		
-	}
-	else if(P0->ISRC & BIT7)
-	{
-		P0->ISRC = BIT7;
-		CLK_SysTickDelay(500);
-		if( TREBLE_B )
+			TREBLE_F = 1;
+		}
+		else if( TREBLE_B )
 		{
 			Encoder_treble_flag = 0;
-			Encoder_Task();
-		}		
+			TREBLE_F = 1;
+		}
 	}	
 	else 
 	{
@@ -337,31 +323,21 @@ void GPIO234_IRQHandler(void)
 {
 	uint8_t irdata;
     /* To check if P3.0 interrupt occurred */
-	#if 0
-    if (P2->ISRC & BIT5) 
-	{
-        P2->ISRC = BIT5;
-		CLK_SysTickDelay(500);
-		if( SUB_B )
-		{
-			Encoder_sub_flag = 0;
-			Encoder_Task();
-		}
-
-    } 
-	else if(P2->ISRC & BIT6)
+	if(P2->ISRC & BIT6)
 	{
 		P2->ISRC = BIT6;
-		CLK_SysTickDelay(500);
 		if( SUB_A )
 		{
 			Encoder_sub_flag = 1;
-			Encoder_Task();
+			SUB_F = 1;
+		}
+		else if( SUB_B )
+		{
+			Encoder_sub_flag = 0;
+			SUB_F = 1;
 		}
 	}
-	else 
-	#endif
-	if(P3->ISRC & BIT0)
+	else if(P3->ISRC & BIT0)
 	{
 //		d++;
 		if(irticks > 0xf0)irwork=IDLE;
