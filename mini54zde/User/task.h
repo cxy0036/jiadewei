@@ -3,7 +3,6 @@
 
 #include <stdio.h>
 #include "Mini51Series.h"
-//#include "Encoder.h"
 #include "KEY_Scan.h"
 #include "ir.h"
 
@@ -19,15 +18,13 @@ TASK_EXT	irstatus_t irwork;
 TASK_EXT	uint8_t disp_flag,disp;
 TASK_EXT	uint8_t Channel_flag;
 TASK_EXT	uint8_t KEY_data;
-TASK_EXT	uint8_t vol_n,treble_n,sub_n;
 TASK_EXT	uint8_t	VOL_F,TREBLE_F,SUB_F;
-//TASK_EXT	uint32_t ledcount;
 /**
   * IR Define
   */
-#define IR_BT_REV			54
-#define IR_BT_FWD			53
-#define IR_BT_POWER			52
+//#define IR_BT_REV			54
+//#define IR_BT_FWD			53
+//#define IR_BT_POWER		52
 	
 /** Define GPIO Pin. 
  *

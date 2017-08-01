@@ -8,24 +8,21 @@
 #define TIME_INFRARED_ZERO_US           1125         //数据“0”的时间：T0=0.565+0.56=1.125ms
 #define TIME_INFRARED_ONE_US            2245         //数据“1”的时间：T1=1.685+0.56=2.245ms
 #define TIME_INFRARED_STOP_US			40560		 //数据结束的时间：TH=40+0.56=40.56ms
-//typedef enum  {IDLE=1,HEAD,DATA} irstatus_t; 
 typedef union {uint32_t data;struct {uint8_t address0;uint8_t address1;uint8_t data0;uint8_t data1;};}irdata_t;
 irdata_t ir;
-uint16_t irticks=0;//,audio_2=0;//,ircount=0;
-uint32_t audio_1=0,ledcount=0,audio_2=0;
+uint16_t irticks=0;
+uint32_t ledcount=0,audio_adc=0;
 uint8_t ircount=0;
 irstatus_t irwork=IDLE;
 uint8_t disp_flag=0,disp=0;
 uint8_t KEY_data = 0;
-//uint8_t _channel=0;
 uint8_t	power_change=0;
-uint8_t vol_n = 0xf0,treble_n = 0xf0,sub_n = 0xf0;
 uint8_t	VOL_F=0,TREBLE_F=0,SUB_F=0;
 
 /************************************************************
  *@init file
  ************************************************************/
-/*
+/**
  *Init GPIO mode 
  */
 void GPIO_Init( void )
@@ -35,7 +32,7 @@ void GPIO_Init( void )
 	GPIO_SetMode(P0, BIT1, GPIO_PMD_OUTPUT);//BT_FWD
 	GPIO_SetMode(P1, BIT0, GPIO_PMD_OUTPUT);//BT_POWER
 	GPIO_SetMode(P5, BIT4, GPIO_PMD_OUTPUT);//BT_DET
-//	
+	
 //	GPIO_SetMode(P3, BIT0, GPIO_PMD_QUASI);	//IR
 	GPIO_SetMode(P1, BIT5, GPIO_PMD_INPUT);//AUDIO_DET
 	
@@ -48,7 +45,7 @@ void GPIO_Init( void )
     GPIO_SetMode(P2, BIT2, GPIO_PMD_OPEN_DRAIN);//_SCL
 	GPIO_SetMode(P2, BIT3, GPIO_PMD_OPEN_DRAIN);//_SDA
 	
-//	GPIO_SetMode(P2, BIT4, GPIO_PMD_OUTPUT);//_RST
+//	GPIO_SetMode(P2, BIT4, GPIO_PMD_OUTPUT);//_RST AMP_MUTE
 	
 	GPIO_SetMode(P2, BIT4, GPIO_PMD_QUASI);//AMP_MUTE
 	
@@ -63,12 +60,7 @@ void GPIO_Init( void )
 	GPIO_SetMode(P2, BIT5, GPIO_PMD_QUASI);	//SUB_ROTOB
 	
 	GPIO_SetMode(P3, BIT6, GPIO_PMD_OUTPUT);//ST_BY 
-	
-//	/* Configure P2.2 and P2.3 as open-drain mode */
-//    GPIO_SetMode(P2, BIT2, GPIO_PMD_OPEN_DRAIN);
-//	GPIO_SetMode(P2, BIT3, GPIO_PMD_OPEN_DRAIN);
 
-//    GPIO_EnableInt(P1, 5, GPIO_INT_BOTH_EDGE);//GPIO_INT_LOW);
 	GPIO_EnableInt(P0, 4, GPIO_INT_BOTH_EDGE);
 	GPIO_EnableInt(P0, 6, GPIO_INT_BOTH_EDGE);
     NVIC_EnableIRQ(GPIO01_IRQn);
@@ -78,18 +70,6 @@ void GPIO_Init( void )
 	GPIO_ENABLE_DEBOUNCE(P0,BIT4);
 	GPIO_ENABLE_DEBOUNCE(P0,BIT6);
 	GPIO_ENABLE_DEBOUNCE(P2,BIT6);
-//	GPIO_EnableInt(P3, 0, GPIO_INT_RISING);
-//    GPIO_EnableInt(P3, 0, GPIO_INT_FALLING);
-//	GPIO_EnableInt(P3, 1, GPIO_INT_FALLING);
-//	GPIO_EnableInt(P3, 2, GPIO_INT_FALLING);
-//	GPIO_EnableEINT0(P3, 2, GPIO_INT_FALLING);
-//	NVIC_EnableIRQ(EINT0_IRQn);
-//	GPIO_EnableInt(P3, 4, GPIO_INT_FALLING);
-//	GPIO_EnableInt(P3, 5, GPIO_INT_FALLING);
-//	GPIO_EnableInt(P2, 5, GPIO_INT_BOTH_EDGE);
-
-//	GPIO_EnableInt(P5, 4, GPIO_INT_BOTH_EDGE);
-//	NVIC_EnableIRQ(GPIO5_IRQn);
 	
 	/*****init gpio output******/
 	_RST = 0;
@@ -99,13 +79,15 @@ void GPIO_Init( void )
 }
 
 
-// The Timer1 default IRQ, declared in startup_Mini51.s.
-//void TMR0_IRQHandler(void)
-//{
-//        irticks++;//ledcount++;
-//        TIMER_ClearIntFlag(TIMER0);
-//}
-// The Timer1 default IRQ, declared in startup_Mini51.s.
+/**
+ * @brief       Timer1 IRQ
+ *
+ * @param       None
+ *
+ * @return      None
+ *
+ * @details     The Timer1 default IRQ, declared in startup_Mini51.s.
+ */
 void TMR1_IRQHandler(void)
 {
 	if(ADC_V>0x3f0)
@@ -131,11 +113,8 @@ void TMR1_IRQHandler(void)
 		power_change = 0;
 		if(AUDIO_DET)
 		{
-//			if(audio_2 < 0xff)
-//				_RST = 1;
-//			audio_2 = 0;
-			audio_2++;
-			if((audio_2 >= 0x1ad2748)&&(_RST == 1))	//2 hours  0x35a4e90
+			audio_adc++;
+			if((audio_adc >= 0x1ad2748)&&(_RST == 1))	//2 hours  0x35a4e90
 //			if((audio_2 >= 0x1692000)&&(_RST == 1))	//1 hours  0x1ad2748
 //			if((audio_2 >= 0xb49000)&&(_RST == 1))	//半 hours  0xd693a4	
 //			if((audio_2 >= 0x3c3000)&&(_RST == 1))	//10 minis	0x47868c
@@ -148,16 +127,7 @@ void TMR1_IRQHandler(void)
 		}
 		else
 		{
-//			if(audio_1 < 0xff)
-//				_RST = 1;
-			audio_2 = 0;
-//			audio_2++;
-//			if((audio_2 >= 0xfff0)&&(_RST == 1))
-//			{
-//				_RST = 0;
-//				power_change = 1;
-//				POWER_FLAG = ~POWER_FLAG;
-//			}
+			audio_adc = 0;
 		}
 	}
 	if(ADC_V<0x0f)
@@ -170,55 +140,7 @@ void TMR1_IRQHandler(void)
 			POWER_FLAG = ~POWER_FLAG;
 		}
 	}
-	#if 0
-	if(audio_1>50)
-	{
-		audio_1 = 0;
-		if(VOL_D)
-		{
-			VOL_F = 1;
-		}
-		if(TREBLE_D)
-		{
-			TREBLE_F = 1;
-		}
-		if(SUB_D)
-		{
-			SUB_F = 1;
-		}
-		if((VOL_A)&&(VOL_F))
-		{
-			vol_n++;
-			VOL_F = 0;
-		}		
-		if((VOL_B)&&(VOL_F))
-		{
-			vol_n--;
-			VOL_F = 0;
-		}
-		if((TREBLE_A)&&(TREBLE_F))
-		{
-			treble_n++;
-			TREBLE_F = 0;
-		}
-		if((TREBLE_B)&&(TREBLE_F))
-		{
-			treble_n--;
-			TREBLE_F = 0;
-		}
-		if((SUB_A)&&(SUB_F))
-		{
-			sub_n++;
-			SUB_F = 0;
-		}
-		if((SUB_B)&&(SUB_F))
-		{
-			sub_n--;
-			SUB_F = 0;
-		}
-	}
-	#endif
-	irticks++;ledcount++;audio_1++;//Power_Meter++;
+	irticks++;ledcount++;//audio_1++;Power_Meter++;
 	if(irticks>0xfffd)irticks = 0xfffd;
     TIMER_ClearIntFlag(TIMER1);
 }
@@ -233,48 +155,11 @@ void TMR1_IRQHandler(void)
  *
  * @details     The Port0/Port1 default IRQ, declared in startup_Mini51.s.
  */
-	#if 1
 void GPIO01_IRQHandler(void)
 {
-	#if 0
-    /* To check if P1.4 interrupt occurred */
-    if (P1->ISRC & BIT4) 
-	{
-       P1->ISRC = BIT4;
-				ledcount++;
-		CLK_SysTickDelay(70000);		//70ms
-		if(POWER_KEY == 0)				//The only correct interruption
-		{
-//			CLK_SysTickDelay(2850000);	//2850ms
-			CLK_SysTickDelay(1500000);	//1500ms
-			if(POWER_KEY == 0)			//PressLong	or PressShort
-			{
-				POWER_FLAG = ~POWER_FLAG;
-				POWER = 1;
-				POWER_OFF = 1;
-				Channel[0] = _channel;
-			}
-			else
-			{
-				channel++;
-				if(_channel >= 0x04 )_channel = 0;
-				Channel[0] = _channel;
-//				if( Channel[0] >= 0x04 )Channel[0] = 0;				
-			}
-		}
-    } 
-	#endif
 	if(P0->ISRC & BIT4)
 	{
 		P0->ISRC = BIT4;
-//		if(VOL_ROTOB)
-//		{
-//			Encoder_vol_flag = 1;
-//			Encoder_Task();
-
-//		}
-//		if((irticks>0x46)&&(irticks<0xaa))
-//		CLK_SysTickDelay(300);
 		if( VOL_A )
 		{
 			Encoder_vol_flag = 1;
@@ -307,7 +192,6 @@ void GPIO01_IRQHandler(void)
         P1->ISRC = P1->ISRC;
     }
 }
-	#endif
 
 
 /**
@@ -339,14 +223,11 @@ void GPIO234_IRQHandler(void)
 	}
 	else if(P3->ISRC & BIT0)
 	{
-//		d++;
 		if(irticks > 0xf0)irwork=IDLE;
 		switch(irwork)
         {
 			case IDLE: 
-//				if(d == 1)
 				irwork=HEAD;
-//				d=0;
             break;
 						
             case HEAD: 
@@ -361,8 +242,6 @@ void GPIO234_IRQHandler(void)
 				{
 					disp++;
 					disp_flag = 1;
-//					d = 0;
-//					if(KEY_data==0x14)disp=4;
 				}								
              break;
 						
@@ -400,13 +279,9 @@ void GPIO234_IRQHandler(void)
 						disp_flag=1;
 						disp = 0;
 						KEY_data = ir.data0;
-//						if(KEY_data==0x14)disp=0;
-//						d = 0;
 					}
-//					if(d>34)d = 0;
 			break;
         }  
-//		if(d >= 34)irwork=IDLE;		
 		irticks=0; 
 		P3->ISRC = BIT0;
 	}
@@ -418,63 +293,4 @@ void GPIO234_IRQHandler(void)
         P4->ISRC = P4->ISRC;
     }
 }
-
-
-#if 0
-
-/**
- * @brief       Port5 IRQ
- *
- * @param       None
- *
- * @return      None
- *
- * @details     The Port5 default IRQ, declared in startup_Mini51.s.
- */
-void GPIO5_IRQHandler(void)
-{
-    /* To check if P5.4 interrupt occurred */
-    if (P5->ISRC & BIT4) 
-	{
-        P5->ISRC = BIT4;
-		CLK_SysTickDelay(1000);
-		if( VOL_B )
-		{
-			Encoder_vol_flag = 0;
-			Encoder_Task();
-		}
-
-    } 
-	else 
-	{
-        /* Un-expected interrupt. Just clear all PORT2, PORT3 and PORT4 interrupts */
-        P2->ISRC = P2->ISRC;
-        P3->ISRC = P3->ISRC;
-        P4->ISRC = P4->ISRC;
-    }
-}
-
-
-/**
- * @brief       External INT0 IRQ
- *
- * @param       None
- *
- * @return      None
- *
- * @details     The External INT0(P3.2) default IRQ, declared in startup_Mini51.s.
- */
-void EINT0_IRQHandler(void)
-{
-    /* For P3.2, clear the INT flag */
-    P3->ISRC = BIT2;
-		CLK_SysTickDelay(1000);
-		if( TREBLE_B )
-		{
-			Encoder_treble_flag = 0;
-			Encoder_Task();
-		}
-}
-#endif
-
 

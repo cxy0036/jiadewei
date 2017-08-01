@@ -6,7 +6,6 @@
 #include "Encoder.h"
 #include "NTP8230.h"
 #include "tas5754.h"
-//#include "KEY_Scan.h"
 #include "task.h"
 #include "Bluetooth.h"
 

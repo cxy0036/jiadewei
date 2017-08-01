@@ -4,7 +4,6 @@
 #include <stdio.h>
 #include "Mini51Series.h"
 #include "task.h"
-//#include "i2c_software_gpio.h"
 #include "KEY_Scan.h"
 
 #ifdef Bluetooth_GLOBALS

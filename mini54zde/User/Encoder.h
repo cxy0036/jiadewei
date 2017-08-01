@@ -3,7 +3,6 @@
 
 #include "task.h"
 #include "i2c_software_gpio.h"
-//#include "NTP8230.h"
 #include "tas5754.h"
 
 #ifdef Encoder_GLOBALS

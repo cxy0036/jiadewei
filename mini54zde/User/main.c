@@ -40,19 +40,13 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "task.h"
 #include "i2c_software_gpio.h"
 #include "KEY_Scan.h"
-//#include "Headset.h"
 #include "Bluetooth.h"
-//#include "Encoder.h"
 #include "ir.h"
 #include "tas5754.h"
 
 
 #define PLLCON_SETTING  CLK_PLLCON_50MHz_HXT
 #define PLL_CLOCK       50000000
-
-//void Timer500ms( void *pvParameters );
-//void timer1_init(void);
-//void led_chang(uint32_t num);
 
 void SYS_Init(void)
 {
@@ -101,7 +95,6 @@ static void SetupHardware(void)
 	
 	/* Init IR mode */
 	IR_init();
-//	timer1_init();
 	ADC_init();
 	
 	/* Lock protected registers */
@@ -120,10 +113,6 @@ int32_t main(void)
 	POWER_FLAG = 0xff;
 	SYS_power_flag = 0;
 	LED_Flag = 0;
-//	POWER = 1;
-//	POWER_OFF = 1;
-//	BT_POWER = 1;
-//	ST_BY = 1;
 	I2C_SW_Open(500000);
 
 	#if 1
@@ -132,17 +121,10 @@ int32_t main(void)
 		if( POWER_FLAG && (SYS_power_flag == 0) )  		//power on 
 		{
 			Sys_power_on();
-//			TIMER_Close(TIMER1);
 			TAS_5754_Init(slave_addr);
 			CLK_SysTickDelay(5000);	
 			test_24c02();
-//			timer1_init();
-//			IR_init();
 			Channel_select(Channel);
-//			while(1)
-//			{
-//				LED_R = 0;LED_B = 0;LED_G = 0;
-//			}
 		}
 		else if( (!POWER_FLAG) && (SYS_power_flag == 1) )//power off
 		{
@@ -150,7 +132,6 @@ int32_t main(void)
 			LED_Flag = 0;
 			Sys_power_off();			
 		}
-//		if((disp>5)||(disp==0))
 		IR_test_task();								//IR
 		if(VOL_F||TREBLE_F||SUB_F)
 			Encoder_Task();
@@ -173,41 +154,3 @@ int32_t main(void)
 	}
 	#endif
 }
-
-//void led_chang(uint32_t num)
-//{
-//	if(ledcount>num)
-//	{
-//		if(Channel[0]==1)
-//		{
-//			LED_G = ~LED_G;
-//		}
-//		else if((BT_DET)&&(Channel[0]==0))
-//		{
-//			LED_B = ~LED_B;
-//		}
-//		ledcount = 0;
-//	}
-//}
-//void timer1_init(void)
-//{
-//	CLK_EnableModuleClock(TMR1_MODULE);        
-//    // Select Timer 1 clock source from internal 22.1184MHz RC clock.
-//    CLK_SetModuleClock(TMR1_MODULE,CLK_CLKSEL1_TMR1_S_IRC22M,1);
-////	CLK_SetModuleClock(TMR1_MODULE,CLK_CLKSEL1_TMR1_S_XTAL,1);
-//    // configure timer to operate in specified mode.
-//    TIMER_Open(TIMER1, TIMER_PERIODIC_MODE, 7812);        //7.8125K = 0.128MS = 128US
-//    // start Timer counting
-//    TIMER_Start(TIMER1);
-//    // enable the Timer time-out interrupt function.
-//    TIMER_EnableInt(TIMER1);
-//    // Enable timer interrupt
-//    NVIC_EnableIRQ(TMR1_IRQn);
-//}
-
-//void Timer500ms( void *pvParameters )
-//{
-//	// 500ms软件定时器. 
-////	Power_Meter_Detect();
-//}
-
